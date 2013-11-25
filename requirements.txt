@@ -1,0 +1,6 @@
+psycopg2
+SQLAlchemy
+djangorestframework
+django-extensions
+pygments
+django-filter
