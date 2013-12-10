@@ -24,6 +24,7 @@ class SiloAdmin(admin.ModelAdmin):
 class DataField(models.Model):
 	silo = models.ForeignKey(Silo)
 	name = models.CharField(max_length=765, blank=True)
+	is_uid = models.BooleanField()
 	create_date = models.DateTimeField(null=True, blank=True)
 	edit_date = models.DateTimeField(null=True, blank=True)
 

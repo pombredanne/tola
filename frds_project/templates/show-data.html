@@ -1,0 +1,15 @@
+{% extends "base.html" %} 
+{% block page_title %}Importing JSON Data{% endblock %} 
+
+{% block content %}
+	<p>Please Confirm data below, then select a unique record indicator field</p>
+	{{ get_silo }}
+	<table border="1">
+		<tr>
+			{% for item in label_to_display %}
+			<th>{{ item }}</th>
+			{% endfor %}
+		</tr>
+	</table>
+
+{% endblock content %}

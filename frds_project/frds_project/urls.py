@@ -17,6 +17,12 @@ urlpatterns = patterns('',
     #read init form
     url(r'^read', 'read.views.initRead', name='initRead'),
     
+    #login form
+    url(r'^login', 'read.views.getLogin', name='getLogin'),
+    
     #getJSON data
      url(r'^json', 'read.views.getJSON', name='getJSON'),
+     
+	#updateUID data
+     url(r'^update', 'read.views.updateUID', name='updateUID'),
 )
