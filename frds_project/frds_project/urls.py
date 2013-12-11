@@ -25,4 +25,13 @@ urlpatterns = patterns('',
      
 	#updateUID data
      url(r'^update', 'read.views.updateUID', name='updateUID'),
+    
+    #List all Silos
+     url(r'^silos', 'display.views.listSilos', name='listSilos'),
+	
+	#List all Silos
+     url(r'^display', 'display.views.listSilos', name='listSilos'),
+    
+    #View Silo Detail
+     url(r'^silo_detail', 'display.views.showStore', name='showStore'),
 )

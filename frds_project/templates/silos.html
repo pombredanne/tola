@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% block page_title %}View Siloed Data{% endblock %} 
+
+{% block content %}
+	<p>Select a Silo of Data to view the sources</p>
+	<ul>
+			{% for item in get_silo %}
+				<li>Silo: {{ item.name }} 
+						<ul>
+						<li>Source: <a href="/silo_detail&id={{ item.id }}">{{ item.source }}</a></li>
+						<li>Description: {{ item.description }}</li>
+						</ul>
+				</li>
+			{% endfor %}
+	</ul>
+
+{% endblock content %}
