@@ -1,0 +1,31 @@
+{% extends "base.html" %} 
+{% block page_title %}Feeds{% endblock %} 
+
+{% block content %}
+<h2>List of current Feeds available or create a new Feed</h2>
+{% for item in getFeed %}
+	<li>Feed: {{ feed.name }} 
+			<ul>
+			<li>Feed URL: <a href="{{ item.url }}" target="_new">{{ item.url }}</a></li>
+
+			</ul>
+	</li>
+{% endfor %}
+
+
+<form action="/createFeed/" method="post">
+<p>Select source data</p>
+<ul>
+		{% for item in getSources %}
+			<li>Silo: {{ item.name }} 
+					<ul>
+					<li>Create a Feed <input type="checkbox" name="sources" value="{{ item.id }}"></li>
+					</ul>
+			</li>
+		{% endfor %}
+</ul>
+ <br>
+ <input type="hidden" name="silo_id" value="{{ item.id }}">
+ <input type="submit" value="Submit" />
+ </form>
+{% endblock content %}

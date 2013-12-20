@@ -1,7 +1,11 @@
 {% extends "base.html" %} 
+
+{% load render_table from django_tables2 %}
+
 {% block page_title %}View Siloed Data{% endblock %} 
 
 {% block content %}
-	<p>Data</p>
-	
+
+{% render_table getSilo %}
+
 {% endblock content %}

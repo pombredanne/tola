@@ -24,7 +24,7 @@
 
     <!-- This file store project specific CSS -->
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
-
+		<link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
     <!-- Use this to quickly test CSS changes in a template,
         then move to project.css -->
     {% block extra_css %}{% endblock extra_css %}
@@ -40,15 +40,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">FRDS</a>
+          <a class="brand" href="/">FRDS</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><a href="/home">Home</a></li>
               <li class="active"><a href="/read">Read</a></li>
               <li class="active"><a href="/feed">Feed</a></li>
               <li class="active"><a href="/display">Display</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
+              <li><a href="/ipt/home">IPT</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -57,10 +58,17 @@
 
     <div class="container">
 
-      <h1>{% block page_title %}Example Base Template{% endblock page_title %}</h1>
+      <h1>{% block page_title %}Feed Read Display and Silo{% endblock page_title %}</h1>
 
       {% block content %}
-        <p>Use this document as a way to quick start any new project.</p>
+        	<p>This application allows you to connect toa third party data collection tool and
+					Read in that data into a local data store(Silo)</p>
+					Go to the <a href="/read">Read</a> page to enter a new datasource
+					</br><b>OR</b></br>
+					View existing Silo data from the <a href="/display">Display</a> page.
+					</br><b>OR</b></br>
+					Create a new <a href="/silo">Silo</a> to load data into.
+
       {% endblock content %}
 
     </div> <!-- /container -->

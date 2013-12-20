@@ -199,6 +199,7 @@ DJANGO_APPS = (
     'read',
     'display',
     'silo',
+    'django_tables2',
 )
 
 THIRD_PARTY_APPS = (

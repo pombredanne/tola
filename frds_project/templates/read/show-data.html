@@ -1,0 +1,10 @@
+{% extends "base.html" %} 
+{% block page_title %}Importing JSON Data{% endblock %} 
+
+{% load render_table from django_tables2 %}
+
+{% block content %}
+
+{% render_table get_silo %}
+
+{% endblock content %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %} 
+{% block page_title %}Programs{% endblock %} 
+
+{% block content %}
+	<p>Enter Program Information</p>
+	<form action="/ipt/program/" method="post">
+	{{ form.as_p }}
+	<input type="submit" value="Submit" />
+	</form>
+
+{% endblock content %}

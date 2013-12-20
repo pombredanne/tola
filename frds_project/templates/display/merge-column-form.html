@@ -1,0 +1,25 @@
+{% extends "base.html" %} 
+{% block page_title %}Merge Columns{% endblock %} 
+
+{% block content %}
+	<form action="/doMerge/" method="post">
+	<table border="1">
+		<tr>
+			<th>From Column</th>
+			<th>To Column</th>
+		</tr>
+		{% for item in getSourceFrom %}
+			<tr>
+				<td>{{ item.name }} <input type="hidden" name="from_column_id" value="{{ item.id }}"></td>
+				<td align="middle"><select name="{{ item.name }}">{% for item2 in getSourceTo %}<option value="{{ item2.id }}" {% if item2.name == item.name %} selected="selected" {% endif %}>{{ item2.name }}</option>{% endfor %}</select></td>
+			</tr>
+		{% endfor %}
+	</table>
+
+	<br>
+	<input type="hidden" name="from_silo_id" value="{{ from_silo_id }}">
+	<input type="hidden" name="to_silo_id" value="{{ to_silo_id }}">
+	<input type="submit" value="Submit" />
+	</form>
+
+{% endblock content %}
