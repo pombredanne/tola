@@ -24,7 +24,7 @@ def doMerge(request):
 	for column in getSourceFrom:
 		update= ValueStore.objects.filter(field__name=column.name).update(field=request.POST.get(column.name))
 	#delete silo and original fields
-	deleteSilo = Silo.objects.filter(id=from_silo_id).delete
+	deleteSilo = Silo.objects.get(pk=from_silo_id).delete()
 	#get new combined silo values then display them
 	getSilo = ValueStore.objects.all().filter(field__silo__id=to_silo_id)
 
@@ -33,16 +33,28 @@ def doMerge(request):
 #EDIT-SILO
 def editSilo(request,id):
 	
+	getSilo=Silo.objects.get(pk=id)
+	
 	if request.method == 'POST': # If the form has been submitted...
-		form = SiloForm(request.POST) # A form bound to the POST data
+		form = SiloForm(request.POST,instance=getSilo) # A form bound to the POST data
 		if form.is_valid(): # All validation rules pass
 			# save data to read
-			new_read = form.save()
-			return HttpResponseRedirect('silo') # Redirect after POST to getLogin
+			updated = form.save()
+			return HttpResponseRedirect('/display') # Redirect after POST to getLogin
+		else:
+			print form.errors
+			return HttpResponse("Form Did Not Save!")
 	else:
-		getSilo=Silo.objects.get(pk=id)
+		
 		form = SiloForm(instance=getSilo) # An unbound form
 
 	return render(request, 'silo/edit.html', {
-		'form': form,
+		'form': form,'silo_id':id,
 	})
+
+#DELETE-SILO 
+def deleteSilo(request,id):
+	
+	deleteSilo = Silo.objects.get(pk=id).delete()
+	
+	return render(request, 'silo/delete.html')

@@ -1,1 +1,7 @@
 /*! project specific CSS goes here. */
+#alert{
+	text-align:center;
+	background: Yellow;
+	color: Red;
+	margin: 3em;
+}

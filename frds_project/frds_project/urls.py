@@ -23,6 +23,9 @@ urlpatterns = patterns('',
 	###READ
 	#read init form
 	url(r'^read', 'read.views.initRead', name='initRead'),
+	
+	#show read or source
+	url(r'^show_read/(?P<id>\w+)/$', 'read.views.showRead', name='showRead'),
 
 	#login form
 	url(r'^login', 'read.views.getLogin', name='getLogin'),
@@ -34,34 +37,43 @@ urlpatterns = patterns('',
 	url(r'^update', 'read.views.updateUID', name='updateUID'),
 
 	###DISPLAY
-	#List all Silos
+	#list all silos
 	url(r'^silos', 'display.views.listSilos', name='listSilos'),
 
-	#Show Silo Detail and Sources
+	#show silo detail and sources
 	url(r'^silo/(?P<id>\w+)/$', 'display.views.viewSilo', name='viewSilo'),
 	
-	#Merge Form
+	#merge form
 	url(r'^merge/(?P<id>\w+)/$', 'display.views.mergeForm', name='mergeForm'),
 	
-	#Merge select columns
+	#merge select columns
 	url(r'^merge_columns', 'display.views.mergeColumns', name='mergeColumns'),
 
-	#List all Silos
+	#list all silos
 	url(r'^display', 'display.views.listSilos', name='listSilos'),
 
-	#View Silo Detail
+	#view silo detail
 	url(r'^silo_detail/(?P<id>\w+)/$', 'display.views.showStore', name='showStore'),
 
 	###SILO
 	url(r'^do_merge', 'silo.views.doMerge', name='doMerge'),
 	
-	#Edit Silo
+	#edit silo
 	url(r'^silo_edit/(?P<id>\w+)/$', 'silo.views.editSilo', name='editSilo'),
 	
-	#Merge Silos
+	#merge silos
 	url(r'^doMerge', 'silo.views.doMerge', name='doMerge'),
+	
+	#delete a silo
+	url(r'^silo_delete/(?P<id>\w+)/$','silo.views.deleteSilo', name='deleteSilo'),
 
 	###FEED
 	url(r'^feed', 'feed.views.listFeeds', name='listFeeds'),
+	
+	#create a feed
+	url(r'^create_feed', 'feed.views.createFeed', name='createFeed'),
+	
+	#delete a feed
+	url(r'^feed_delete','feed.views.deleteFeed', name='deleteFeed'),
 
 )

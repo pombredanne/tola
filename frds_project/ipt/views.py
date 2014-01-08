@@ -8,12 +8,15 @@ import json
 import unicodedata
 from django.http import HttpResponseRedirect
 from django.db import models
+from models import Program
 from ipt.forms import ProgramForm, IndicatorForm
 from django.shortcuts import render_to_response
 
-def home(request):
+def home(request):	
+	#get all of the Programs
+	getPrograms = Program.objects.all()
 
-	return render(request, 'ipt/home.html')
+	return render(request, 'ipt/home.html',{'getPrograms':getPrograms})
 
 def dashboard(request):
 
@@ -28,7 +31,7 @@ def indicator(request):
 			return HttpResponseRedirect('/ipt/indicator') # Redirect after POST to getLogin
 	else:
 		form = IndicatorForm() # An unbound form
-
+	
 	return render(request, 'ipt/indicator.html', {'form': form,})
 
 def program(request):

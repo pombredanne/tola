@@ -4,4 +4,4 @@ from silo.models import Silo
 class SiloForm(ModelForm):
 	class Meta:
 		model = Silo
-		fields = ['name', 'description', 'source','owner']
+		fields = ['id', 'name', 'description', 'source','owner']

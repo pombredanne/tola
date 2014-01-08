@@ -10,4 +10,4 @@ class ProgramForm(ModelForm):
 class IndicatorForm(ModelForm):
 	class Meta:
 		model = Indicator
-		fields = ['type','name', 'description', 'activity','period','sector','owner']
+		fields = ['type','name', 'description', 'activity','period','sector','owner','program']

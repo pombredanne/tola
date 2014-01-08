@@ -12,20 +12,22 @@
 	</li>
 {% endfor %}
 
-
-<form action="/createFeed/" method="post">
 <p>Select source data</p>
 <ul>
 		{% for item in getSources %}
 			<li>Silo: {{ item.name }} 
-					<ul>
-					<li>Create a Feed <input type="checkbox" name="sources" value="{{ item.id }}"></li>
+					<ul><form action="/create_feed/" method="post">
+					<li>Create a Feed 
+						
+						<select name="feed_type"><option value="" selected="selected">-- select --</option>{% for item2 in getFeedTypes %}<option value="{{ item2.id }}">{{ item2.description }}</option>{% endfor %}</select>
+						<input type="hidden" name="silo_id" value="{{ item.id }}">
+						<input type="submit" value="Submit" />
+						</form>
+					 </li>
 					</ul>
 			</li>
 		{% endfor %}
 </ul>
  <br>
- <input type="hidden" name="silo_id" value="{{ item.id }}">
- <input type="submit" value="Submit" />
- </form>
+
 {% endblock content %}

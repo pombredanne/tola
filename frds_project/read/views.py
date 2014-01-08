@@ -30,6 +30,24 @@ def initRead(request):
         'form': form,
     })
 
+#Show Source (read)
+def showRead(request,id):
+    
+    getRead=Read.objects.get(pk=id)
+    
+    if request.method == 'POST': # If the form has been submitted...
+        form = ReadForm(request.POST,instance=getRead) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            # save data to read
+            new_read = form.save()
+            return HttpResponseRedirect('/login') # Redirect after POST to getLogin
+    else:
+        form = ReadForm(instance=getRead) # An unbound form
+
+    return render(request, 'read/read.html', {
+        'form': form,
+    })
+
 #login to service if needed and select a silo
 def getLogin(request):
 	

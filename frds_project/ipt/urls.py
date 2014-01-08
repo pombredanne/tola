@@ -18,5 +18,4 @@ urlpatterns = patterns('',
     #Add Indicators to Program
     url(r'^indicator', 'ipt.views.indicator', name='indicator'),
     
-
 )
