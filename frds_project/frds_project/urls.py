@@ -22,7 +22,10 @@ urlpatterns = patterns('',
 
 	###READ
 	#read init form
-	url(r'^read', 'read.views.initRead', name='initRead'),
+	url(r'^read', 'read.views.home', name='home'),
+	
+	#read init form
+	url(r'^new_read', 'read.views.initRead', name='initRead'),
 	
 	#show read or source
 	url(r'^show_read/(?P<id>\w+)/$', 'read.views.showRead', name='showRead'),

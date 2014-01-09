@@ -14,6 +14,13 @@ from read.forms import ReadForm
 from django.shortcuts import render_to_response
 import base64
 
+#List of Current Read sources that can be updated or edited
+def home(request):
+	
+	getReads = Read.objects.all()
+   	
+	return render(request, 'read/home.html', {'getReads': getReads,})
+
 #Create a form to get feed info then save data to Read and re-direct to getJSON funtion
 def initRead(request):
     
