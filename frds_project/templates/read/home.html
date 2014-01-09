@@ -6,7 +6,6 @@
 	<ul>
 			{% for item in getReads %}
 				<li>Update Data from Source: <a href="/show_read/{{ item.id }}">{{ item.read_name }}</a></li>
-				<li>Edit Read Source: <a href="/show_read/{{ item.id }}">{{ item.read_name }}</a></li>
 			{% endfor %}
 	</ul>
 	<h4><a href="/new_read">Create a New Read</a></h4>

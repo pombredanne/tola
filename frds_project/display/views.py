@@ -43,13 +43,14 @@ def showStore(request,id):
 	#send the keys and vars from the json data to the template along with submitted feed info and silos for new form				
 	return render(request,"display/stored_values.html", {'getSilo':getSilo})
 	
-#SHOW-MERGE
+#SHOW-MERGE FORM
 def mergeForm(request,id):
 	
 	getSource = Silo.objects.get(id=id)
 	getSourceTo = Silo.objects.all()
 	return render_to_response("display/merge-form.html", {'getSource':getSource,'getSourceTo':getSourceTo})
 
+#SHOW COLUMNS FOR MERGE FORM
 def mergeColumns(request):
 	
 	from_silo_id = request.POST["from_silo_id"]

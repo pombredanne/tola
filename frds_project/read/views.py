@@ -74,11 +74,13 @@ def getJSON(request):
 	today.strftime('%Y-%m-%d')
 	today = str(today)
 	#New silo or existing
-	if request.POST['new_silo'] is not None:
+	if request.POST['new_silo']:
+		print "NEW"
 		new_silo = Silo(name=request.POST['new_silo'],source=read_obj, owner=read_obj.owner,  create_date=today)
 		new_silo.save()
 		silo_id = new_silo.id
 	else:
+		print "EXISTING"
 		silo_id = request.POST['silo_id']
 
 	#get auth info from form post then encode and add to the request header
@@ -111,8 +113,8 @@ def updateUID(request):
 	
 	for row in request.POST['is_uid']:
 		update_uid = DataField.objects.update(is_uid=1)
-	
-	get_silo = Silo.objects.filter(id=request.POST['silo_id'])
+
+	get_silo = ValueStore.objects.all().filter(field__silo_id=request.POST['silo_id'])
 
 	return render(request,"read/show-data.html", {'get_silo':get_silo})
 
