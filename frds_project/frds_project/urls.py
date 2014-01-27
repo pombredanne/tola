@@ -1,13 +1,24 @@
+from feed import views
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
+from rest_framework.routers import DefaultRouter
+from rest_framework.urlpatterns import format_suffix_patterns
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
+#rest framework routers
+router = DefaultRouter()
+router.register(r'api', views.FeedViewSet)
+
+
 urlpatterns = patterns('',
 	url(r'^$', TemplateView.as_view(template_name='base.html')),
-
+	
+	#rest framework
+	url(r'^', include(router.urls)),
+	
 	#ipt app specific urls
 	url(r'^ipt/', include('ipt.urls')),
 
@@ -56,7 +67,14 @@ urlpatterns = patterns('',
 	url(r'^display', 'display.views.listSilos', name='listSilos'),
 
 	#view silo detail
-	url(r'^silo_detail/(?P<id>\w+)/$', 'display.views.showStore', name='showStore'),
+	url(r'^silo_detail/(?P<id>\w+)/$', 'display.views.siloDetail', name='siloDetail'),
+	
+	#edit single silo value
+	url(r'^value_edit/(?P<id>\w+)/$', 'display.views.valueEdit', name='valueEdit'),
+
+	#delete single silo value
+	url(r'^value_delete/(?P<id>\w+)/$', 'display.views.valueDelete', name='valueDelete'),
+
 
 	###SILO
 	url(r'^do_merge', 'silo.views.doMerge', name='doMerge'),
