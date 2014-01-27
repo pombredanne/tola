@@ -84,8 +84,10 @@ def valueEdit(request,id):
 		form = EditForm(request.POST) # A form bound to the POST data
 		if form.is_valid(): # All validation rules pass
 			# save data to read
+			update = ValueStore.objects.get(pk=id)
+			form = EditForm(request.POST, instance=update)
 			new = form.save(commit=True)
-			#return HttpResponseRedirect('/value_edit/' + id)
+			return HttpResponseRedirect('/value_edit/' + id)
 		else:
 			print "not valid"
 	else:
