@@ -1,7 +1,6 @@
 import dicttoxml,json
 import unicodedata
 
-
 #CREATE NEW DATA DICTIONARY OBJECT 
 def siloToDict(silo):
 	parsed_data = {}
@@ -22,3 +21,5 @@ def siloToDict(silo):
 		print parsed_data
 	
 	return parsed_data	
+
+

@@ -1,4 +1,7 @@
 {% extends "base.html" %} 
+{% block breadcrumbs %}
+    {{ block.super }} » <a href="{% url read_index %}">Read</a>
+{% endblock %}
 {% block page_title %}Edit Value{% endblock %} 
 
 {% block content %}
@@ -9,7 +12,7 @@
     {% endfor %}
     </ol>
 {% endif %}
-	<p>Edit Value</p>
+	<p><a href="/silo_edit/ {{value.form.silo.id}}">Back to Silo</a></p>
 	<form action="" method="post">
 	{% csrf_token %}
 	{{ form.as_p }}

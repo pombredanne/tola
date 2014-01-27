@@ -94,7 +94,7 @@ def valueEdit(request,id):
 		value= get_object_or_404(ValueStore, pk=id)
 		form = EditForm(instance=value) # An unbound form
 	
-	return render(request, 'read/edit_value.html', {'form': form,})
+	return render(request, 'read/edit_value.html', {'form': form,'value':value})
 	
 #DELETE-FEED 
 def valueDelete(request,id):
