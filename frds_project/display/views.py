@@ -4,7 +4,7 @@ from django.template import Context, loader
 import os
 from django.http import HttpResponseRedirect
 from django.db import models
-from silo.models import Silo, DataField, ValueStore, ValueType, Read
+from silo.models import Silo, DataField, ValueStore, Read
 from django.shortcuts import render_to_response
 import django_tables2 as tables
 from django_tables2   import RequestConfig

@@ -8,7 +8,7 @@ import json
 import unicodedata
 from django.http import HttpResponseRedirect
 from django.db import models
-from silo.models import Silo, DataField, ValueStore, ValueType
+from silo.models import Silo, DataField, ValueStore
 from read.models import Read
 from read.forms import ReadForm
 from django.shortcuts import render_to_response
@@ -138,12 +138,12 @@ def saveJSON(new_value,new_label,silo_id):
 	today.strftime('%Y-%m-%d')
 	today = str(today)
 	if new_value is not "" and new_value is not None:
-		new_field = DataField(silo=current_silo,name=new_label,create_date=today,edit_date=today)
+		new_field = DataField(silo=current_silo,original_name=new_label,name=new_label,create_date=today,edit_date=today)
 		new_field.save()
 		#get the field id
 		latest = DataField.objects.latest('id')
 
-		new_value = ValueStore(value_type=type_value, field_id=latest.id, char_store=new_value, create_date=today,edit_date=today)
+		new_value = ValueStore(field_id=latest.id, char_store=new_value, create_date=today,edit_date=today)
 	
 		new_value.save()
  

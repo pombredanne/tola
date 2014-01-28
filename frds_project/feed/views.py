@@ -4,7 +4,7 @@ from django.template import Context, loader
 import os
 from django.http import HttpResponseRedirect
 from django.db import models
-from silo.models import Silo, DataField, ValueStore, ValueType, Read, Feed
+from silo.models import Silo, DataField, ValueStore, Read, Feed
 from feed.models import FeedType
 from feed.serializers import FeedSerializer
 from django.shortcuts import render_to_response
