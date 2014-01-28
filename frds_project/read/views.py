@@ -13,15 +13,18 @@ from read.models import Read
 from read.forms import ReadForm
 from django.shortcuts import render_to_response
 import base64
-
-#List of Current Read sources that can be updated or edited
+"""
+List of Current Read sources that can be updated or edited
+"""
 def home(request):
 	
 	getReads = Read.objects.all()
    	
 	return render(request, 'read/home.html', {'getReads': getReads,})
-
-#Create a form to get feed info then save data to Read and re-direct to getJSON funtion
+"""
+Create a form to get feed info then save data to Read 
+and re-direct to getJSON funtion
+"""
 def initRead(request):
     
     if request.method == 'POST': # If the form has been submitted...
@@ -36,8 +39,9 @@ def initRead(request):
     return render(request, 'read/read.html', {
         'form': form,
     })
-
-#Show Source (read)
+"""
+Show a read data source and allow user to edit it
+"""
 def showRead(request,id):
     
     getRead=Read.objects.get(pk=id)
@@ -54,8 +58,10 @@ def showRead(request,id):
     return render(request, 'read/read.html', {
         'form': form,
     })
-
-#login to service if needed and select a silo
+"""
+Some serivces require a login provide user with a 
+login to service if needed and select a silo
+"""
 def getLogin(request):
 	
 	#get all of the silo info to pass to the form
@@ -63,8 +69,9 @@ def getLogin(request):
 	
 	#display login form
 	return render(request, 'read/login.html',{'get_silo':get_silo})
-
-#get JSON feed info from form then grab data
+"""
+Get JSON feed info from form then grab data
+"""
 def getJSON(request):
 	
 	#retireve submitted Feed info from database
@@ -107,8 +114,9 @@ def getJSON(request):
 	
 	#send the keys and vars from the json data to the template along with submitted feed info and silos for new form				
 	return render_to_response("read/show-columns.html", {'getFields':getFields,'silo_id':silo_id})
-
-#get PK for each row
+"""
+Set the PK for each row by allowing the user to select a column
+"""
 def updateUID(request):
 	
 	for row in request.POST['is_uid']:
@@ -117,8 +125,10 @@ def updateUID(request):
 	get_silo = ValueStore.objects.all().filter(field__silo_id=request.POST['silo_id'])
 
 	return render(request,"read/show-data.html", {'get_silo':get_silo})
-
-#Save JSON file data into data store and silo
+"""
+Function call no template associated with this
+Save JSON file data into data store and silo
+"""
 def saveJSON(new_value,new_label,silo_id):
 	
 	#Need a silo set object to gather silos into programs
@@ -132,28 +142,8 @@ def saveJSON(new_value,new_label,silo_id):
 		new_field.save()
 		#get the field id
 		latest = DataField.objects.latest('id')
-		#check the field type
-		check_type=type(new_value)
-		#debug uncomment to view
-		#print check_type
-	
-		if check_type == models.CharField:
-			#CharField specific code
-			check_type="Char"
-			type_value = ValueType.objects.get(value_type=check_type)
-			new_value = ValueStore(value_type=type_value, field_id=latest.id, char_store=new_value, create_date=today,edit_date=today)
-		elif check_type == models.IntegerField:
-			check_type="Int"
-			type_value = ValueType.objects.get(value_type=check_type)
-			new_value = ValueStore(value_type=type_value, field_id=latest.id, int_store=new_value, create_date=today,edit_date=today)
-		elif check_type == models.DateField:
-			check_type="Date"
-			type_value = ValueType.objects.get(value_type=check_type)
-			new_value = ValueStore(value_type=type_value, field_id=latest.id, date_store=new_value, create_date=today,edit_date=today)
-		else: 
-			check_type="Char"
-			type_value = ValueType.objects.get(value_type=check_type)
-			new_value = ValueStore(value_type=type_value, field_id=latest.id, char_store=new_value, create_date=today,edit_date=today)
+
+		new_value = ValueStore(value_type=type_value, field_id=latest.id, char_store=new_value, create_date=today,edit_date=today)
 	
 		new_value.save()
  
