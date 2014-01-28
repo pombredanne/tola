@@ -8,7 +8,7 @@ import json
 import unicodedata
 from django.http import HttpResponseRedirect
 from django.db import models
-from silo.models import Silo, DataField, ValueStore, ValueType, Read
+from silo.models import Silo, DataField, ValueStore, Read
 from read.models import Read
 from silo.forms import SiloForm
 from django.shortcuts import render_to_response
