@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 import django_tables2 as tables
 from django_tables2   import RequestConfig
 from display.tables  import SiloTable
-from forms import EditForm
+from forms import EditForm,FieldEditForm
 
 #SILOS
 def listSilos(request):
@@ -96,7 +96,7 @@ def valueEdit(request,id):
 	
 	return render(request, 'read/edit_value.html', {'form': form,'value':value})
 	
-#DELETE-FEED 
+#DELETE-VALUE STORE 
 def valueDelete(request,id):
 	"""
 	Delete a value
@@ -104,6 +104,27 @@ def valueDelete(request,id):
 	deleteStore = ValueStore.objects.get(pk=id).delete()
 	
 	return render(request, 'read/delete_value.html')	
+
+#EDIT A SINGLE FIELD
+def fieldEdit(request,id):
+	"""
+	Edit a value
+	"""
+	if request.method == 'POST': # If the form has been submitted...
+		form = FieldEditForm(request.POST) # A form bound to the POST data
+		if form.is_valid(): # All validation rules pass
+			# save data to read
+			update = DataField.objects.get(pk=id)
+			form = FieldEditForm(request.POST, instance=update)
+			new = form.save(commit=True)
+			return HttpResponseRedirect('/field_edit/' + id)
+		else:
+			print "not valid"
+	else:
+		field= get_object_or_404(DataField, pk=id)
+		form = FieldEditForm(instance=field) # An unbound form
+	
+	return render(request, 'read/field_edit.html', {'form': form,'field':field})
 
 	
 	

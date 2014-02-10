@@ -4,9 +4,9 @@ from django.template import Context, loader
 import os
 from django.http import HttpResponseRedirect
 from django.db import models
-from silo.models import Silo, DataField, ValueStore, Read, Feed
-from feed.models import FeedType
-from feed.serializers import FeedSerializer
+from silo.models import Silo, DataField, ValueStore
+from feed.serializers import FeedSerializer,FeedInstanceSerializer
+from feed.models import Feed
 from django.shortcuts import render_to_response
 import dicttoxml,json
 import unicodedata
@@ -32,26 +32,20 @@ from rest_framework import status
 #Feeds
 def listFeeds(request):
 	"""
-	Get all Feeds and sources and display them
+	Get all Silos and Link to REST API pages
 	"""
 	#get all of the silos
-	getFeeds = Feed.objects.all()
-	
-	#get all of the silos
-	getSources = Silo.objects.all()
-	
-	#get all of the silos
-	getFeedTypes = FeedType.objects.all()
+	getSilos = Silo.objects.all()
 
-	return render(request, 'feed/list.html',{'getFeeds': getFeeds,'getSources': getSources, 'getFeedTypes': getFeedTypes})
+	return render(request, 'feed/list.html',{'getSilos': getSilos})
 
-class FeedViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    This viewset automatically provides `list` and `detail` actions.
-    """
-    queryset = ValueStore.objects.all()
+class Feed(generics.ListAPIView):
+    queryset = Feed.objects.all()
     serializer_class = FeedSerializer
-    paginate_by = None
+
+class FeedInstance(generics.RetrieveAPIView):
+    queryset = Silo.objects.all()
+    serializer_class = FeedInstanceSerializer
 
 def createFeed(request):
 	"""

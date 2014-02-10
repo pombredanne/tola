@@ -1,0 +1,22 @@
+{% extends "base.html" %} 
+{% block breadcrumbs %}
+    {{ block.super }} » <a href="{% url read_index %}">Read</a>
+{% endblock %}
+{% block page_title %}Edit Field{% endblock %} 
+
+{% block content %}
+	{% if form.subject.errors %}
+    <ol>
+    {% for error in form.subject.errors %}
+        <li><strong>{{ error|escape }}</strong></li>
+    {% endfor %}
+    </ol>
+{% endif %}
+	<p><a href="/silo_edit/ {{value.form.silo.id}}">Back to Silo</a></p>
+	<form action="" method="post">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="Submit" />
+	</form>
+
+{% endblock content %}

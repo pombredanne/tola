@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib import admin
 from read.models import Read
-from feed.models import Feed
-
 
 # Create your models here.
 class Silo(models.Model):
@@ -50,7 +48,7 @@ class ValueStore(models.Model):
 		return self.char_store
 
 class ValueStoreAdmin(admin.ModelAdmin):
-	list_display = ('value_type','field','char_store','bin_store','create_date','edit_date')
+	list_display = ('field','char_store','create_date','edit_date')
 	display = 'Stored Values'
 
 

@@ -8,16 +8,13 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from django.contrib import admin
 admin.autodiscover()
 
-#rest framework routers
-router = DefaultRouter()
-router.register(r'api', views.FeedViewSet)
-
 
 urlpatterns = patterns('',
 	url(r'^$', TemplateView.as_view(template_name='base.html')),
 	
 	#rest framework
-	url(r'^', include(router.urls)),
+	url(r'^api/$',views.Feed.as_view()),
+    url(r'^api/(?P<pk>[0-9]+)/$',views.FeedInstance.as_view()),
 	
 	#ipt app specific urls
 	url(r'^ipt/', include('ipt.urls')),
@@ -74,6 +71,9 @@ urlpatterns = patterns('',
 
 	#delete single silo value
 	url(r'^value_delete/(?P<id>\w+)/$', 'display.views.valueDelete', name='valueDelete'),
+	
+	#edit single field
+	url(r'^field_edit/(?P<id>\w+)/$', 'display.views.fieldEdit', name='fieldEdit'),
 
 
 	###SILO
@@ -98,3 +98,5 @@ urlpatterns = patterns('',
 	url(r'^feed_delete','feed.views.deleteFeed', name='deleteFeed'),
 
 )
+
+urlpatterns = format_suffix_patterns(urlpatterns)

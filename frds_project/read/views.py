@@ -143,7 +143,7 @@ def saveJSON(new_value,new_label,silo_id):
 		#get the field id
 		latest = DataField.objects.latest('id')
 
-		new_value = ValueStore(value_type=type_value, field_id=latest.id, char_store=new_value, create_date=today,edit_date=today)
+		new_value = ValueStore(field_id=latest.id, char_store=new_value, create_date=today,edit_date=today)
 	
 		new_value.save()
  
