@@ -29,32 +29,9 @@
         then move to project.css -->
     {% block extra_css %}{% endblock extra_css %}
   </head>
-  
+
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">FRDS</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="/home">Home</a></li>
-              <li class="active"><a href="/read">Read</a></li>
-              <li class="active"><a href="/feed">Feed</a></li>
-              <li class="active"><a href="/display">Display</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li><a href="/ipt/home">IPT</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
     <div class="container">
 
       <h1>{% block page_title %}Feed Read Display and Silo{% endblock page_title %}</h1>
