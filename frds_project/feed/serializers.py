@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 
 class FeedSerializer(serializers.ModelSerializer):
-	#source = serializers.HyperlinkedIdentityField(view_name='FeedInstance',format="html")
+	source = serializers.HyperlinkedIdentityField(view_name='api_root',format="html")
 	class Meta:
 		model = Feed  
 		fields = ('source','published')

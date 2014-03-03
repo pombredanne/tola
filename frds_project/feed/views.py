@@ -43,6 +43,17 @@ class Feed(generics.ListAPIView):
     queryset = Feed.objects.all()
     serializer_class = FeedSerializer
 
+@api_view(('GET',))
+def api_root(request, format=None):
+    return Response({
+        'Feed': reverse('Feed', request=request, format=format),
+    })
+
+def api_detail(request, format=None):
+    return Response({
+        'Feed': reverse('Feed', request=request, format=format),
+    })
+
 class FeedInstance(generics.RetrieveAPIView):
     queryset = Silo.objects.all()
     serializer_class = FeedInstanceSerializer

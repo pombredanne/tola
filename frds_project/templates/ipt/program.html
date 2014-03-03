@@ -3,6 +3,7 @@
 
 {% block content %}
 	<p>Enter Program Information</p>
+	<b><a href="/ipt/programIndicator/{{value.id}}/">View Indicator Plan</a></b>
 	<form action="/ipt/program/" method="post">
 	{{ form.as_p }}
 	<input type="submit" value="Submit" />

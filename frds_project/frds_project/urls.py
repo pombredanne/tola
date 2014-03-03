@@ -13,8 +13,8 @@ urlpatterns = patterns('',
 	url(r'^$', TemplateView.as_view(template_name='base.html')),
 	
 	#rest framework
-	url(r'^api/$',views.Feed.as_view()),
-    url(r'^api/(?P<pk>[0-9]+)/$',views.FeedInstance.as_view()),
+	url(r'^api/$',views.Feed.as_view(),name='api_root'),
+    url(r'^api/(?P<pk>[0-9]+)/$',views.FeedInstance.as_view(), name='api_detail'),
 	
 	#ipt app specific urls
 	url(r'^ipt/', include('ipt.urls')),

@@ -7,7 +7,7 @@
 	<h4>Existing Programs: </h4>
 	<ul>
 	{% for item in getPrograms %}
-		<li>{{ item.name }}</li>
+		<li><a href="/ipt/program/{{ item.id }}">{{ item.name }}</a></li>
 	{% endfor %}
 	</ul>
 {% endblock content %}
