@@ -1,0 +1,10 @@
+#!/Users/glind/Dropbox/PythonApps/frds_project/frds-venv/bin/python
+# EASY-INSTALL-ENTRY-SCRIPT: 'macholib==1.6','console_scripts','macho_standalone'
+__requires__ = 'macholib==1.6'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('macholib==1.6', 'console_scripts', 'macho_standalone')()
+    )
