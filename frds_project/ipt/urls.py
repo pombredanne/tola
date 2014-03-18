@@ -12,6 +12,12 @@ urlpatterns = patterns('',
     #Set up Program
     url(r'^program', 'ipt.views.program', name='program'),
     
+    #Edit Program
+	url(r'^editProgram/(?P<id>\w+)/$', 'ipt.views.editProgram', name='editProgram'),
+	    
+    #View Program Indicators
+	url(r'^programIndicator/(?P<id>\w+)/$', 'ipt.views.programIndicator', name='programIndicator'),
+    
     #Set up Tool
     url(r'^tool', 'ipt.views.program', name='tool'),
     
