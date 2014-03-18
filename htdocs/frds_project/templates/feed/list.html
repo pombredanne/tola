@@ -1,0 +1,16 @@
+{% extends "base.html" %} 
+{% block page_title %}Feeds{% endblock %} 
+
+{% block content %}
+<h2>List of current Feeds available</h2>
+{% for item in getSilos %}
+	<li>Feed: {{ item.name }} 
+			<ul>
+			<li>Feed URL: <a href="/api/{{ item.id }}" target="_new">{{ item.name }}</a></li>
+
+			</ul>
+	</li>
+{% endfor %}
+
+
+{% endblock content %}
