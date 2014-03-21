@@ -1,0 +1,13 @@
+{% extends "base.html" %} 
+{% block page_title %}Indicator Planning Tool{% endblock %} 
+
+{% block content %}
+	<p>Create Indicator Plans for Programs</p>
+	<a href="/indicators/program">Create a new Program</a>
+	<h4>Existing Programs: </h4>
+	<ul>
+	{% for item in getPrograms %}
+		<li><a href="/indicators/editProgram/{{ item.id }}">{{ item.name }}</a></li>
+	{% endfor %}
+	</ul>
+{% endblock content %}

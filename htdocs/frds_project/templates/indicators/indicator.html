@@ -1,0 +1,11 @@
+{% extends "base.html" %} 
+{% block page_title %}Indicator{% endblock %} 
+
+{% block content %}
+	<p>Indicator</p>
+	<form action="/indicators/indicator/" method="post">
+	{{ form.as_p }}
+	<input type="submit" value="Submit" />
+	</form>
+
+{% endblock content %}
