@@ -9,7 +9,7 @@ import unicodedata
 from django.http import HttpResponseRedirect
 from django.db import models
 from models import Program,Indicator
-from ipt.forms import ProgramForm, IndicatorForm, ProgramIndicatorForm
+from indicators.forms import ProgramForm, IndicatorForm, ProgramIndicatorForm
 from django.shortcuts import render_to_response
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
@@ -19,11 +19,11 @@ def home(request):
 	#get all of the Programs
 	getPrograms = Program.objects.all()
 
-	return render(request, 'ipt/home.html',{'getPrograms':getPrograms})
+	return render(request, 'indicators/home.html',{'getPrograms':getPrograms})
 
 def dashboard(request):
 
-	return render(request, 'ipt/dashboard.html')
+	return render(request, 'indicators/dashboard.html')
 
 def indicator(request):
 	"""
@@ -34,11 +34,11 @@ def indicator(request):
 		if form.is_valid(): # All validation rules pass
 			# save data to read
 			new = form.save()
-			return HttpResponseRedirect('/ipt/indicator') # Redirect after POST to getLogin
+			return HttpResponseRedirect('/indicators/indicator') # Redirect after POST to getLogin
 	else:
 		form = IndicatorForm() # An unbound form
 	
-	return render(request, 'ipt/indicator.html', {'form': form,})
+	return render(request, 'indicators/indicator.html', {'form': form,})
 
 def editIndicator(request,id):
 	"""
@@ -51,14 +51,14 @@ def editIndicator(request,id):
 			update = Indicator.objects.get(pk=id)
 			form = IndicatorForm(request.POST, instance=update)
 			new = form.save(commit=True)
-			return HttpResponseRedirect('ipt/indicator/' + id)
+			return HttpResponseRedirect('indicators/indicator/' + id)
 		else:
 			print "not valid"
 	else:
 		value= get_object_or_404(Indicator, pk=id)
 		form = IndicatorForm(instance=value) # An unbound form
 	
-	return render(request, 'ipt/indicator.html', {'form': form,'value':value})
+	return render(request, 'indicators/indicator.html', {'form': form,'value':value})
  
 
 def program(request):
@@ -70,11 +70,11 @@ def program(request):
 		if form.is_valid(): # All validation rules pass
 			# save data to read
 			new = form.save()
-			return HttpResponseRedirect('/ipt/indicator') # Redirect after POST to getLogin
+			return HttpResponseRedirect('/indicators/indicator') # Redirect after POST to getLogin
 	else:
 		form = ProgramForm() # An unbound form
 
-	return render(request, 'ipt/program.html', {'form': form,})
+	return render(request, 'indicators/program.html', {'form': form,})
 
 def programIndicator(request,id):
 	"""
@@ -89,9 +89,9 @@ def programIndicator(request,id):
 		if formset.is_valid():
 			#if it is not valid then the "errors" will fall through and be returned
 			formset.save()
-		return HttpResponseRedirect('/ipt/programIndicator/' + id)
+		return HttpResponseRedirect('/indicators/programIndicator/' + id)
 	
-	return render(request, 'ipt/programIndicator.html', {'formset': formset})
+	return render(request, 'indicators/programIndicator.html', {'formset': formset})
 
 def editProgram(request,id):
 	"""
@@ -104,16 +104,16 @@ def editProgram(request,id):
 			update = Program.objects.get(pk=id)
 			form = ProgramForm(request.POST, instance=update)
 			new = form.save(commit=True)
-			return HttpResponseRedirect('ipt/editProgram/' + id)
+			return HttpResponseRedirect('indicators/editProgram/' + id)
 		else:
 			print "not valid"
 	else:
 		value= get_object_or_404(Program, pk=id)
 		form = ProgramForm(instance=value) # An unbound form
 	
-	return render(request, 'ipt/program.html', {'form': form,'value':value})
+	return render(request, 'indicators/program.html', {'form': form,'value':value})
 
  
 def tool(request):
 
-	return render(request, 'ipt/tool.html')
+	return render(request, 'indicators/tool.html')

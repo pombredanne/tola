@@ -1,9 +1,10 @@
 from django.contrib import admin
-from ipt.models import IndicatorType,Sector,TVAPeriod,ActivityData,PeriodType,Program,Indicator
+from indicators.models import IndicatorType,Sector,ActivityData,PeriodType,Program,Indicator,TargetsAndActuals,DissaggregationType
 
 admin.site.register(IndicatorType)
 admin.site.register(Sector)
-admin.site.register(TVAPeriod)
+admin.site.register(DissaggregationType)
+admin.site.register(TargetsAndActuals)
 admin.site.register(ActivityData)
 admin.site.register(PeriodType)
 admin.site.register(Program)

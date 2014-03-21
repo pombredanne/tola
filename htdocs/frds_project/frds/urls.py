@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^api/(?P<pk>[0-9]+)/$',views.FeedInstance.as_view(), name='api_detail'),
 	
 	#ipt app specific urls
-	url(r'^ipt/', include('ipt.urls')),
+	url(r'^indicators/', include('indicators.urls')),
 
 	#enable admin documentation:
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

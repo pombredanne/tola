@@ -210,6 +210,7 @@ LOCAL_APPS = (
     'read',
     'display',
     'silo',
+    'indicators',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
