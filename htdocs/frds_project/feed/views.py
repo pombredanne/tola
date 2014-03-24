@@ -5,7 +5,7 @@ import os
 from django.http import HttpResponseRedirect
 from django.db import models
 from silo.models import Silo, DataField, ValueStore
-from feed.serializers import FeedSerializer,FeedInstanceSerializer
+from feed.serializers import SiloSerializer,DataFieldSerializer,ValueStoreSerializer
 from feed.models import Feed
 from django.shortcuts import render_to_response
 import dicttoxml,json
@@ -29,6 +29,36 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+class FeedViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+
+    Additionally we also provide an extra `highlight` action.
+    """
+    queryset = Silo.objects.all()
+    serializer_class = SiloSerializer
+
+class DataFieldViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+
+    Additionally we also provide an extra `highlight` action.
+    """
+    queryset = DataField.objects.all()
+    serializer_class = DataFieldSerializer
+
+class ValueStoreViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+
+    Additionally we also provide an extra `highlight` action.
+    """
+    queryset = ValueStore.objects.all()
+    serializer_class = ValueStoreSerializer
+
 #Feeds
 def listFeeds(request):
 	"""
@@ -38,25 +68,6 @@ def listFeeds(request):
 	getSilos = Silo.objects.all()
 
 	return render(request, 'feed/list.html',{'getSilos': getSilos})
-
-class Feed(generics.ListAPIView):
-    queryset = Feed.objects.all()
-    serializer_class = FeedSerializer
-
-@api_view(('GET',))
-def api_root(request, format=None):
-    return Response({
-        'Silo': reverse('Silo', request=request, format=format),
-    })
-
-def api_detail(request, format=None):
-    return Response({
-        'ValueStore': reverse('ValueStore', request=request, format=format),
-    })
-
-class FeedInstance(generics.RetrieveAPIView):
-    queryset = Silo.objects.all()
-    serializer_class = FeedInstanceSerializer
 
 def createFeed(request):
 	"""
@@ -85,26 +96,6 @@ def deleteFeed(request,id):
 	
 	return render(request, 'feed/delete.html')		
 	
-
-#XML for non Model Object Serialization
-def serialize(root):
-	"""
-	Create an XML formatted dictionary object based on a queryset
-	"""
-	xml = ''
-	for key in root.keys():
-		if isinstance(root[key], dict):
-			xml = '%s<%s>\n%s</%s>\n' % (xml, key, serialize(root[key]), key)
-		elif isinstance(root[key], list):
-			xml = '%s<%s>' % (xml, key)
-			for item in root[key]:
-				xml = '%s%s' % (xml, serialize(item))
-			xml = '%s</%s>' % (xml, key)
-		else:
-			value = root[key]
-			xml = '%s<%s>%s</%s>\n' % (xml, key, value, key)
-	return xml
-
 	
 	
 

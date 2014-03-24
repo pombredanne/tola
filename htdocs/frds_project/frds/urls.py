@@ -1,20 +1,43 @@
 from feed import views
+from feed.views import FeedViewSet,DataFieldViewSet,ValueStoreViewSet
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework import renderers
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
+#REST FRAMEWORK
+feed = FeedViewSet.as_view({
+'get': 'list',
+'post': 'create'
+})
+
+feed_instance = FeedViewSet.as_view({
+	'get': 'retrieve',
+})
+
+field_instance = DataFieldViewSet.as_view({
+	'get': 'list'
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
+value_instance = ValueStoreViewSet.as_view({
+	'get': 'retrieve'
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
 
 urlpatterns = patterns('',
+	
 	url(r'^$', TemplateView.as_view(template_name='base.html')),
 	
 	#rest framework
-	url(r'^api/$',views.Feed.as_view(),name='api_root'),
-    url(r'^api/(?P<pk>[0-9]+)/$',views.FeedInstance.as_view(), name='api_detail'),
+	url(r'^api/$',feed,name='api_root'),
+	url(r'^api/(?P<pk>[0-9]+)/$',feed_instance,name='feed_instance'),
+    url(r'^api/(?P<pk>[0-9]+)/fields/$',field_instance, name='field_instance'),
+    url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$',value_instance, name='value_instance'),
 	
 	#ipt app specific urls
 	url(r'^indicators/', include('indicators.urls')),
