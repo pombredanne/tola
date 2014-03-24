@@ -9,12 +9,12 @@ from django.contrib.auth.models import User
 class FeedSerializer(serializers.ModelSerializer):
 	source = serializers.HyperlinkedIdentityField(view_name='api_root',format="html")
 	class Meta:
-		model = Feed  
-		fields = ('source','published')
+		model = Silo  
+		fields = ('owner','name','source','description','create_date')
 
 class FeedInstanceSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = Silo
-        fields = ('owner', 'name', 'source','description')
+        model = ValueStore
+        fields = ('field','char_store','create_date','edit_date')
  

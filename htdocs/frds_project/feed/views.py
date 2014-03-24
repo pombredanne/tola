@@ -46,12 +46,12 @@ class Feed(generics.ListAPIView):
 @api_view(('GET',))
 def api_root(request, format=None):
     return Response({
-        'Feed': reverse('Feed', request=request, format=format),
+        'Silo': reverse('Silo', request=request, format=format),
     })
 
 def api_detail(request, format=None):
     return Response({
-        'Feed': reverse('Feed', request=request, format=format),
+        'ValueStore': reverse('ValueStore', request=request, format=format),
     })
 
 class FeedInstance(generics.RetrieveAPIView):
