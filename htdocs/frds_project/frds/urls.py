@@ -16,15 +16,23 @@ feed = FeedViewSet.as_view({
 'post': 'create'
 })
 
-feed_instance = FeedViewSet.as_view({
+feed_detail = FeedViewSet.as_view({
 	'get': 'retrieve',
 })
 
-field_instance = DataFieldViewSet.as_view({
+field_list = DataFieldViewSet.as_view({
 	'get': 'list'
 }, renderer_classes=[renderers.StaticHTMLRenderer])
 
-value_instance = ValueStoreViewSet.as_view({
+field_detail = DataFieldViewSet.as_view({
+	'get': 'retrieve'
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
+value_list = ValueStoreViewSet.as_view({
+	'get': 'list'
+}, renderer_classes=[renderers.StaticHTMLRenderer])
+
+value_detail = ValueStoreViewSet.as_view({
 	'get': 'retrieve'
 }, renderer_classes=[renderers.StaticHTMLRenderer])
 
@@ -35,9 +43,9 @@ urlpatterns = patterns('',
 	
 	#rest framework
 	url(r'^api/$',feed,name='api_root'),
-	url(r'^api/(?P<pk>[0-9]+)/$',feed_instance,name='feed_instance'),
-    url(r'^api/(?P<pk>[0-9]+)/fields/$',field_instance, name='field_instance'),
-    url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$',value_instance, name='value_instance'),
+	url(r'^api/(?P<pk>[0-9]+)/$',feed_detail,name='feed-detail'),
+    url(r'^api/(?P<pk>[0-9]+)/fields/$',field_list, name='field-list'),
+    url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$',value_list, name='value-list'),
 	
 	#ipt app specific urls
 	url(r'^indicators/', include('indicators.urls')),
