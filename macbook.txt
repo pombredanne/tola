@@ -30,3 +30,5 @@ sqlparse==0.1.10
 wsgiref==0.1.2
 xattr==0.6.4
 zope.interface==3.8.0
+django-crispy-forms==1.4.0
+wsgiref==0.1.2

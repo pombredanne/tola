@@ -52,8 +52,6 @@ def editSilo(request,id):
 		'form': form,'silo_id':id,
 	})
 
-#
-
 #DELETE-SILO 
 def deleteSilo(request,id):
 	

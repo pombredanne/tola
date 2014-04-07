@@ -23,3 +23,6 @@ build
 
 #virtualenv
 frds-venv/
+
+#allvritualend
+venv/

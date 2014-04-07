@@ -1,9 +1,7 @@
 """Common settings and globals."""
 
-
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
-
 
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
@@ -202,6 +200,7 @@ THIRD_PARTY_APPS = (
     'south',
     'rest_framework',
     'django_tables2',
+    'crispy_forms',
 )
 
 # Apps specific for this project go here.
