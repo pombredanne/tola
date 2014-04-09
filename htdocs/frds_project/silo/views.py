@@ -4,7 +4,7 @@ from django.template import Context, loader
 from datetime import date
 import os
 import urllib2
-import json 
+import json
 import unicodedata
 from django.http import HttpResponseRedirect
 from django.db import models
@@ -14,9 +14,9 @@ from silo.forms import SiloForm
 from django.shortcuts import render_to_response
 
 
-# Create your views here.
+# Merge 2 silos together.
 def doMerge(request):
-		
+
 	from_silo_id = request.POST["from_silo_id"]
 	to_silo_id = request.POST["to_silo_id"]
 	getSourceFrom = DataField.objects.all().filter(silo__id=from_silo_id).distinct("name")
@@ -28,13 +28,13 @@ def doMerge(request):
 	#get new combined silo values then display them
 	getSilo = ValueStore.objects.all().filter(field__silo__id=to_silo_id)
 
-	return render(request,"display/stored_values.html", {'getSilo':getSilo}) 
+	return render(request,"display/stored_values.html", {'getSilo':getSilo})
 
-#EDIT-SILO
+#Edit existing silo meta data
 def editSilo(request,id):
-	
+
 	getSilo=Silo.objects.get(pk=id)
-	
+
 	if request.method == 'POST': # If the form has been submitted...
 		form = SiloForm(request.POST,instance=getSilo) # A form bound to the POST data
 		if form.is_valid(): # All validation rules pass
@@ -45,16 +45,16 @@ def editSilo(request,id):
 			print form.errors
 			return HttpResponse("Form Did Not Save!")
 	else:
-		
+
 		form = SiloForm(instance=getSilo) # An unbound form
 
 	return render(request, 'silo/edit.html', {
 		'form': form,'silo_id':id,
 	})
 
-#DELETE-SILO 
+#DELETE-SILO
 def deleteSilo(request,id):
-	
+
 	deleteSilo = Silo.objects.get(pk=id).delete()
-	
+
 	return render(request, 'silo/delete.html')
