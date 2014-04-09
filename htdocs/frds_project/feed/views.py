@@ -33,8 +33,6 @@ class FeedViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list`, `create`, `retrieve`,
     `update` and `destroy` actions.
-
-    Additionally we also provide an extra `highlight` action.
     """
     queryset = Silo.objects.all()
     serializer_class = SiloSerializer
@@ -43,8 +41,6 @@ class DataFieldViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list`, `create`, `retrieve`,
     `update` and `destroy` actions.
-
-    Additionally we also provide an extra `highlight` action.
     """
     queryset = DataField.objects.all()
     serializer_class = DataFieldSerializer
@@ -53,51 +49,64 @@ class ValueStoreViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list`, `create`, `retrieve`,
     `update` and `destroy` actions.
-
-    Additionally we also provide an extra `highlight` action.
     """
     queryset = ValueStore.objects.all()
     serializer_class = ValueStoreSerializer
 
 #Feeds
 def listFeeds(request):
-	"""
-	Get all Silos and Link to REST API pages
-	"""
-	#get all of the silos
-	getSilos = Silo.objects.all()
+  	"""
+  	Get all Silos and Link to REST API pages
+  	"""
+  	#get all of the silos
+  	getSilos = Silo.objects.all()
 
-	return render(request, 'feed/list.html',{'getSilos': getSilos})
+  	return render(request, 'feed/list.html',{'getSilos': getSilos})
 
 def createFeed(request):
-	"""
-	Create an XML or JSON Feed from a given Silo
-	"""
-	getSilo = ValueStore.objects.filter(field__silo__id=request.POST['silo_id'])
-	
-	#return a dict with label value pair data
-	formatted_data = siloToDict(getSilo)
-	
-	getFeedType = FeedType.objects.get(pk = request.POST['feed_type'])
-	
-	if getFeedType.description == "XML":
-		xmlData = serialize(formatted_data)
-		return render(request, 'feed/xml.html', {"xml": xmlData}, content_type="application/xhtml+xml")
-	elif getFeedType.description == "JSON":
-		jsonData = simplejson.dumps(formatted_data)
-		return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
+  	"""
+  	Create an XML or JSON Feed from a given Silo
+  	"""
+  	getSilo = ValueStore.objects.filter(field__silo__id=request.POST['silo_id'])
 
-#DELETE-FEED 
+  	#return a dict with label value pair data
+  	formatted_data = siloToDict(getSilo)
+
+  	getFeedType = FeedType.objects.get(pk = request.POST['feed_type'])
+
+  	if getFeedType.description == "XML":
+  		xmlData = serialize(formatted_data)
+  		return render(request, 'feed/xml.html', {"xml": xmlData}, content_type="application/xhtml+xml")
+  	elif getFeedType.description == "JSON":
+  		jsonData = simplejson.dumps(formatted_data)
+  		return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
+
+def createDynamicModel(request):
+    """
+    Create an XML or JSON Feed from a given Silo
+    """
+    getSilo = Silo.objects.filter(silo_id=request.POST['silo_id'])
+    getValues = ValueStore.objects.filter(field__silo__id=request.POST['silo_id'])
+    getFields = DataField.objects.filter(field__silo__id=request.POST['silo_id'])
+
+    #return a dict with label value pair data
+    formatted_data = siloToModel(getSilo['name'],getFields['name'])
+
+    getFeedType = FeedType.objects.get(pk = request.POST['feed_type'])
+
+    if getFeedType.description == "XML":
+        xmlData = serialize(formatted_data)
+        return render(request, 'feed/xml.html', {"xml": xmlData}, content_type="application/xhtml+xml")
+    elif getFeedType.description == "JSON":
+        jsonData = simplejson.dumps(formatted_data)
+        return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
+
+
+#DELETE-FEED
 def deleteFeed(request,id):
-	"""
-	DELETE A FEED
-	"""
-	deleteFeed = Feed.objects.get(pk=id).delete()
-	
-	return render(request, 'feed/delete.html')		
-	
-	
-	
+  	"""
+  	Delete a feed
+  	"""
+  	deleteFeed = Feed.objects.get(pk=id).delete()
 
-
-
+  	return render(request, 'feed/delete.html')

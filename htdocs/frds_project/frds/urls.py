@@ -38,15 +38,15 @@ value_detail = ValueStoreViewSet.as_view({
 
 
 urlpatterns = patterns('',
-	
+
 	url(r'^$', TemplateView.as_view(template_name='base.html')),
-	
+
 	#rest framework
 	url(r'^api/$',feed,name='api_root'),
 	url(r'^api/(?P<pk>[0-9]+)/$',feed_detail,name='feed-detail'),
-    url(r'^api/(?P<pk>[0-9]+)/fields/$',field_list, name='field-list'),
-    url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$',value_list, name='value-list'),
-	
+  url(r'^api/(?P<pk>[0-9]+)/fields/$',field_list, name='field-list'),
+  url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$',value_list, name='value-list'),
+
 	#ipt app specific urls
 	url(r'^indicators/', include('indicators.urls')),
 
@@ -62,10 +62,10 @@ urlpatterns = patterns('',
 	###READ
 	#read init form
 	url(r'^read', 'read.views.home', name='home'),
-	
+
 	#read init form
 	url(r'^new_read', 'read.views.initRead', name='initRead'),
-	
+
 	#show read or source
 	url(r'^show_read/(?P<id>\w+)/$', 'read.views.showRead', name='showRead'),
 
@@ -84,10 +84,10 @@ urlpatterns = patterns('',
 
 	#show silo detail and sources
 	url(r'^silo/(?P<id>\w+)/$', 'display.views.viewSilo', name='viewSilo'),
-	
+
 	#merge form
 	url(r'^merge/(?P<id>\w+)/$', 'display.views.mergeForm', name='mergeForm'),
-	
+
 	#merge select columns
 	url(r'^merge_columns', 'display.views.mergeColumns', name='mergeColumns'),
 
@@ -96,35 +96,35 @@ urlpatterns = patterns('',
 
 	#view silo detail
 	url(r'^silo_detail/(?P<id>\w+)/$', 'display.views.siloDetail', name='siloDetail'),
-	
+
 	#edit single silo value
 	url(r'^value_edit/(?P<id>\w+)/$', 'display.views.valueEdit', name='valueEdit'),
 
 	#delete single silo value
 	url(r'^value_delete/(?P<id>\w+)/$', 'display.views.valueDelete', name='valueDelete'),
-	
+
 	#edit single field
 	url(r'^field_edit/(?P<id>\w+)/$', 'display.views.fieldEdit', name='fieldEdit'),
 
 
 	###SILO
 	url(r'^do_merge', 'silo.views.doMerge', name='doMerge'),
-	
+
 	#edit silo
 	url(r'^silo_edit/(?P<id>\w+)/$', 'silo.views.editSilo', name='editSilo'),
-	
+
 	#merge silos
 	url(r'^doMerge', 'silo.views.doMerge', name='doMerge'),
-	
+
 	#delete a silo
 	url(r'^silo_delete/(?P<id>\w+)/$','silo.views.deleteSilo', name='deleteSilo'),
 
 	###FEED
 	url(r'^feed', 'feed.views.listFeeds', name='listFeeds'),
-	
+
 	#create a feed
 	url(r'^create_feed', 'feed.views.createFeed', name='createFeed'),
-	
+
 	#delete a feed
 	url(r'^feed_delete','feed.views.deleteFeed', name='deleteFeed'),
 

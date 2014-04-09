@@ -4,7 +4,7 @@ from django.template import Context, loader
 from datetime import date
 import os
 import urllib2
-import json 
+import json
 import unicodedata
 from django.http import HttpResponseRedirect
 from django.db import models
@@ -15,8 +15,10 @@ from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
 
 
-def home(request):	
-	#get all of the Programs
+def home(request):
+	"""
+	Get all of the Programs
+	"""
 	getPrograms = Program.objects.all()
 
 	return render(request, 'indicators/home.html',{'getPrograms':getPrograms})
@@ -37,7 +39,7 @@ def indicator(request):
 			return HttpResponseRedirect('/indicators/indicator') # Redirect after POST to getLogin
 	else:
 		form = IndicatorForm() # An unbound form
-	
+
 	return render(request, 'indicators/indicator.html', {'form': form,})
 
 def editIndicator(request,id):
@@ -57,9 +59,9 @@ def editIndicator(request,id):
 	else:
 		value= get_object_or_404(Indicator, pk=id)
 		form = IndicatorForm(instance=value) # An unbound form
-	
+
 	return render(request, 'indicators/indicator.html', {'form': form,'value':value})
- 
+
 
 def program(request):
 	"""
@@ -82,7 +84,7 @@ def programIndicator(request,id):
 	"""
 	IndicatorFormSet = modelformset_factory(Indicator,extra=0)
 	formset = IndicatorFormSet(queryset=Indicator.objects.all().filter(program__id=id))
-	
+
 	if request.method == 'POST':
 		#deal with posting the data
 		formset = IndicatorFormSet(request.POST)
@@ -90,7 +92,7 @@ def programIndicator(request,id):
 			#if it is not valid then the "errors" will fall through and be returned
 			formset.save()
 		return HttpResponseRedirect('/indicators/programIndicator/' + id)
-	
+
 	return render(request, 'indicators/programIndicator.html', {'formset': formset})
 
 def editProgram(request,id):
@@ -110,10 +112,10 @@ def editProgram(request,id):
 	else:
 		value= get_object_or_404(Program, pk=id)
 		form = ProgramForm(instance=value) # An unbound form
-	
+
 	return render(request, 'indicators/program.html', {'form': form,'value':value})
 
- 
+
 def tool(request):
 
 	return render(request, 'indicators/tool.html')
