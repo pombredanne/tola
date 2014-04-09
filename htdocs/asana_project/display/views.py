@@ -24,7 +24,7 @@ def listSilos(request):
 #SILO-SOURCES
 def listSiloSources(request):
 	"""
-	List all of the silo sources and provide links to edit
+	List all of the silo sources (From Read model) and provide links to edit
 	"""
 	#get fields to display back to user for verification
 	getSources = Read.objects.filter(silo_id=silo_id)
@@ -34,7 +34,9 @@ def listSiloSources(request):
 
 #Display a single Silo
 def viewSilo(request,id):
-
+	"""
+	View a silo and it's meta data
+	"""
 	silo_id = id
 	#get all of the silos
 	get_sources = Read.objects.all().filter(silo__id=silo_id)
@@ -80,9 +82,8 @@ def valueEdit(request,id):
 	"""
 	Edit a value
 	"""
+	#Get the silo id for the return link back to silo detail
 	getSilo = ValueStore.objects.all().filter(id=id).prefetch_related('field')
-	#print getSilo[0].field.silo_id
-	#print "TEST"
 	silo_id = getSilo[0].field.silo_id
 
 	if request.method == 'POST': # If the form has been submitted...
@@ -99,11 +100,8 @@ def valueEdit(request,id):
 		value= get_object_or_404(ValueStore, pk=id)
 		form = EditForm(instance=value) # An unbound form
 
-
-
 	return render(request, 'read/edit_value.html', {'form': form,'value':value,'silo_id':silo_id})
 
-#DELETE-VALUE STORE
 def valueDelete(request,id):
 	"""
 	Delete a value
@@ -112,10 +110,9 @@ def valueDelete(request,id):
 
 	return render(request, 'read/delete_value.html')
 
-#EDIT A SINGLE FIELD
 def fieldEdit(request,id):
 	"""
-	Edit a value
+	Edit a field
 	"""
 	if request.method == 'POST': # If the form has been submitted...
 		form = FieldEditForm(request.POST) # A form bound to the POST data

@@ -12,7 +12,7 @@ import dicttoxml,json
 import unicodedata
 from django.core import serializers
 from django.utils import simplejson
-from frds.util import siloToDict
+from asana.util import siloToDict
 from rest_framework import generics
 from rest_framework import permissions
 from django.contrib.auth.models import User

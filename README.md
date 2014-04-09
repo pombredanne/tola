@@ -1,6 +1,12 @@
-FRDS
+Asana Data
 ====
-Feed, Read, Display and Silo data from various mobile data collection platforms.
+FREDS
+Feed, Read, Edit, Display and Silo data from various mobile data collection platforms.
+
+The Read app is intended for use with FormHub data collection platoform.  You should be able
+to add an additional app using Read as a template to import data or create new "reads"
+from other data sources.  You only need to import the new app, add the new read templates
+and update the base template to include your new app as sub-navigation to the main read.
 
 ## USING virtualenv
 mkdir frds_project
@@ -18,10 +24,10 @@ virtualenv —no-site-packages frds-venv
 *allows us to just use pip from cammand line by adding to the path rather then full path
 
 ##Activate Virtualenv
-source frds-venv/bin/activate 
+source frds-venv/bin/activate
 
 ## Fix probable mysql path issue (for mac)
-export PATH=$PATH:/usr/local/mysql/bin 
+export PATH=$PATH:/usr/local/mysql/bin
 * or whatever path you have to your installed mysql_config file in the bin folder of mysql
 
 pip install -r requirements.txt
