@@ -53,6 +53,29 @@ class ValueStoreViewSet(viewsets.ModelViewSet):
     queryset = ValueStore.objects.all()
     serializer_class = ValueStoreSerializer
 
+def customFeed(request,id):
+    """
+    All tags in use on this system
+    """
+    queryset = DataField.objects.filter(silo__id=id)
+    print(queryset)
+    data = defaultdict(list)
+    x=1
+    for column in queryset:
+      sub_queryset = ValueStore.objects.filter(field__id=column.id)
+      for value in sub_queryset:
+        data[x,column.name].append(value.char_store)
+        x=x+1
+
+
+    print dict(data)
+
+    """
+    def get(self, request, format=None):
+        data = [tag.name for tag in Tag.objects.all()]
+        return Response(data)
+    """
+
 #Feeds
 def listFeeds(request):
   	"""

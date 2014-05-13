@@ -47,6 +47,9 @@ urlpatterns = patterns('',
   url(r'^api/(?P<pk>[0-9]+)/fields/$',field_list, name='field-list'),
   url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$',value_list, name='value-list'),
 
+	#rest Custom Feed
+	url(r'^api/custom/(?P<id>[0-9]+)/$','feed.views.customFeed',name='customFeed'),
+
 	#ipt app specific urls
 	url(r'^indicators/', include('indicators.urls')),
 

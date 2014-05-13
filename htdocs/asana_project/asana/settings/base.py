@@ -201,6 +201,7 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'django_tables2',
     'crispy_forms',
+    'mongoengine'
 )
 
 # Apps specific for this project go here.
