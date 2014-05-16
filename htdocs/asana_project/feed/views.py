@@ -57,24 +57,23 @@ def customFeed(request,id):
     """
     All tags in use on this system
     """
+    #get all of the data fields for the silo
     queryset = DataField.objects.filter(silo__id=id)
-    print(queryset)
-    data = defaultdict(list)
-    x=1
-    for column in queryset:
-      sub_queryset = ValueStore.objects.filter(field__id=column.id)
-      for value in sub_queryset:
-        data[x,column.name].append(value.char_store)
-        x=x+1
 
+    formatted_data = []
 
-    print dict(data)
+    #loop over the lables and populate the first list with lables
+    for label in queryset:
+      #append the label to the list
+      formatted_data.append(label.name)
+      valueset = ValueStore.objects.filter(field__id=label.id)
+      #loop over the values and append the values for each label
+      for val in valueset:
+        formatted_data.append(val.char_store)
 
-    """
-    def get(self, request, format=None):
-        data = [tag.name for tag in Tag.objects.all()]
-        return Response(data)
-    """
+    #output list to json
+    jsonData = simplejson.dumps(formatted_data)
+    return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
 
 #Feeds
 def listFeeds(request):
