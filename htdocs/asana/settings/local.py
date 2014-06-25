@@ -5,7 +5,7 @@ from os.path import join, normpath
 
 from base import *
 
-from mongoengine import connect
+#from mongoengine import connect
 
 ########## MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
@@ -39,10 +39,10 @@ DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'frds',                      # Or path to database file if using sqlite3.
+        'NAME': 'asana',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'glind',
-        'PASSWORD': 'drummer01',
+        'PASSWORD': 'drummer',
         'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
@@ -50,7 +50,7 @@ DATABASES = {
 
 ########## MongoDB Connect
 
-connect('feeds')
+#connect('feeds')
 
 ########## END DATABASE CONFIGURATION
 

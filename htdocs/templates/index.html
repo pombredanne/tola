@@ -1,9 +1,13 @@
-{% extends "base.html" %} 
-{% block page_title %}Feed Read Display Silo{% endblock %} 
+{% extends "base.html" %}
+
 
 {% block content %}
+	<div class="jumbotron">
+	{% block page_title %}Feed Read Display Silo{% endblock %}
 	<p>This application allows you to connect toa third party data collection tool and
 	Read in that data into a local data store(Silo)</p>
+	</div>
+
 	Go to the <a href="/read">Read</a> page to enter a new datasource.
 	</br><b>OR</b></br>
 	Create a new <a href="/silo">Silo</a> to load data into.
@@ -11,7 +15,7 @@
 	<p>Select an existing Silo of Data to view the sources</p>
 	<ul>
 			{% for item in get_silo %}
-				<li>Silo: {{ item.name }} 
+				<li>Silo: {{ item.name }}
 						<ul>
 						<li>Source: <a href="/silo_detail/{{ item.id }}">{{ item.source }}</a></li>
 						<li>Description: {{ item.description }}</li>

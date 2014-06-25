@@ -38,7 +38,10 @@ value_detail = ValueStoreViewSet.as_view({
 
 
 urlpatterns = patterns('',
+	#index
+	url(r'^$', 'display.views.index', name='index'),
 
+	#base template for layout
 	url(r'^$', TemplateView.as_view(template_name='base.html')),
 
 	#rest framework

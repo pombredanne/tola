@@ -8,10 +8,21 @@
 			<th>From Column</th>
 			<th>To Column</th>
 		</tr>
+
 		{% for item in getSourceFrom %}
 			<tr>
 				<td>{{ item.name }} <input type="hidden" name="from_column_id" value="{{ item.id }}"></td>
-				<td align="middle"><select name="{{ item.name }}">{% for item2 in getSourceTo %}<option value="{{ item2.id }}" {% if item2.name == item.name %} selected="selected" {% endif %}>{{ item2.name }}</option>{% endfor %}</select></td>
+				<td align="middle">
+                    <select name="{{ item.name }}">
+                    {% for item2 in getSourceTo %}
+                        <option value="{{ item2.id }}" {% if item2.name == item.name %} selected="selected" {% endif %}>
+                            {{ item2.name }}</option>
+                    {% endfor %}
+                    {% if item.name not in source_list %}
+                        <option value="0" selected="selected">  New Column !!</option>
+                    {% endif %}
+                    </select>
+                </td>
 			</tr>
 		{% endfor %}
 	</table>
