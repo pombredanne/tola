@@ -2,90 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97d5e451-4155-4182-b293-6f5f4a3f758d" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/settings/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/settings/base.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/settings/local.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/settings/production.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/settings/test.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/urls.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/util.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/asana/wsgi.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/display/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/display/admin.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/display/forms.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/display/models.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/display/tables.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/display/tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/display/views.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/feed/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/feed/admin.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/feed/models.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/feed/serializers.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/feed/tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/feed/views.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/fixtures/initial_data.json" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/indicators/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/indicators/admin.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/indicators/forms.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/indicators/models.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/indicators/tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/indicators/urls.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/indicators/views.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/manage.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/read/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/read/admin.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/read/forms.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/read/models.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/read/tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/read/views.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/silo/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/silo/admin.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/silo/forms.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/silo/models.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/silo/tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/silo/views.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/static/css/bootstrap-responsive.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/static/css/bootstrap.min.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/static/css/project.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/static/img/glyphicons-halflings-white.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/static/img/glyphicons-halflings.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/static/js/bootstrap.min.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/static/js/project.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/404.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/500.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/base.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/display/merge-column-form.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/display/merge-form.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/display/merge.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/display/silo-sources.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/display/silos.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/display/stored_values.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/feed/delete.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/feed/json.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/feed/list.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/feed/stores.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/feed/xml.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/home.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/indicators/dashboard.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/indicators/home.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/indicators/indicator.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/indicators/program.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/indicators/programIndicator.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/indicators/tool.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/pop_up.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/read/delete_value.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/read/edit_value.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/read/field_edit.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/read/home.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/read/login.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/read/read.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/read/show-columns.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/read/show-data.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/silo/delete.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/templates/silo/edit.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/test/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/htdocs/asana_project/test/tests.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/htdocs/templates/base.html" afterPath="$PROJECT_DIR$/htdocs/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="asana_project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -108,13 +26,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/htdocs/silo/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.10152284" vertical-offset="345" max-vertical-offset="1065">
+            <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1065">
               <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manage.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/htdocs/manage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/htdocs/asana/settings/base.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="3945">
+              <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/htdocs/templates/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1260">
+              <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/htdocs/read/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.8781726" vertical-offset="1335" max-vertical-offset="2325">
+              <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
               <folding>
-                <element signature="e#0#36#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -123,11 +81,9 @@
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/htdocs/silo/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="870">
+            <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="870">
               <caret line="27" column="8" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -155,11 +111,12 @@
         <option value="$PROJECT_DIR$/htdocs/asana_project/read/views.py" />
         <option value="$PROJECT_DIR$/htdocs/asana/wsgi.py" />
         <option value="$PROJECT_DIR$/htdocs/silo/views.py" />
+        <option value="$PROJECT_DIR$/htdocs/templates/base.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="107" />
+    <option name="x" value="129" />
     <option name="y" value="22" />
     <option name="width" value="1237" />
     <option name="height" value="688" />
@@ -218,6 +175,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="venv" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="asana_project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="asana_project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="htdocs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -236,25 +207,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="silo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="asana_project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="asana_project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="htdocs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="asana" />
+              <option name="myItemId" value="read" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -269,6 +222,7 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -400,6 +354,9 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="97d5e451-4155-4182-b293-6f5f4a3f758d" name="Default" comment="" />
@@ -409,26 +366,26 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="107" y="22" width="1237" height="688" extended-state="0" />
-    <editor active="true" />
+    <frame x="129" y="22" width="1237" height="688" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22554567" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22554567" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -453,10 +410,168 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1065">
+          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/htdocs/asana/settings/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.6497464" vertical-offset="3339" max-vertical-offset="3930">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3945">
+          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1260">
+          <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/read/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="2325">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="870">
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
+          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/asana/settings/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="3945">
+          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1260">
+          <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/read/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="2325">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="870">
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
+          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/asana/settings/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="3945">
+          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1260">
+          <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/read/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="2325">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="870">
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1065">
+          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="870">
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -465,6 +580,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.60913706" vertical-offset="0" max-vertical-offset="615">
           <caret line="26" column="2" selection-start-line="26" selection-start-column="2" selection-end-line="26" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/silo/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
+          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -473,9 +595,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#22#31#0" expanded="true" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/asana/settings/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3945">
+          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/htdocs/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1260">
+          <caret line="5" column="38" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -483,18 +619,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="870">
           <caret line="27" column="8" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/htdocs/silo/views.py">
+    <entry file="file://$PROJECT_DIR$/htdocs/read/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10152284" vertical-offset="345" max-vertical-offset="1065">
-          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+        <state vertical-scroll-proportion="-1.8781726" vertical-offset="1335" max-vertical-offset="2325">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
           <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
