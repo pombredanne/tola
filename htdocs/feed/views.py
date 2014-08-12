@@ -8,7 +8,7 @@ from silo.models import Silo, DataField, ValueStore
 from feed.serializers import SiloSerializer,DataFieldSerializer,ValueStoreSerializer
 from feed.models import Feed
 from django.shortcuts import render_to_response
-import dicttoxml,json
+import json
 import unicodedata
 from django.core import serializers
 from django.utils import simplejson
@@ -64,12 +64,12 @@ def customFeed(request,id):
 
     #loop over the lables and populate the first list with lables
     for label in queryset:
-      #append the label to the list
-      formatted_data.append(label.name)
-      valueset = ValueStore.objects.filter(field__id=label.id)
-      #loop over the values and append the values for each label
-      for val in valueset:
-        formatted_data.append(val.char_store)
+        #append the label to the list
+        formatted_data.append(label.name)
+        valueset = ValueStore.objects.filter(field__id=label.id)
+        #loop over the values and append the values for each label
+        for val in valueset:
+            formatted_data.append(val.char_store)
 
     #output list to json
     jsonData = simplejson.dumps(formatted_data)
@@ -77,31 +77,31 @@ def customFeed(request,id):
 
 #Feeds
 def listFeeds(request):
-  	"""
-  	Get all Silos and Link to REST API pages
-  	"""
-  	#get all of the silos
-  	getSilos = Silo.objects.all()
+    """
+    Get all Silos and Link to REST API pages
+    """
+    #get all of the silos
+    getSilos = Silo.objects.all()
 
-  	return render(request, 'feed/list.html',{'getSilos': getSilos})
+    return render(request, 'feed/list.html',{'getSilos': getSilos})
 
 def createFeed(request):
-  	"""
-  	Create an XML or JSON Feed from a given Silo
-  	"""
-  	getSilo = ValueStore.objects.filter(field__silo__id=request.POST['silo_id'])
+    """
+    Create an XML or JSON Feed from a given Silo
+    """
+    getSilo = ValueStore.objects.filter(field__silo__id=request.POST['silo_id'])
 
-  	#return a dict with label value pair data
-  	formatted_data = siloToDict(getSilo)
+    #return a dict with label value pair data
+    formatted_data = siloToDict(getSilo)
 
-  	getFeedType = FeedType.objects.get(pk = request.POST['feed_type'])
+    getFeedType = FeedType.objects.get(pk = request.POST['feed_type'])
 
-  	if getFeedType.description == "XML":
-  		xmlData = serialize(formatted_data)
-  		return render(request, 'feed/xml.html', {"xml": xmlData}, content_type="application/xhtml+xml")
-  	elif getFeedType.description == "JSON":
-  		jsonData = simplejson.dumps(formatted_data)
-  		return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
+    if getFeedType.description == "XML":
+        xmlData = serialize(formatted_data)
+        return render(request, 'feed/xml.html', {"xml": xmlData}, content_type="application/xhtml+xml")
+    elif getFeedType.description == "JSON":
+        jsonData = simplejson.dumps(formatted_data)
+        return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
 
 def createDynamicModel(request):
     """
@@ -126,9 +126,9 @@ def createDynamicModel(request):
 
 #DELETE-FEED
 def deleteFeed(request,id):
-  	"""
-  	Delete a feed
-  	"""
-  	deleteFeed = Feed.objects.get(pk=id).delete()
+    """
+    Delete a feed
+    """
+    deleteFeed = Feed.objects.get(pk=id).delete()
 
-  	return render(request, 'feed/delete.html')
+    return render(request, 'feed/delete.html')
