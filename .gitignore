@@ -26,3 +26,6 @@ frds-venv/
 
 #allvritualenv
 venv/
+
+.idea/
+
