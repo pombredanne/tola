@@ -196,8 +196,6 @@ DJANGO_APPS = (
 )
 
 THIRD_PARTY_APPS = (
-    # Database migration helpers:
-    'south',
     'rest_framework',
     'django_tables2',
     'crispy_forms',

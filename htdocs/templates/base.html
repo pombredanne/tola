@@ -1,78 +1,137 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>{% block title %}Asana Data{% endblock title %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Mercy Corps Application">
+        <meta name="author" content="Mercy Corps">
 
-    <!-- Le styles -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
-    <link href="{% static 'css/bootstrap-responsive.min.css' %}" rel="stylesheet">
+        <title>{% block title %} Mercy Corps - Security Incident Application {% endblock %}</title>
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+        <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" type="image/png">
 
-    <!-- This file store project specific CSS -->
-    <link href="{% static 'css/project.css' %}" rel="stylesheet">
-		<link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
-    <!-- Use this to quickly test CSS changes in a template,
-        then move to project.css -->
-    {% block extra_css %}{% endblock extra_css %}
-  </head>
+        <!-- Bootstrap -->
+        <link href="{{ STATIC_URL}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-  <body>
+        <!-- JQuery UI CSS -->
+        <link href="{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.10.4.min.css" rel="stylesheet" type="text/css" />
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
+        <!-- Custom Footer CSS -->
+        <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" type="text/css">
+
+        <!--- Django Tables2 css -->
+        <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+
+        {% block extra_js_in_header %}
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+
+        <!-- App specific Javascript -->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
+        {% endblock %}
+
+    </head>
+    <body>
+        <!--http://getbootstrap.com/examples/sticky-footer-navbar/-->
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img style="margin-top: -18px" width="150px" height="61px" src="{{ STATIC_URL }}/img/logo.gif" />
+                </a>
+
+            </div>
+            <div class="navbar-collapse collapse" role=navigation">
+                <ul class="nav navbar-nav">
+                    <li class="{{ home_tab }}"><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Asana<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class="active"><a href="/read">Data Source</a></li>
+                            <li class="active"><a href="/feed">Share Data</a></li>
+                            <li class="active"><a href="/display">Edit Data</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="/indicators/home">Indicators</a></li>
+
+                </ul>
+            </div><!-- .navbar-header collapse -->
+            </div><!-- .container collapse -->
+        </div><!-- .navbar collapse -->
+
+
+
         <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Asana Data</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="/home">Home</a></li>
-              <li class="active"><a href="/read">Read</a></li>
-              <li class="active"><a href="/feed">Feed</a></li>
-              <li class="active"><a href="/display">Display</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="/indicators/home">Indicators</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-    <div class="container">
 
-      <h1>{% block page_title %}{% endblock page_title %}</h1>
+            <!-- breadcrumb section -->
+            {% if home_tab != "active" %}
+            <ol class="breadcrumb">
+                {% block breadcrumbs %}<li><a href="{% url 'index' %}"> Home </a></li>{% endblock %}
+            </ol>
+            {% else %}
+              <br/>
+              <br/>
+            {% endif %}
 
-      {% block content %}
-        
-      {% endblock content %}
+            <div id = "alerts">
+                <!-- Any messages for users -->
+                {% block messages %}
+                    {% if messages %}
+                            {% for message in messages %}
+                                    {% if 'safe' in message.tags %}
+                                        <div class="alert alert-{{message.tags}}">{{ message|safe }}</div>
+                                    {% else %}
+                                        <div class="alert alert-{{message.tags}}">{{ message }}</div>
+                                    {% endif %}
+                            {% endfor %}
+                    {% endif %}
+                {% endblock messages %}
+            </div>
+            <br/>
+            <!-- Page title  -->
+            <h2>{% block page_title %}{% endblock %}</h2>
 
-    </div> <!-- /container -->
+            <!-- Main body content -->
+            <p>{% block content %}{% endblock %}</p>
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        </div><!-- .container collapse -->
 
-    <!-- place project specific Javascript in this file -->
-    <script src="{% static 'js/project.js' %}"></script>
+        <div id = "loading" class="modal"> </div>
+        <div id="footer"><!-- Sticky Footer -->
+            <div class="container">
+                <span style="float: left;" class="text-muted">
+                    Creative Commons License {% now "Y" %}
+                </span>
+                <span style="float:right;" class="text-muted">
+                  <a href="{% url 'documentation' %}" class="text-muted">Documentation</a> |
+			            <a href="{% url 'faq' %}" class="text-muted">FAQ</a> |
+			            <a href="{% url 'contact' %}" class="text-muted">Feedback</a>
+                </span>
+            </div>
 
-    {% block extra_js %}{% endblock extra_js %}
-  </body>
+        </div><!-- .footer collapse -->
+
+        <!-- jQuery UI (necessary for datepicker as well as dataTables library -->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.10.4.min.js"></script>
+
+        <!-- data tables jquery javascript library -->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.dataTables.min.js"></script>
+
+        <!-- Bootstrap compiled javascript plugins -->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+
+        {% block extra_js_in_body %}{% endblock %}
+    </body>
 </html>
+

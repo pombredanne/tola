@@ -47,8 +47,8 @@ urlpatterns = patterns('',
 	#rest framework
 	url(r'^api/$',feed,name='api_root'),
 	url(r'^api/(?P<pk>[0-9]+)/$',feed_detail,name='feed-detail'),
-  url(r'^api/(?P<pk>[0-9]+)/fields/$',field_list, name='field-list'),
-  url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$',value_list, name='value-list'),
+    url(r'^api/(?P<pk>[0-9]+)/fields/$',field_list, name='field-list'),
+    url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$',value_list, name='value-list'),
 
 	#rest Custom Feed
 	url(r'^api/custom/(?P<id>[0-9]+)/$','feed.views.customFeed',name='customFeed'),
@@ -133,6 +133,11 @@ urlpatterns = patterns('',
 
 	#delete a feed
 	url(r'^feed_delete','feed.views.deleteFeed', name='deleteFeed'),
+
+    #home
+    url(r'^contact', 'display.views.contact', name='contact'),
+    url(r'^faq', 'display.views.faq', name='faq'),
+    url(r'^documentation', 'display.views.documentation', name='documentation'),
 
 )
 

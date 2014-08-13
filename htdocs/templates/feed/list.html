@@ -2,12 +2,12 @@
 {% block page_title %}Feeds{% endblock %}
 
 {% block content %}
-<h2>List of current Feeds available</h2>
+<h2>List of currently Shared data</h2>
 {% for item in getSilos %}
-	<li>Feed: {{ item.name }}
+	<li>Shares: {{ item.name }}
 			<ul>
-			<li>Default Feed URL: <a href="/api/{{ item.id }}" target="_new">{{ item.name }}</a></li>
-			<li>Full Data Feed URL: <a href="/api/custom/{{ item.id }}" target="_new">{{ item.name }}</a></li>
+			<li>Default Shared URL: <a href="/api/{{ item.id }}" target="_new">{{ item.name }}</a></li>
+			<li>Full Shared URL: <a href="/api/custom/{{ item.id }}" target="_new">{{ item.name }}</a></li>
 			</ul>
 	</li>
 {% endfor %}
