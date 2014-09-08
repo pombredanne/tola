@@ -1,12 +1,20 @@
+import calendar
+import time
 import datetime
+import hmac
 import urllib2
 import json
 import base64
+import urlparse
+import hashlib
 
-from django.http import HttpResponseRedirect
+
+from django.http import HttpResponseRedirect, Http404
 from silo.models import Silo, DataField, ValueStore
+#from twisted.python import hashlib
+from .models import Token
 from read.models import Read
-from read.forms import ReadForm
+from forms import ReadForm, TokenFormSet
 from django.shortcuts import render_to_response
 from django.shortcuts import render
 
@@ -16,56 +24,64 @@ List of Current Read sources that can be updated or edited
 def home(request):
     getReads = Read.objects.all()
 
-    return render(request, 'read/home.html', {'getReads': getReads, })
+    return render(request, 'readtoken/home.html', {'getReads': getReads, })
+
+
+"""
+Select a silo to store a new data set
+"""
+def getSilo(request, id):
+    # get all of the silo info to pass to the form
+    get_silo = Silo.objects.all()
+
+    # display login form
+    return render(request, 'readtoken/silo.html', {'get_silo': get_silo, 'read_id': id})
 
 
 """
 Create a form to get feed info then save data to Read 
-and re-direct to getJSON funtion
+and re-direct to getJSON function
 """
 def initRead(request):
     if request.method == 'POST':  # If the form has been submitted...
         form = ReadForm(request.POST)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
-            new_read = form.save()
-            return HttpResponseRedirect('/login')  # Redirect after POST to getLogin
-    else:
-        form = ReadForm()  # An unbound form
+            read = form.save()
+            read_id = read.pk
 
-    return render(request, 'read/read.html', {
-        'form': form,
+            token_formset = TokenFormSet(request.POST, instance=read)
+            if token_formset.is_valid():
+                token_formset.save()
+                return HttpResponseRedirect('/readtoken/silo/' + str(read_id))  # Redirect after POST to getLogin
+    else:
+        form = ReadForm
+        formset = TokenFormSet(instance=Read())  # An unbound form
+
+    return render(request, 'readtoken/read.html', {
+        'form': form, 'formset': formset, 'read_id': id,
     })
 
 """
 Show a read data source and allow user to edit it
 """
 def showRead(request, id):
+    print "AT SHOW READ"
     getRead = Read.objects.get(pk=id)
 
     if request.method == 'POST':  # If the form has been submitted...
-        form = ReadForm(request.POST, instance=getRead)  # A form bound to the POST data
+        form = TokenFormSet(request.POST, instance=getRead)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
-            new_read = form.save()
-            return HttpResponseRedirect('/login')  # Redirect after POST to getLogin
+            form.save()
+            go_to = '/readtoken/silo/' + id
+            return HttpResponseRedirect(go_to)  # Redirect after POST to getLogin
     else:
-        form = ReadForm(instance=getRead)  # An unbound form
+        form = TokenFormSet(instance=getRead)  # An unbound form
 
-    return render(request, 'read/read.html', {
-        'form': form, 'read_id': id,
+    return render(request, 'readtoken/edit_read.html', {
+        'form': form, 'read_id': id
     })
-
-"""
-Some services require a login provide user with a
-login to service if needed and select a silo
-"""
-def getLogin(request):
-    # get all of the silo info to pass to the form
-    get_silo = Silo.objects.all()
-
-    # display login form
-    return render(request, 'read/login.html', {'get_silo': get_silo})
 
 
 """
@@ -73,29 +89,53 @@ Get JSON feed info from form then grab data
 """
 def getJSON(request):
     # retrieve submitted Feed info from database
-    read_obj = Read.objects.latest('id')
+    read_obj = Read.objects.get(id=request.POST['id'])
+    token_obj = Token.objects.get(read__id=request.POST['id'])
+
     # set date time stamp
     today = datetime.date.today()
     today.strftime('%Y-%m-%d')
     today = str(today)
+
+    #print tko.query
+    print read_obj.owner_id
+
     #New silo or existing
     if request.POST['new_silo']:
-        print "NEW"
-        new_silo = Silo(name=request.POST['new_silo'], source=read_obj, owner=read_obj.owner, create_date=today)
+        new_silo = Silo(name=request.POST['new_silo'], source=read_obj, create_date=today, owner_id=read_obj.owner_id)
         new_silo.save()
         silo_id = new_silo.id
     else:
         print "EXISTING"
         silo_id = request.POST['silo_id']
 
+
     #get auth info from form post then encode and add to the request header
-    username = request.POST['user_name']
-    password = request.POST['password']
-    base64string = base64.encodestring('%s:%s' % (username, password))[:-1]
-    request = urllib2.Request(read_obj.read_url)
-    request.add_header("Authorization", "Basic %s" % base64string)
+    token = token_obj.read_token
+    ms = int(round(time.time() * 1000))
+    secret = bytes(token_obj.read_secret).encode("utf-8")
+
+    #url =http://demo.devresults.com/api + path + token + timestamp
+    apiUrl = read_obj.read_url + "/?t=%s&ms=%s" % (token, ms)
+
+    #parse url into components
+    uri = urlparse.urlparse(apiUrl)
+    queryValues = urlparse.parse_qs(uri.query)
+
+    #sort keys from query string
+    sortedKeys = queryValues.keys()
+    sortedKeys.sort()
+
+    signature = reduce(lambda x, y: x + y,
+        map(lambda key: key + "|" + queryValues[key][0] + "|", sortedKeys))
+    sigbytes = bytes(signature).encode("utf-8")
+
+    hashedSignature = hmac.new(secret, sigbytes, digestmod=hashlib.sha256).hexdigest()
+    apiUrl += ("&s=%s" % hashedSignature)
+
+    print apiUrl
     #retrieve JSON data from formhub via auth info
-    json_file = urllib2.urlopen(request)
+    json_file = urllib2.urlopen(apiUrl)
 
     #create object from JSON String
     data = json.load(json_file)
@@ -111,7 +151,7 @@ def getJSON(request):
     getFields = DataField.objects.filter(silo_id=silo_id)
 
     #send the keys and vars from the json data to the template along with submitted feed info and silos for new form
-    return render_to_response("read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
+    return render_to_response("readtoken/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
 
 
 """
@@ -123,7 +163,7 @@ def updateUID(request):
 
     get_silo = ValueStore.objects.all().filter(field__silo_id=request.POST['silo_id'])
 
-    return render(request, "read/show-data.html", {'get_silo': get_silo})
+    return render(request, "readtoken/show-data.html", {'get_silo': get_silo})
 
 
 """

@@ -8,7 +8,7 @@
         <meta name="description" content="Mercy Corps Application">
         <meta name="author" content="Mercy Corps">
 
-        <title>{% block title %} Mercy Corps - Security Incident Application {% endblock %}</title>
+        <title>{% block title %} AsanaData - Collect, Aggregate and Store Data {% endblock %}</title>
 
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" type="image/png">
 
@@ -56,7 +56,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Asana<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li class="active"><a href="/read">Data Source</a></li>
+                            <li class="active"><a href="/read/home">Data Source</a>
+                                <li class="active"><a href="/readtoken/home">Token Data Source</a></li>
+                            </li>
                             <li class="active"><a href="/feed">Share Data</a></li>
                             <li class="active"><a href="/display">Edit Data</a></li>
 
@@ -71,19 +73,8 @@
         </div><!-- .navbar collapse -->
 
 
-
         <div class="container">
-
-            <!-- breadcrumb section -->
-            {% if home_tab != "active" %}
-            <ol class="breadcrumb">
-                {% block breadcrumbs %}<li><a href="{% url 'index' %}"> Home </a></li>{% endblock %}
-            </ol>
-            {% else %}
-              <br/>
-              <br/>
-            {% endif %}
-
+            <br/>
             <div id = "alerts">
                 <!-- Any messages for users -->
                 {% block messages %}

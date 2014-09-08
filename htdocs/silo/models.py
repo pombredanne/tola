@@ -19,7 +19,7 @@ class Silo(models.Model):
         return self.name
 
 class SiloAdmin(admin.ModelAdmin):
-    list_display = ('owner','name','source','description','create_date')
+    list_display = ('owner', 'name', 'source', 'description', 'create_date')
     display = 'Data Feeds'
 
 class DataField(models.Model):
@@ -48,5 +48,5 @@ class ValueStore(models.Model):
         return self.char_store
 
 class ValueStoreAdmin(admin.ModelAdmin):
-    list_display = ('field','char_store','create_date','edit_date')
+    list_display = ('field', 'char_store', 'create_date', 'edit_date')
     display = 'Stored Values'

@@ -199,16 +199,18 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'django_tables2',
     'crispy_forms',
+    'django_extensions',
     #'mongoengine'
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-	'feed',
+    'feed',
     'read',
     'display',
     'silo',
     'indicators',
+    'readtoken',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
