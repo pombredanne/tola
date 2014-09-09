@@ -10,3 +10,4 @@ class ReadForm(ModelForm):
 
 
 TokenFormSet = inlineformset_factory(Read, Token, fields=('read_token', 'read_secret'), can_delete=False, extra=1)
+EditTokenFormSet = inlineformset_factory(Read, Token, fields=('read_token', 'read_secret'), can_delete=False, extra=0)
