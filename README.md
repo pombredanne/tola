@@ -1,4 +1,4 @@
-Jore Data
+Tola Data
 ====
 Share, Load, Edit and Display data from various mobile data collection platforms.
 
