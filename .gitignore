@@ -27,5 +27,6 @@ frds-venv/
 #allvritualenv
 venv/
 
+#Misc.
 .idea/
-
+.DS_Store
