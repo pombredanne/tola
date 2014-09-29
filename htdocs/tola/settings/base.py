@@ -199,6 +199,7 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'django_tables2',
     'crispy_forms',
+    'floppyforms',
     'django_extensions',
     #'mongoengine'
 )
@@ -255,3 +256,5 @@ LOGGING = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
 ########## END WSGI CONFIGURATION
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

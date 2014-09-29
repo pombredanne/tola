@@ -8,7 +8,7 @@
         <meta name="description" content="Mercy Corps Application">
         <meta name="author" content="Mercy Corps">
 
-        <title>{% block title %} AsanaData - Collect, Aggregate and Store Data {% endblock %}</title>
+        <title>{% block title %} TolaData - Collect, Aggregate and Store Data {% endblock %}</title>
 
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" type="image/png">
 
@@ -54,18 +54,22 @@
                     <li class="{{ home_tab }}"><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Asana<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Load Data<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li class="active"><a href="/read/home">Data Source</a>
-                                <li class="active"><a href="/readtoken/home">Token Data Source</a></li>
-                            </li>
-                            <li class="active"><a href="/feed">Share Data</a></li>
-                            <li class="active"><a href="/display">Edit Data</a></li>
+                            <li><a href="/read/home"><span class="glyphicon glyphicon-th-list"></span> Data Source</a></li>
+                            <li><a href="/readtoken/home"><span class="glyphicon glyphicon-th-list"></span> Token Data Source</a></li>
+                        </ul>
+                    </li>
 
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Share Data<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/feed"><span class="glyphicon glyphicon-upload"></span> Share Data</a></li>
+                            <li><a href="/display"><span class="glyphicon glyphicon-edit"></span> Edit Data</a></li>
                         </ul>
                     </li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="/indicators/home">Indicators</a></li>
+                    <!--<li><a href="/indicators/home">Indicators</a></li>-->
 
                 </ul>
             </div><!-- .navbar-header collapse -->

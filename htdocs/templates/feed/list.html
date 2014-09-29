@@ -1,15 +1,16 @@
 {% extends "base.html" %}
-{% block page_title %}Feeds{% endblock %}
+{% block page_title %}Shareable Data{% endblock %}
 
 {% block content %}
-<h2>List of currently Shared data</h2>
 {% for item in getSilos %}
-	<li>Shares: {{ item.name }}
-			<ul>
-			<li>Default Shared URL: <a href="/api/{{ item.id }}" target="_new">{{ item.name }}</a></li>
-			<li>Full Shared URL: <a href="/api/custom/{{ item.id }}" target="_new">{{ item.name }}</a></li>
-			</ul>
-	</li>
+	<a href="#" class="list-group-item active"><b>{{ item.name }}</b></a>
+	<ul class="list-group">
+		<li class="list-group-item">Default REST API: <a href="/api/{{ item.id }}" target="_new">{{ item.name }}</a></li>
+		<li class="list-group-item">JSON URL: <a href="/api/custom/{{ item.id }}" target="_new">{{ item.name }}</a></li>
+        <li class="list-group-item"><a href="/export/{{ item.id }}" class="btn btn-sm btn-info">Export to Excel/CSV</a></li>
+	</ul>
+
+
 {% endfor %}
 
 

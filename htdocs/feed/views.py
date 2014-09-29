@@ -12,7 +12,7 @@ import json
 import unicodedata
 from django.core import serializers
 from django.utils import simplejson
-from asana.util import siloToDict
+from tola.util import siloToDict
 from rest_framework import generics
 from rest_framework import permissions
 from django.contrib.auth.models import User
@@ -23,7 +23,10 @@ from rest_framework.decorators import link, api_view
 from rest_framework.views import APIView
 from rest_framework import filters
 from itertools import chain
+from export import SiloResource
+from django.views.generic.detail import View
 import operator
+import csv
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -102,6 +105,42 @@ def createFeed(request):
     elif getFeedType.description == "JSON":
         jsonData = simplejson.dumps(formatted_data)
         return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
+
+def export_silo(request, id):
+    """
+    Export a silo to a CSV file
+    """
+    getSilo = ValueStore.objects.filter(field__silo__id=id)
+
+    #return a dict with label value pair data
+    formatted_data = siloToDict(getSilo)
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+
+    writer = csv.writer(response)
+
+    sorted_formatted_data = sorted(formatted_data.items(), key=operator.itemgetter(0))
+
+    list_of_keys = []
+    for key in sorted_formatted_data:
+        if key in list_of_keys:
+            print "dupe"
+        else:
+            list_of_keys = list_of_keys.append(key)
+            writer.writerow(key)
+            print key
+
+    print list_of_keys
+
+    for column in list_of_keys:
+        for key, value in sorted_formatted_data.items():
+            if key == column:
+                writer.writerow([value])
+                print value
+
+    return response
+
 
 def createDynamicModel(request):
     """

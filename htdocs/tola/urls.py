@@ -127,6 +127,7 @@ urlpatterns = patterns('',
 
                        ###FEED
                        url(r'^feed', 'feed.views.listFeeds', name='listFeeds'),
+                       url(r'^export/(?P<id>\w+)/$', 'feed.views.export_silo', name='export_silo'),
 
                        #create a feed
                        url(r'^create_feed', 'feed.views.createFeed', name='createFeed'),

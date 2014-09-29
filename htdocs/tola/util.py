@@ -12,7 +12,7 @@ def siloToDict(silo):
 		
 		key_value = key_value + 1
 		
-		print parsed_data
+		#print parsed_data
 	
 	return parsed_data	
 
