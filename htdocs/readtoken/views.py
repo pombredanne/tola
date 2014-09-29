@@ -14,7 +14,7 @@ from silo.models import Silo, DataField, ValueStore
 #from twisted.python import hashlib
 from .models import Token
 from read.models import Read
-from forms import ReadForm, TokenFormSet
+from forms import ReadForm, TokenFormSet, EditTokenFormSet
 from django.shortcuts import render_to_response
 from django.shortcuts import render
 
@@ -43,6 +43,10 @@ Create a form to get feed info then save data to Read
 and re-direct to getJSON function
 """
 def initRead(request):
+
+    form = ReadForm
+    formset = TokenFormSet(instance=Read())  # An unbound form
+
     if request.method == 'POST':  # If the form has been submitted...
         form = ReadForm(request.POST)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
@@ -54,9 +58,7 @@ def initRead(request):
             if token_formset.is_valid():
                 token_formset.save()
                 return HttpResponseRedirect('/readtoken/silo/' + str(read_id))  # Redirect after POST to getLogin
-    else:
-        form = ReadForm
-        formset = TokenFormSet(instance=Read())  # An unbound form
+
 
     return render(request, 'readtoken/read.html', {
         'form': form, 'formset': formset, 'read_id': id,
@@ -66,21 +68,21 @@ def initRead(request):
 Show a read data source and allow user to edit it
 """
 def showRead(request, id):
-    print "AT SHOW READ"
     getRead = Read.objects.get(pk=id)
 
+    form = ReadForm(instance=getRead)
+    formset = EditTokenFormSet(instance=getRead)  # An unbound form
+
     if request.method == 'POST':  # If the form has been submitted...
-        form = TokenFormSet(request.POST, instance=getRead)  # A form bound to the POST data
+        form = EditTokenFormSet(request.POST, instance=getRead)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
             form.save()
-            go_to = '/readtoken/silo/' + id
-            return HttpResponseRedirect(go_to)  # Redirect after POST to getLogin
-    else:
-        form = TokenFormSet(instance=getRead)  # An unbound form
+
+        return HttpResponseRedirect('/readtoken/silo/' + str(getRead.id))  # Redirect after POST to getLogin
 
     return render(request, 'readtoken/edit_read.html', {
-        'form': form, 'read_id': id
+        'form': form, 'formset': formset, 'read_id': id,
     })
 
 

@@ -3,9 +3,8 @@
 
 {% block content %}
 	<p>Edit Silo {{ silo_id }}</p>
-	<form action="/silo_edit/{{ silo_id }}/" method="post">
-	{{ form.as_p }}
-	<input type="submit" value="Submit" />
-	</form>
+	{% csrf_token %}
+    {% load crispy_forms_tags %}
+    {% crispy form %}
 
 {% endblock content %}

@@ -4,17 +4,19 @@
 {% block content %}
 	<h3>View a Silo</h3>
 	<p>Select a Silo of Data to view the sources</p>
-	<ul>
+	<ul class="list-group">
 			{% for item in get_silos %}
-				<li>Silo: <a href="/silo_detail/{{ item.id }}">{{ item.name }}</a>
-						<ul>
-						<li>Source: <a href="/show_read/{{ item.source.id }}">{{ item.source }}</a></li>
-						<li>Description: {{ item.source.description }}</li>
-						<li>
-								<a href="/silo_edit/{{ item.id }}">Edit Silo</a> | 
-								<a href="/merge/{{ item.id }}">Merge Silo</a> | 
-								<a href="/silo_delete/{{ item.id }}">Delete Silo</a>
-						</li>
+				<li class="list-group-item active"><h4>Silo: <a href="/silo_detail/{{ item.id }}">{{ item.name }}</h4></a>
+						<ul class="list-group">
+						<li class="list-group-item">Source: <a href="/show_read/{{ item.source.id }}">{{ item.source }}</a></li>
+						<li class="list-group-item">Description: {{ item.source.description }}</li>
+						<li class="list-group-item">
+                                <div class="btn-group">
+								<a href="/silo_edit/{{ item.id }}" class="btn btn-sm btn-success">Edit Silo</a>
+								<a href="/merge/{{ item.id }}" class="btn btn-sm btn-info">Merge Silo</a>
+								<a href="/silo_delete/{{ item.id }}" class="btn btn-sm btn-warning">Delete Silo</a>
+                                </div>
+						</li class="list-group-item">
 						</ul>
 				</li>
 			{% endfor %}
