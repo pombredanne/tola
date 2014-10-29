@@ -5,6 +5,8 @@ from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import renderers
+from django.conf import settings
+from django.conf.urls.static import static
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -78,6 +80,9 @@ urlpatterns = patterns('',
                        #login form
                        url(r'^login', 'read.views.getLogin', name='getLogin'),
 
+                       #upload form
+                       url(r'^file/(?P<id>\w+)/$', 'read.views.uploadFile', name='uploadFile'),
+
                        #getJSON data
                        url(r'^json', 'read.views.getJSON', name='getJSON'),
 
@@ -144,6 +149,6 @@ urlpatterns = patterns('',
                        #app include of readtoken urls
                        url(r'^readtoken/', include('readtoken.urls')),
 
-)
+)  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns = format_suffix_patterns(urlpatterns)
