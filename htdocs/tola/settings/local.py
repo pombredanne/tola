@@ -54,6 +54,11 @@ DATABASES = {
 
 ########## END DATABASE CONFIGURATION
 
+########## GOOGLE CLIENT CONFIG ###########
+GOOGLE_STEP2_URI = 'http://tola.mercycorps.org/gwelcome'
+GOOGLE_CLIENT_ID = '617113120802.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '9reM29qpGFPyI8TBuB54Z4fk'
+
 
 ########## CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
