@@ -1,36 +1,24 @@
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.template import Context, loader
-import os
-from django.http import HttpResponseRedirect
-from django.db import models
 from silo.models import Silo, DataField, ValueStore
 from feed.serializers import SiloSerializer,DataFieldSerializer,ValueStoreSerializer
 from feed.models import Feed
-from django.shortcuts import render_to_response
-import json
-import unicodedata
-from django.core import serializers
+from django.contrib.auth.decorators import login_required
 from django.utils import simplejson
 from tola.util import siloToDict
-from rest_framework import generics
-from rest_framework import permissions
-from django.contrib.auth.models import User
+from google import google_export_xls
+from django.template import RequestContext
+
 from rest_framework import renderers,viewsets
-from rest_framework.response import Response
-from rest_framework.reverse import reverse
-from rest_framework.decorators import link, api_view
-from rest_framework.views import APIView
-from rest_framework import filters
-from itertools import chain
-from export import SiloResource
-from django.views.generic.detail import View
+
 import operator
 import csv
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseForbidden,\
+    HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest,\
+    HttpResponse
+from django.shortcuts import render_to_response, get_object_or_404, redirect, render
+
 
 class FeedViewSet(viewsets.ModelViewSet):
     """
@@ -65,7 +53,7 @@ def customFeed(request,id):
 
     formatted_data = []
 
-    #loop over the lables and populate the first list with lables
+    #loop over the labels and populate the first list with lables
     for label in queryset:
         #append the label to the list
         formatted_data.append(label.name)
@@ -171,3 +159,35 @@ def deleteFeed(request,id):
     deleteFeed = Feed.objects.get(pk=id).delete()
 
     return render(request, 'feed/delete.html')
+
+"""
+Get token for google user
+"""
+def _get_google_token(request, redirect_to_url):
+    token = None
+    if request.user.is_authenticated():
+        try:
+            ts = TokenStorageModel.objects.get(id=request.user)
+        except TokenStorageModel.DoesNotExist:
+            pass
+        else:
+            token = ts.token
+    elif request.session.get('access_token'):
+        token = request.session.get('access_token')
+    if token is None:
+        request.session["google_redirect_url"] = redirect_to_url
+        return HttpResponseRedirect(redirect_uri)
+    return token
+"""
+Export a silo to google
+"""
+#@login_required
+def export_google(request, id):
+
+    context = RequestContext(request)
+    context.username = request.user
+
+    exports = ValueStore.objects.filter(field__silo__id=id)
+    context.exports = exports
+    google_export_xls(filename, exports.silo_name, token, exports)
+    return render_to_response('export_list.html', context_instance=context)

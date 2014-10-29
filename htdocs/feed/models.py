@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib import admin
-from silo.models import Silo,DataField,ValueStore
-	
+from django.contrib.auth.models import User
+from silo.models import Silo
+
 class Feed(models.Model):
 	owner = models.ForeignKey('auth.User')
 	source = models.ForeignKey(Silo)
@@ -16,3 +17,10 @@ class Feed(models.Model):
 class FeedAdmin(admin.ModelAdmin):
 	list_display = ('owner','feed_type_id','feed_name','feed_url','description','create_date')
 	display = 'Data Feeds'
+
+class TokenStorageModel(models.Model):
+    id = models.ForeignKey(User, primary_key=True, related_name='google_id')
+    token = models.TextField()
+
+    class Meta:
+        app_label = 'main'

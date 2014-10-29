@@ -35,4 +35,4 @@ class Read(models.Model):
 class ReadAdmin(admin.ModelAdmin):
     list_display = ('owner','read_name','read_url','description','create_date')
     display = 'Read Data Feeds'
-	
+
