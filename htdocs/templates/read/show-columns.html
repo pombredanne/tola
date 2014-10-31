@@ -4,6 +4,7 @@
 {% block content %}
 	<p>Please Confirm data below, then select a unique record indicator field</p>
 	<form action="/update/" method="post">
+    {% csrf_token %}
 	<table border="1">
 	<tr>
 		<th>Column</th>

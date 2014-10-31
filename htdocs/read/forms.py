@@ -21,7 +21,7 @@ class ReadForm(forms.ModelForm):
 
     class Meta:
         model = Read
-        fields = ['read_name', 'read_url', 'description','type','file','file_data','owner']
+        fields = ['read_name', 'read_url', 'description','type','file_data','owner']
 
 
 class UploadForm(forms.Form):

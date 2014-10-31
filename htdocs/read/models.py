@@ -23,7 +23,6 @@ class Read(models.Model):
     read_url = models.CharField(max_length=100, blank=True, default='')
     description = models.TextField()
     create_date = models.DateTimeField(null=True, blank=True)
-    file = models.BooleanField(default=False)
     file_data = models.FileField("Upload CSV File", upload_to='uploads', blank=True, null=True)
 
     class Meta:

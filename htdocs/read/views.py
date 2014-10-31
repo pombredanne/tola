@@ -10,7 +10,7 @@ from read.models import Read
 from read.forms import ReadForm, UploadForm
 from django.shortcuts import render_to_response
 from django.shortcuts import render
-
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden,\
@@ -29,15 +29,22 @@ def home(request):
 
 """
 Create a form to get feed info then save data to Read 
-and re-direct to getJSON funtion
+and re-direct to getJSON function
 """
 def initRead(request):
     if request.method == 'POST':  # If the form has been submitted...
-        form = ReadForm(request.POST)  # A form bound to the POST data
+        form = ReadForm(request.POST, request.FILES)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
             new_read = form.save()
-            return HttpResponseRedirect('/login')  # Redirect after POST to getLogin
+            id = str(new_read.id)
+            if form.instance.file_data:
+                redirect = "file"
+            else:
+                redirect = "login"
+            return HttpResponseRedirect('/' + redirect + '/' + id)  # Redirect after POST to getLogin
+        else:
+            messages.error(request, 'Invalid Form', fail_silently=False)
     else:
         form = ReadForm()  # An unbound form
 
@@ -52,15 +59,17 @@ def showRead(request, id):
     getRead = Read.objects.get(pk=id)
 
     if request.method == 'POST':  # If the form has been submitted...
-        form = ReadForm(request.POST, instance=getRead)  # A form bound to the POST data
+        form = ReadForm(request.POST, request.FILES)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
             new_read = form.save()
-            if form.instance.file is False:
-                redirect = "login"
+            if form.instance.file_data:
+                redirect = "file"
             else:
                 redirect = "file"
             return HttpResponseRedirect('/' + redirect + '/' + id)  # Redirect after POST to getLogin
+        else:
+            messages.error(request, 'Invalid Form', fail_silently=False)
     else:
         form = ReadForm(instance=getRead)  # An unbound form
 
@@ -97,19 +106,27 @@ def uploadFile(request, id):
                 silo_id = request.POST['silo_id']
 
             #create object from JSON String
+            print read_obj.file_data
             data = csv.reader(read_obj.file_data)
-            #loop over data and insert create and edit dates and append to dict
+            #First row of CSV should be Column Headers
+            labels = data.next()
+            #start a row count and iterate over each row of data
+            row_num = 1
             for row in data:
-                for new_label, new_value in row.iteritems():
-                    if new_value is not "" and new_label is not None:
-                        #save to DB
-                        saveData(new_value, new_label, silo_id)
+                col_num = 0
+                if row_num > 1:
+                    for col in row:
+                        print labels[col_num]
+                        print col
+                        saveData(col, labels[col_num], silo_id, row_num)
+                        col_num = col_num + 1
+                row_num = row_num + 1
 
             #get fields to display back to user for verification
             getFields = DataField.objects.filter(silo_id=silo_id)
 
             #saved data now show the columns of data
-            return render_to_response("read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
+            return render(request, "read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
     else:
         form = UploadForm()  # An unbound form
 
@@ -164,11 +181,13 @@ def getJSON(request):
     data = json.load(json_file)
     json_file.close()
     #loop over data and insert create and edit dates and append to dict
+    row_num = 1
     for row in data:
         for new_label, new_value in row.iteritems():
             if new_value is not "" and new_label is not None:
                 #save to DB
-                saveData(new_value, new_label, silo_id)
+                saveData(new_value, new_label, silo_id, row_num)
+        row_num = row_num + 1
 
     #get fields to display back to user for verification
     getFields = DataField.objects.filter(silo_id=silo_id)
@@ -193,7 +212,7 @@ def updateUID(request):
 Function call no template associated with this
 Save file data into data store and silo
 """
-def saveData(new_value, new_label, silo_id):
+def saveData(new_value, new_label, silo_id, row_num):
     # Need a silo set object to gather silos into programs
     current_silo = Silo.objects.get(pk=silo_id)
     # set date time stamp
@@ -206,6 +225,6 @@ def saveData(new_value, new_label, silo_id):
         #get the field id
         latest = DataField.objects.latest('id')
 
-        new_value = ValueStore(field_id=latest.id, char_store=new_value, create_date=today, edit_date=today)
+        new_value = ValueStore(field_id=latest.id, char_store=new_value, create_date=today, edit_date=today, row_number=row_num)
 
         new_value.save()
