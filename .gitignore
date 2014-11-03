@@ -30,3 +30,4 @@ venv/
 #Misc.
 .idea/
 .DS_Store
+media/

@@ -70,8 +70,8 @@ def mergeColumns(request):
     """
     from_silo_id = request.POST["from_silo_id"]
     to_silo_id = request.POST["to_silo_id"]
-    getSourceFrom = DataField.objects.all().filter(silo__id=from_silo_id)
-    getSourceTo = DataField.objects.all().filter(silo__id=to_silo_id)
+    getSourceFrom = DataField.objects.all().filter(silo__id=from_silo_id).values('name').distinct()
+    getSourceTo = DataField.objects.all().filter(silo__id=to_silo_id).values('name').distinct()
 
    # definitions_list = [definition.encode("utf8") for definition in definitions.objects.values_list('title', flat=True)]
     source_list = getSourceTo.values_list("name", flat=True)

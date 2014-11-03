@@ -123,7 +123,7 @@ def uploadFile(request, id):
                 row_num = row_num + 1
 
             #get fields to display back to user for verification
-            getFields = DataField.objects.filter(silo_id=silo_id)
+            getFields = DataField.objects.filter(silo_id=silo_id).values('name').distinct()
 
             #saved data now show the columns of data
             return render(request, "read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
