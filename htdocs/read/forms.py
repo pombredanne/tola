@@ -18,6 +18,23 @@ class ReadForm(forms.ModelForm):
         self.helper.layout.append(Hidden('read_id', '{{read_id}}'))
         self.helper.layout.append(Submit('save', 'save'))
 
+
     class Meta:
         model = Read
-        fields = ['read_name', 'read_url', 'description','type','owner']
+        fields = ['read_name', 'read_url', 'description','type','file_data','owner']
+
+
+class UploadForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(UploadForm, self).__init__(*args, **kwargs)
+
+        # If you pass FormHelper constructor a form instance
+        # It builds a default layout with all its fields
+        self.helper = FormHelper(self)
+
+        # Append the read_id for edits and save button
+        self.helper.layout.append(Hidden('read_id', '{{read_id}}'))
+        self.helper.form_tag = False
+
+class FileField(Field):
+    template_name = 'filefield.html'

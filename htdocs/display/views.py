@@ -52,7 +52,7 @@ def siloDetail(request,id):
     table = SiloTable(ValueStore.objects.all().filter(field__silo_id=silo_id))
 
     #send the keys and vars from the json data to the template along with submitted feed info and silos for new form
-    return render(request,"display/stored_values.html", {'getSilo':table})
+    return render(request, "display/stored_values.html", {'getSilo':table})
 
 #SHOW-MERGE FORM
 def mergeForm(request,id):
@@ -61,7 +61,7 @@ def mergeForm(request,id):
     """
     getSource = Silo.objects.get(id=id)
     getSourceTo = Silo.objects.all()
-    return render_to_response("display/merge-form.html", {'getSource':getSource,'getSourceTo':getSourceTo})
+    return render(request, "display/merge-form.html", {'getSource':getSource,'getSourceTo':getSourceTo})
 
 #SHOW COLUMNS FOR MERGE FORM
 def mergeColumns(request):
@@ -70,13 +70,13 @@ def mergeColumns(request):
     """
     from_silo_id = request.POST["from_silo_id"]
     to_silo_id = request.POST["to_silo_id"]
-    getSourceFrom = DataField.objects.all().filter(silo__id=from_silo_id)
-    getSourceTo = DataField.objects.all().filter(silo__id=to_silo_id)
+    getSourceFrom = DataField.objects.all().filter(silo__id=from_silo_id).values('name').distinct()
+    getSourceTo = DataField.objects.all().filter(silo__id=to_silo_id).values('name').distinct()
 
    # definitions_list = [definition.encode("utf8") for definition in definitions.objects.values_list('title', flat=True)]
     source_list = getSourceTo.values_list("name", flat=True)
 
-    return render_to_response("display/merge-column-form.html", {'getSourceFrom':getSourceFrom, 'getSourceTo':getSourceTo, 'source_list':source_list, 'from_silo_id':from_silo_id, 'to_silo_id':to_silo_id})
+    return render(request, "display/merge-column-form.html", {'getSourceFrom':getSourceFrom, 'getSourceTo':getSourceTo, 'source_list':source_list, 'from_silo_id':from_silo_id, 'to_silo_id':to_silo_id})
 
 #EDIT A SINGLE VALUE STORE
 def valueEdit(request,id):
