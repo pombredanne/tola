@@ -98,13 +98,17 @@ def export_silo(request, id):
     """
     Export a silo to a CSV file
     """
-    getSilo = ValueStore.objects.filter(field__silo__id=id)
+    getSilo = ValueStore.objects.all().filter(field__silo__id=id)
 
     #return a dict with label value pair data
     formatted_data = siloToDict(getSilo)
+
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    getSiloName = Silo.objects.get(pk=id)
+    file = getSiloName.name + ".csv"
+
+    response['Content-Disposition'] = 'attachment; filename=file'
 
     writer = csv.writer(response)
 
@@ -112,20 +116,14 @@ def export_silo(request, id):
 
     list_of_keys = []
     for key in sorted_formatted_data:
-        if key in list_of_keys:
-            print "dupe"
-        else:
+        if not list_of_keys:
             list_of_keys = list_of_keys.append(key)
             writer.writerow(key)
-            print key
-
-    print list_of_keys
 
     for column in list_of_keys:
         for key, value in sorted_formatted_data.items():
             if key == column:
                 writer.writerow([value])
-                print value
 
     return response
 

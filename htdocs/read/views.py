@@ -59,7 +59,7 @@ def showRead(request, id):
     getRead = Read.objects.get(pk=id)
 
     if request.method == 'POST':  # If the form has been submitted...
-        form = ReadForm(request.POST, request.FILES)  # A form bound to the POST data
+        form = ReadForm(request.POST, request.FILES, instance=getRead)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
             new_read = form.save()
@@ -90,7 +90,7 @@ def uploadFile(request, id):
 
             # save data to read
             # retrieve submitted Feed info from database
-            read_obj = Read.objects.latest('id')
+            read_obj = Read.objects.get(pk=id)
             # set date time stamp
             today = datetime.date.today()
             today.strftime('%Y-%m-%d')
@@ -116,8 +116,6 @@ def uploadFile(request, id):
                 col_num = 0
                 if row_num > 1:
                     for col in row:
-                        print labels[col_num]
-                        print col
                         saveData(col, labels[col_num], silo_id, row_num)
                         col_num = col_num + 1
                 row_num = row_num + 1

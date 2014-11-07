@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template import Context, loader
-from datetime import date
+import datetime
 import os
 import urllib2
 import json
@@ -22,12 +22,18 @@ def doMerge(request):
     getSourceFrom = DataField.objects.all().filter(silo__id=from_silo_id)
     # update each column, set value to evaluated column name which will equal the selected value in from column drop down
     for column in getSourceFrom:
+        #print request.POST.get(column.name)
+        print "column name = "
+        print column.name
+        print " column name value = "
         print request.POST.get(column.name)
-        print column
+        #If it's a new column just update the column to use the new silo
         if request.POST.get(column.name) == "0":
-            insert = DataField.objects.filter(name=column.name).update(silo=to_silo_id)
-        else:
-            update = ValueStore.objects.filter(field__name=column.name).update(field=request.POST.get(column.name))
+            update_column_silo = DataField.objects.filter(name=column.name).update(silo=to_silo_id)
+        #if it's an existing column update the values to use the existing column
+        elif request.POST.get(column.name) != "Ignore" and request.POST.get(column.name) != "0":
+            update_column_name = DataField.objects.filter(name=column.name).update(name=request.POST.get(column.name), silo=to_silo_id)
+
     #delete silo and original fields
     deleteSilo = Silo.objects.get(pk=from_silo_id).delete()
     #get new combined silo values then display them
