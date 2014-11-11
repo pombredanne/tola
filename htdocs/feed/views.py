@@ -98,34 +98,49 @@ def export_silo(request, id):
     """
     Export a silo to a CSV file
     """
-    getSilo = ValueStore.objects.filter(field__silo__id=id)
+    getSiloRows = ValueStore.objects.all().filter(field__silo__id=id).values('row_number').distinct()
+    getColumns = DataField.objects.all().filter(silo__id=id).values('name').distinct()
 
     #return a dict with label value pair data
-    formatted_data = siloToDict(getSilo)
+    #formatted_data = siloToDict(getSilo)
+
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    getSiloName = Silo.objects.get(pk=id)
+    file = getSiloName.name + ".csv"
+
+    response['Content-Disposition'] = 'attachment; filename=file'
 
     writer = csv.writer(response)
 
-    sorted_formatted_data = sorted(formatted_data.items(), key=operator.itemgetter(0))
+    #create a list of column names
+    column_list = []
+    value_list = []
+    for column in getColumns:
+        column_list.append(str(column['name']))
+    #print the list of column names
+    writer.writerow(column_list)
 
-    list_of_keys = []
-    for key in sorted_formatted_data:
-        if key in list_of_keys:
-            print "dupe"
-        else:
-            list_of_keys = list_of_keys.append(key)
-            writer.writerow(key)
-            print key
+    #loop over each row of the silo
+    for row in getSiloRows:
+        getSiloColumns = ValueStore.objects.all().filter(field__silo__id=id, row_number=str(row['row_number'])).values_list('field__name', flat=True).distinct()
+        print "row"
+        print str(row['row_number'])
+        #get a column value for each column in the row
+        for x in column_list:
+            if x in getSiloColumns:
+                print x
+                getSiloValues = ValueStore.objects.get(field__silo__id=id, row_number=str(row['row_number']), field__name=x)
+                value_list.append(str(getSiloValues.char_store.encode(errors="ignore")))
+            else:
+                value_list.append("")
 
-    print list_of_keys
 
-    for column in list_of_keys:
-        for key, value in sorted_formatted_data.items():
-            if key == column:
-                writer.writerow([value])
-                print value
+        #print the row
+        writer.writerow(value_list)
+        value_list = []
+
+
 
     return response
 

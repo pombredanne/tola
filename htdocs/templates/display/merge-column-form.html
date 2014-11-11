@@ -15,11 +15,12 @@
 				<td align="middle">
                     <select name="{{ item.name }}">
                     {% for item2 in getSourceTo %}
-                        <option value="{{ item2.id }}" {% if item2.name == item.name %} selected="selected" {% endif %}>
+                        <option value="{{ item2.name }}" {% if item2.name|lower == item.name|lower %} selected="selected" {% endif %}>
                             {{ item2.name }}</option>
                     {% endfor %}
                     {% if item.name not in source_list %}
                         <option value="0" selected="selected">  New Column !!</option>
+                        <option name="Ignore">Ignore</option>
                     {% endif %}
                     </select>
                 </td>
