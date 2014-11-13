@@ -131,11 +131,3 @@ def fieldEdit(request,id):
 
     return render(request, 'read/field_edit.html', {'form': form,'field':field})
 
-def contact(request):
-    return render(request, 'contact.html')
-
-def faq(request):
-    return render(request, 'faq.html')
-
-def documentation(request):
-    return render(request, 'documentation.html')

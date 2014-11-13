@@ -142,9 +142,9 @@ urlpatterns = patterns('',
                        url(r'^feed_delete','feed.views.deleteFeed', name='deleteFeed'),
 
                        #home
-                       url(r'^contact', 'display.views.contact', name='contact'),
-                       url(r'^faq', 'display.views.faq', name='faq'),
-                       url(r'^documentation', 'display.views.documentation', name='documentation'),
+                       url(r'^contact', 'tola.views.contact', name='contact'),
+                       url(r'^faq', 'tola.views.faq', name='faq'),
+                       url(r'^documentation', 'tola.views.documentation', name='documentation'),
 
                        #app include of readtoken urls
                        url(r'^readtoken/', include('readtoken.urls')),
