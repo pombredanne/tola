@@ -1,11 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.template import Context, loader
-import datetime
-import os
-import urllib2
-import json
-import unicodedata
 from django.http import HttpResponseRedirect
 from django.db import models
 from silo.models import Silo, DataField, ValueStore, Read
@@ -13,6 +7,8 @@ from read.models import Read
 from silo.forms import SiloForm
 from django.shortcuts import render_to_response
 from django.shortcuts import render
+from django.db.models import Max
+from django.db.models import F
 
 
 # Merge 2 silos together.
@@ -20,13 +16,13 @@ def doMerge(request):
     from_silo_id = request.POST["from_silo_id"]
     to_silo_id = request.POST["to_silo_id"]
     getSourceFrom = DataField.objects.all().filter(silo__id=from_silo_id)
+
+    #update row numbers to start at last row of from silo
+    offset = ValueStore.objects.filter(field__silo=from_silo_id).aggregate(Max('row_number'))['row_number__max']
+    update_row_numbers = ValueStore.objects.filter(field__silo=to_silo_id).update(row_number=F('row_number')+offset)
+
     # update each column, set value to evaluated column name which will equal the selected value in from column drop down
     for column in getSourceFrom:
-        #print request.POST.get(column.name)
-        print "column name = "
-        print column.name
-        print " column name value = "
-        print request.POST.get(column.name)
         #If it's a new column just update the column to use the new silo
         if request.POST.get(column.name) == "0":
             update_column_silo = DataField.objects.filter(name=column.name).update(silo=to_silo_id)
