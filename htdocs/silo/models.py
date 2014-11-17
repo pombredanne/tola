@@ -18,9 +18,11 @@ class Silo(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class SiloAdmin(admin.ModelAdmin):
     list_display = ('owner', 'name', 'source', 'description', 'create_date')
     display = 'Data Feeds'
+
 
 class DataField(models.Model):
     silo = models.ForeignKey(Silo)
@@ -33,9 +35,11 @@ class DataField(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class DataFieldAdmin(admin.ModelAdmin):
     list_display = ('silo','name','is_uid','create_date','edit_date')
     display = 'Data Fields'
+
 
 class ValueStore(models.Model):
     field = models.ForeignKey(DataField)
@@ -47,6 +51,7 @@ class ValueStore(models.Model):
     #set the label based on the type of value store
     def __unicode__(self):
         return self.char_store
+
 
 class ValueStoreAdmin(admin.ModelAdmin):
     list_display = ('field', 'char_store', 'create_date', 'edit_date')
