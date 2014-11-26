@@ -17,6 +17,7 @@ from django.http import HttpResponseForbidden,\
     HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest,\
     HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.template import RequestContext, Context
 
 """
 List of Current Read sources that can be updated or edited
@@ -66,7 +67,7 @@ def showRead(request, id):
             if form.instance.file_data:
                 redirect = "file"
             else:
-                redirect = "file"
+                redirect = "login"
             return HttpResponseRedirect('/' + redirect + '/' + id)  # Redirect after POST to getLogin
         else:
             messages.error(request, 'Invalid Form', fail_silently=False)
@@ -191,7 +192,7 @@ def getJSON(request):
     getFields = DataField.objects.filter(silo_id=silo_id)
 
     #send the keys and vars from the json data to the template along with submitted feed info and silos for new form
-    return render_to_response("read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
+    return render_to_response("read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id}, context_instance = RequestContext(request))
 
 
 """
