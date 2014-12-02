@@ -19,8 +19,8 @@ class ReadTypeAdmin(admin.ModelAdmin):
 class Read(models.Model):
     owner = models.ForeignKey('auth.User')
     type = models.ForeignKey(ReadType)
-    read_name = models.CharField(max_length=100, blank=True, default='')
-    read_url = models.CharField(max_length=100, blank=True, default='')
+    read_name = models.CharField(max_length=100, blank=True, default='', verbose_name='source name')
+    read_url = models.CharField(max_length=100, blank=True, default='', verbose_name='source url')
     description = models.TextField()
     create_date = models.DateTimeField(null=True, blank=True)
     file_data = models.FileField("Upload CSV File", upload_to='uploads', blank=True, null=True)
