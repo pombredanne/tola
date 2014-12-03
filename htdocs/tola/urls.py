@@ -7,6 +7,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import renderers
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import login, logout
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -77,9 +78,6 @@ urlpatterns = patterns('',
                        #show read or source
                        url(r'^show_read/(?P<id>\w+)/$', 'read.views.showRead', name='showRead'),
 
-                       #login form
-                       url(r'^login', 'read.views.getLogin', name='getLogin'),
-
                        #upload form
                        url(r'^file/(?P<id>\w+)/$', 'read.views.uploadFile', name='uploadFile'),
 
@@ -148,6 +146,15 @@ urlpatterns = patterns('',
 
                        #app include of readtoken urls
                        url(r'^readtoken/', include('readtoken.urls')),
+
+                        #local login
+                        (r'^accounts/login/$',  login),
+                        (r'^accounts/logout/$', logout),
+
+                        #accounts
+                        url(r'^accounts/profile/$', 'tola.views.register', name='profile'),
+                        url(r'^accounts/register/$', 'tola.views.register', name='register'),
+
 
 )  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
