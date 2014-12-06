@@ -2,7 +2,7 @@
 {% block page_title %}Merge Columns{% endblock %} 
 
 {% block content %}
-	<form action="/doMerge/" method="post">
+	<form action="/doMerge/" method="post">	{% csrf_token %}
 	<table border="1">
 		<tr>
 			<th>From Column</th>

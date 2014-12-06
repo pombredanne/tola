@@ -9,9 +9,11 @@ from django.shortcuts import render_to_response
 from django.shortcuts import render
 from django.db.models import Max
 from django.db.models import F
+from django.views.decorators.csrf import csrf_protect
 
 
 # Merge 2 silos together.
+@csrf_protect
 def doMerge(request):
     from_silo_id = request.POST["from_silo_id"]
     to_silo_id = request.POST["to_silo_id"]
@@ -37,8 +39,8 @@ def doMerge(request):
 
     return render(request, "display/stored_values.html", {'getSilo': getSilo})
 
-
 # Edit existing silo meta data
+@csrf_protect
 def editSilo(request, id):
     getSilo = Silo.objects.get(pk=id)
 
@@ -61,6 +63,7 @@ def editSilo(request, id):
 
 
 #DELETE-SILO
+@csrf_protect
 def deleteSilo(request, id):
     deleteSilo = Silo.objects.get(pk=id).delete()
 

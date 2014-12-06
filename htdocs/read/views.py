@@ -62,7 +62,7 @@ def showRead(request, id):
         form = ReadForm(request.POST, request.FILES, instance=getRead)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
-            new_read = form.save()
+            form.save()
             if form.instance.file_data:
                 redirect = "file"
             else:

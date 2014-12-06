@@ -2,7 +2,7 @@
 {% block page_title %}View/Edit or Merge Silo source data{% endblock %} 
 
 {% block content %}
-<form action="/merge/" method="post">
+<form action="/merge/" method="post">	{% csrf_token %}
 <p>Select source data</p>
 <ul>
 		{% for item in get_sources %}

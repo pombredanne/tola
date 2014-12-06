@@ -152,7 +152,7 @@ urlpatterns = patterns('',
                         (r'^accounts/logout/$', logout),
 
                         #accounts
-                        url(r'^accounts/profile/$', 'tola.views.register', name='profile'),
+                        url(r'^accounts/profile/$', 'tola.views.profile', name='profile'),
                         url(r'^accounts/register/$', 'tola.views.register', name='register'),
 
 
