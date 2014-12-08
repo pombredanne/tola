@@ -50,7 +50,7 @@ def register(request):
     })
 
 """
-Update a User profile using built in Djanog Users Model
+Update a User profile using built in Django Users Model
 """
 def profile(request):
     temp_post = request.POST.copy()

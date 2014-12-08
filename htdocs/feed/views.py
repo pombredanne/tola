@@ -19,6 +19,8 @@ from django.http import HttpResponseForbidden,\
     HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect, render
 
+# API Classes
+
 
 class FeedViewSet(viewsets.ModelViewSet):
     """
@@ -28,6 +30,7 @@ class FeedViewSet(viewsets.ModelViewSet):
     queryset = Silo.objects.all()
     serializer_class = SiloSerializer
 
+
 class DataFieldViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list`, `create`, `retrieve`,
@@ -35,6 +38,7 @@ class DataFieldViewSet(viewsets.ModelViewSet):
     """
     queryset = DataField.objects.all()
     serializer_class = DataFieldSerializer
+
 
 class ValueStoreViewSet(viewsets.ModelViewSet):
     """
@@ -44,9 +48,13 @@ class ValueStoreViewSet(viewsets.ModelViewSet):
     queryset = ValueStore.objects.all()
     serializer_class = ValueStoreSerializer
 
+# End API Classes
+
+
 def customFeed(request,id):
     """
     All tags in use on this system
+    id = Silo
     """
     #get all of the data fields for the silo
     queryset = DataField.objects.filter(silo__id=id)
@@ -97,6 +105,7 @@ def createFeed(request):
 def export_silo(request, id):
     """
     Export a silo to a CSV file
+    id = Silo
     """
     getSiloRows = ValueStore.objects.all().filter(field__silo__id=id).values('row_number').distinct()
     getColumns = DataField.objects.all().filter(silo__id=id).values('name').distinct()
@@ -170,15 +179,17 @@ def createDynamicModel(request):
 def deleteFeed(request,id):
     """
     Delete a feed
+    id = Feed
     """
     deleteFeed = Feed.objects.get(pk=id).delete()
 
     return render(request, 'feed/delete.html')
 
-"""
-Get token for google user
-"""
+
 def _get_google_token(request, redirect_to_url):
+    """
+    Get token for google user
+    """
     token = None
     if request.user.is_authenticated():
         try:
@@ -193,12 +204,13 @@ def _get_google_token(request, redirect_to_url):
         request.session["google_redirect_url"] = redirect_to_url
         return HttpResponseRedirect(redirect_uri)
     return token
-"""
-Export a silo to google
-"""
+
 #@login_required
 def export_google(request, id):
-
+    """
+    Export a silo to google
+    id = Silo
+    """
     context = RequestContext(request)
     context.username = request.user
 
