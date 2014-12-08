@@ -31,3 +31,5 @@ venv/
 .idea/
 .DS_Store
 media/
+local.py
+htdocs/tola/settings/local.py

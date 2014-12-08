@@ -36,6 +36,9 @@ export PATH=$PATH:/usr/local/mysql/bin
 
 pip install -r requirements.txt
 
+## Set up DB
+python manage.py syncdb
+
 # Run App
 If your using more then one settings file change manage.py to point to local or dev file first
 python manage.py runserver 0.0.0.0:8000

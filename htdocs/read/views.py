@@ -17,6 +17,7 @@ from django.http import HttpResponseForbidden,\
     HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest,\
     HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.template import RequestContext, Context
 
 """
 List of Current Read sources that can be updated or edited
@@ -25,7 +26,6 @@ def home(request):
     getReads = Read.objects.all()
 
     return render(request, 'read/home.html', {'getReads': getReads, })
-
 
 """
 Create a form to get feed info then save data to Read 
@@ -62,11 +62,11 @@ def showRead(request, id):
         form = ReadForm(request.POST, request.FILES, instance=getRead)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
-            new_read = form.save()
+            form.save()
             if form.instance.file_data:
                 redirect = "file"
             else:
-                redirect = "file"
+                redirect = "login"
             return HttpResponseRedirect('/' + redirect + '/' + id)  # Redirect after POST to getLogin
         else:
             messages.error(request, 'Invalid Form', fail_silently=False)
@@ -170,10 +170,10 @@ def getJSON(request):
     username = request.POST['user_name']
     password = request.POST['password']
     base64string = base64.encodestring('%s:%s' % (username, password))[:-1]
-    request = urllib2.Request(read_obj.read_url)
-    request.add_header("Authorization", "Basic %s" % base64string)
+    request2 = urllib2.Request(read_obj.read_url)
+    request2.add_header("Authorization", "Basic %s" % base64string)
     #retrieve JSON data from formhub via auth info
-    json_file = urllib2.urlopen(request)
+    json_file = urllib2.urlopen(request2)
 
     #create object from JSON String
     data = json.load(json_file)
@@ -191,7 +191,7 @@ def getJSON(request):
     getFields = DataField.objects.filter(silo_id=silo_id)
 
     #send the keys and vars from the json data to the template along with submitted feed info and silos for new form
-    return render_to_response("read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
+    return render(request, "read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
 
 
 """

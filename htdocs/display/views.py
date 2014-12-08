@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from display.tables  import SiloTable
 from forms import EditForm,FieldEditForm
 
+
 #INDEX
 def index(request):
     return render(request, 'index.html')
