@@ -211,7 +211,6 @@ LOCAL_APPS = (
     'read',
     'display',
     'silo',
-    'indicators',
     'readtoken',
 )
 
