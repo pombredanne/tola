@@ -147,6 +147,9 @@ urlpatterns = patterns('',
                         #app include of readtoken urls
                         url(r'^readtoken/', include('readtoken.urls')),
 
+                        #app include of programdb urls
+                        url(r'^programdb/', include('programdb.urls')),
+
                         #local login
                         (r'^accounts/login/$',  login),
                         (r'^accounts/logout/$', logout),

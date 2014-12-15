@@ -212,6 +212,7 @@ LOCAL_APPS = (
     'display',
     'silo',
     'readtoken',
+    'programdb',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
