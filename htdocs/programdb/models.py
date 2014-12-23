@@ -223,3 +223,35 @@ class ProjectProposal(models.Model):
     #displayed in admin templates
     def __unicode__(self):
         return self.project_title
+
+#Dashboard
+class ProgramDashboard(models.Model):
+    program = models.ForeignKey(Program, null=True, blank=True)
+    project_proposal = models.IntegerField(null=True,blank=True)
+    project_proposal_approved = models.IntegerField(null=True,blank=True)
+    project_agreement = models.IntegerField(null=True,blank=True)
+    project_agreement_approved = models.IntegerField(null=True,blank=True)
+    project_completion = models.IntegerField(null=True,blank=True)
+    project_completion_approved = models.IntegerField(null=True,blank=True)
+    create_date = models.DateTimeField(null=True, blank=True)
+    edit_date = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ('program',)
+
+    #onsave add create date or update edit date
+    def save(self):
+        if self.create_date == None:
+            self.create_date = datetime.now()
+        self.edit_date = datetime.now()
+        super(ProgramDashboard, self).save()
+
+    #displayed in admin templates
+    def __unicode__(self):
+        return unicode(self.program)
+
+
+#District Admin Interface
+class ProgramDashboardAdmin(admin.ModelAdmin):
+    list_display = ('program', 'project_proposal', 'project_proposal_approved', 'create_date', 'edit_date')
+    display = 'Program Dashboard'

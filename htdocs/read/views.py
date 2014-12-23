@@ -19,19 +19,21 @@ from django.http import HttpResponseForbidden,\
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext, Context
 
-"""
-List of Current Read sources that can be updated or edited
-"""
+
 def home(request):
-    getReads = Read.objects.all()
+    """
+    List of Current Read sources that can be updated or edited
+    """
+    get_reads = Read.objects.all()
 
-    return render(request, 'read/home.html', {'getReads': getReads, })
+    return render(request, 'read/home.html', {'getReads': get_reads, })
 
-"""
-Create a form to get feed info then save data to Read 
-and re-direct to getJSON function
-"""
+
 def initRead(request):
+    """
+    Create a form to get feed info then save data to Read
+    and re-direct to getJSON or uploadFile function
+    """
     if request.method == 'POST':  # If the form has been submitted...
         form = ReadForm(request.POST, request.FILES)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
@@ -39,10 +41,10 @@ def initRead(request):
             new_read = form.save()
             id = str(new_read.id)
             if form.instance.file_data:
-                redirect = "file"
+                redirect_var = "file"
             else:
-                redirect = "login"
-            return HttpResponseRedirect('/' + redirect + '/' + id)  # Redirect after POST to getLogin
+                redirect_var = "read/login"
+            return HttpResponseRedirect('/' + redirect_var + '/')  # Redirect after POST to getLogin
         else:
             messages.error(request, 'Invalid Form', fail_silently=False)
     else:
@@ -52,38 +54,39 @@ def initRead(request):
         'form': form,
     })
 
-"""
-Show a read data source and allow user to edit it
-"""
+
 def showRead(request, id):
-    getRead = Read.objects.get(pk=id)
+    """
+    Show a read data source and allow user to edit it
+    """
+    get_read = Read.objects.get(pk=id)
 
     if request.method == 'POST':  # If the form has been submitted...
-        form = ReadForm(request.POST, request.FILES, instance=getRead)  # A form bound to the POST data
+        form = ReadForm(request.POST, request.FILES, instance=get_read)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
             # save data to read
             form.save()
             if form.instance.file_data:
-                redirect = "file"
+                redirect_var = "file"
             else:
-                redirect = "login"
-            return HttpResponseRedirect('/' + redirect + '/' + id)  # Redirect after POST to getLogin
+                redirect_var = "read/login"
+            return HttpResponseRedirect('/' + redirect_var + '/' + id)  # Redirect after POST to getLogin
         else:
             messages.error(request, 'Invalid Form', fail_silently=False)
     else:
-        form = ReadForm(instance=getRead)  # An unbound form
+        form = ReadForm(instance=get_read)  # An unbound form
 
     return render(request, 'read/read.html', {
         'form': form, 'read_id': id,
     })
 
-"""
-Upload CSV file and save to read
-"""
+
 def uploadFile(request, id):
+    """
+    Upload CSV file and save to read
+    """
     # get all of the silo info to pass to the form
     get_silo = Silo.objects.all()
-    getRead = Read.objects.get(pk=id)
     if request.method == 'POST':  # If the form has been submitted...
         form = UploadForm(request.POST)  # A form bound to the POST data
         if form.is_valid():  # All validation rules pass
@@ -121,10 +124,10 @@ def uploadFile(request, id):
                 row_num = row_num + 1
 
             #get fields to display back to user for verification
-            getFields = DataField.objects.filter(silo_id=silo_id).values('name').distinct()
+            get_fields = DataField.objects.filter(silo_id=silo_id).values('name').distinct()
 
             #saved data now show the columns of data
-            return render(request, "read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
+            return render(request, "read/show-columns.html", {'getFields': get_fields, 'silo_id': silo_id})
     else:
         form = UploadForm()  # An unbound form
 
@@ -134,11 +137,11 @@ def uploadFile(request, id):
     })
 
 
-"""
-Some services require a login provide user with a
-login to service if needed and select a silo
-"""
 def getLogin(request):
+    """
+    Some services require a login provide user with a
+    login to service if needed and select a silo
+    """
     # get all of the silo info to pass to the form
     get_silo = Silo.objects.all()
 
@@ -146,10 +149,10 @@ def getLogin(request):
     return render(request, 'read/login.html', {'get_silo': get_silo})
 
 
-"""
-Get JSON feed info from form then grab data
-"""
 def getJSON(request):
+    """
+    Get JSON feed info from form then grab data
+    """
     # retrieve submitted Feed info from database
     read_obj = Read.objects.latest('id')
     # set date time stamp
@@ -188,16 +191,16 @@ def getJSON(request):
         row_num = row_num + 1
 
     #get fields to display back to user for verification
-    getFields = DataField.objects.filter(silo_id=silo_id)
+    get_fields = DataField.objects.filter(silo_id=silo_id)
 
     #send the keys and vars from the json data to the template along with submitted feed info and silos for new form
-    return render(request, "read/show-columns.html", {'getFields': getFields, 'silo_id': silo_id})
+    return render(request, "read/show-columns.html", {'getFields': get_fields, 'silo_id': silo_id})
 
 
-"""
-Set the PK for each row by allowing the user to select a column
-"""
 def updateUID(request):
+    """
+    Set the PK for each row by allowing the user to select a column
+    """
     for row in request.POST['is_uid']:
         update_uid = DataField.objects.update(is_uid=1)
 
@@ -206,11 +209,11 @@ def updateUID(request):
     return render(request, "read/show-data.html", {'get_silo': get_silo})
 
 
-"""
-Function call no template associated with this
-Save file data into data store and silo
-"""
 def saveData(new_value, new_label, silo_id, row_num):
+    """
+    Function call no template associated with this
+    Save file data into data store and silo
+    """
     # Need a silo set object to gather silos into programs
     current_silo = Silo.objects.get(pk=silo_id)
     # set date time stamp

@@ -1,11 +1,14 @@
 from silo.models import Silo, DataField, ValueStore
-from feed.serializers import SiloSerializer,DataFieldSerializer,ValueStoreSerializer
-from feed.models import Feed
+from read.models import Read, ReadType
+from .serializers import SiloSerializer, DataFieldSerializer, ValueStoreSerializer, UserSerializer, ReadSerializer, ReadTypeSerializer
+from .models import Feed
 from django.contrib.auth.decorators import login_required
-from django.utils import simplejson
+import json as simplejson
 from tola.util import siloToDict
 from google import google_export_xls
 from django.template import RequestContext
+from django.contrib.auth.models import User
+
 
 from rest_framework import renderers,viewsets
 
@@ -21,6 +24,18 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect, re
 
 # API Classes
 
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class SiloViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    """
+    queryset = Silo.objects.all()
+    serializer_class = SiloSerializer
 
 class FeedViewSet(viewsets.ModelViewSet):
     """
@@ -47,6 +62,22 @@ class ValueStoreViewSet(viewsets.ModelViewSet):
     """
     queryset = ValueStore.objects.all()
     serializer_class = ValueStoreSerializer
+
+class ReadViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    """
+    queryset = Read.objects.all()
+    serializer_class = ReadSerializer
+
+class ReadTypeViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    """
+    queryset = ReadType.objects.all()
+    serializer_class = ReadTypeSerializer
 
 # End API Classes
 

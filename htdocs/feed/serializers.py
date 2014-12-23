@@ -1,27 +1,50 @@
 from django.forms import widgets
 from rest_framework import serializers
 from feed.models import Feed
-from silo.models import ValueStore,Silo,DataField
+from read.models import Read, ReadType
+from silo.models import ValueStore, Silo, DataField
 from django.contrib.auth.models import User
 
 
 class SiloSerializer(serializers.HyperlinkedModelSerializer):
-	fields = serializers.HyperlinkedIdentityField(view_name='field-list',format="html")
-	id = serializers.HyperlinkedIdentityField(view_name='feed-detail',format="html")
-	class Meta:
-		model = Silo
-		fields = ('owner','name','source','description','create_date','id','fields')
-		depth =1
+
+    class Meta:
+        model = Silo
+        fields = ('owner', 'name', 'source', 'description', 'create_date', 'id')
+        depth =1
+
 
 class DataFieldSerializer(serializers.HyperlinkedModelSerializer):
-    data = serializers.HyperlinkedIdentityField(view_name='value-list', format='html')
+
     class Meta:
         model = DataField
-        fields = ('silo','name','is_uid','create_date','edit_date','data')
+        fields = ('silo', 'name', 'is_uid', 'create_date', 'edit_date')
         depth=1
 
+
 class ValueStoreSerializer(serializers.HyperlinkedModelSerializer):
-    fields = serializers.HyperlinkedIdentityField(view_name='field-list', format='html')
+
     class Meta:
         model = ValueStore
-        fields = ('field','char_store','create_date','edit_date','fields')
+        fields = ('field', 'char_store', 'create_date', 'edit_date')
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'email', 'is_staff')
+
+
+class ReadSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Read
+        fields = ('owner', 'type', 'read_name', 'read_url')
+
+
+class ReadTypeSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = ReadType
+        fields = ( 'type', 'description')

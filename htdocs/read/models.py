@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib import admin
 #from silo.models import Silo
 
-# Create your models here.
+
+
 class ReadType(models.Model):
     read_type = models.CharField(max_length=135, blank=True)
     description = models.CharField(max_length=765, blank=True)
@@ -12,9 +13,11 @@ class ReadType(models.Model):
     def __unicode__(self):
         return self.read_type
 
+
 class ReadTypeAdmin(admin.ModelAdmin):
     list_display = ('read_type','description','create_date','edit_date')
     display = 'Read Type'
+
 
 class Read(models.Model):
     owner = models.ForeignKey('auth.User')
@@ -33,6 +36,7 @@ class Read(models.Model):
 
     def __unicode__(self):
         return self.read_name
+
 
 class ReadAdmin(admin.ModelAdmin):
     list_display = ('owner','read_name','read_url','description','create_date')

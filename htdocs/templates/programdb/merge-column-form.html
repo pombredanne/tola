@@ -2,7 +2,7 @@
 {% block page_title %}Merge Columns{% endblock %} 
 
 {% block content %}
-	<form action="/doMerge/" method="post">	{% csrf_token %}
+	<form action="/programdb/doMerge/{{ from_silo_id }}" method="post">	{% csrf_token %}
 	<table border="1">
 		<tr>
 			<th>From Column</th>
@@ -15,8 +15,8 @@
 				<td align="middle">
                     <select name="{{ item.name }}">
                     {% for item2 in getSourceTo %}
-                        <option value="{{ item2.name }}" {% if item2.name|lower == item.name|lower %} selected="selected" {% endif %}>
-                            {{ item2.name }}</option>
+                        <option value="{{ item2}}" {% if item2|lower == item.name|lower %} selected="selected" {% endif %}>
+                            {{ item2 }}</option>
                     {% endfor %}
                     {% if item.name not in getSourceTo %}
                         <option value="0" selected="selected">  New Column !!</option>
