@@ -205,4 +205,46 @@ def createDynamicModel(request):
         jsonData = simplejson.dumps(formatted_data)
         return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
 
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.django_orm import Storage
+from oauth2client import xsrfutil
+from django.conf import settings
+from django.views.decorators.csrf import csrf_protect
+from .models import GoogleCredentialsModel
+from apiclient.discovery import build
+import os, logging, httplib2, json, datetime
 
+CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
+FLOW = flow_from_clientsecrets(
+    CLIENT_SECRETS,
+    scope='https://www.googleapis.com/auth/drive',
+    redirect_uri='http://localhost:8000/oauth2callback/')
+
+@login_required
+def google_export(request):
+    storage = Storage(GoogleCredentialsModel, 'id', request.user, 'credential')
+    credential = storage.get()
+    if credential is None or credential.invalid == True:
+        FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY, request.user)
+        authorize_url = FLOW.step1_get_authorize_url()
+        return HttpResponseRedirect(authorize_url)
+    else:
+        http = httplib2.Http()
+        http = credential.authorize(http)
+        service = build("drive", "v2", http=http)
+        param = {}
+        files = service.files().list(**param).execute()
+        for f in files:
+            return HttpResponse(json.dumps(files['items'][0]['title']))
+    return HttpResponse("OK")
+
+@login_required
+def oauth2callback(request):
+    if not xsrfutil.validate_token(settings.SECRET_KEY, request.REQUEST['state'], request.user):
+        return  HttpResponseBadRequest()
+
+    credential = FLOW.step2_exchange(request.REQUEST)
+    storage = Storage(GoogleCredentialsModel, 'id', request.user, 'credential')
+    storage.put(credential)
+    #print(credential.to_json())
+    return HttpResponseRedirect("/")
