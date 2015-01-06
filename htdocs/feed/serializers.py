@@ -1,6 +1,5 @@
 from django.forms import widgets
 from rest_framework import serializers
-from feed.models import Feed
 from read.models import Read, ReadType
 from silo.models import ValueStore, Silo, DataField
 from django.contrib.auth.models import User

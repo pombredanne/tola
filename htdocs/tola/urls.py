@@ -43,7 +43,7 @@ urlpatterns = patterns('',
                         url(r'^api/custom/(?P<id>[0-9]+)/$','feed.views.customFeed',name='customFeed'),
 
                         #ipt app specific urls
-                        url(r'^indicators/', include('indicators.urls')),
+                        #url(r'^indicators/', include('indicators.urls')),
 
                         #enable admin documentation:
                         url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -120,13 +120,12 @@ urlpatterns = patterns('',
                         ###FEED
                         url(r'^feed', 'feed.views.listFeeds', name='listFeeds'),
                         url(r'^export/(?P<id>\w+)/$', 'feed.views.export_silo', name='export_silo'),
-                        url(r'^export_google/(?P<id>\w+)/$', 'feed.views.export_google', name='export_google'),
-
+                        #url(r'^export_google/(?P<id>\w+)/$', 'feed.views.export_google', name='export_google'),
+                        url(r'^google_export/$', 'feed.views.google_export', name='google_export'),
+                        url(r'^oauth2callback/$', 'feed.views.oauth2callback', name='oauth2callback'),
+                        
                         #create a feed
                         url(r'^create_feed', 'feed.views.createFeed', name='createFeed'),
-
-                        #delete a feed
-                        url(r'^feed_delete','feed.views.deleteFeed', name='deleteFeed'),
 
                         #home
                         url(r'^contact', 'tola.views.contact', name='contact'),

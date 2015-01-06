@@ -1,11 +1,11 @@
 from silo.models import Silo, DataField, ValueStore
 from read.models import Read, ReadType
 from .serializers import SiloSerializer, DataFieldSerializer, ValueStoreSerializer, UserSerializer, ReadSerializer, ReadTypeSerializer
-from .models import Feed
+
 from django.contrib.auth.decorators import login_required
 import json as simplejson
 from tola.util import siloToDict
-from google import google_export_xls
+
 from django.template import RequestContext
 from django.contrib.auth.models import User
 
@@ -15,7 +15,7 @@ from rest_framework import renderers,viewsets
 import operator
 import csv
 
-from django.contrib.auth.models import User
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden,\
     HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest,\
@@ -205,47 +205,46 @@ def createDynamicModel(request):
         jsonData = simplejson.dumps(formatted_data)
         return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
 
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.django_orm import Storage
+from oauth2client import xsrfutil
+from django.conf import settings
+from django.views.decorators.csrf import csrf_protect
+from .models import GoogleCredentialsModel
+from apiclient.discovery import build
+import os, logging, httplib2, json, datetime
 
-#DELETE-FEED
-def deleteFeed(request,id):
-    """
-    Delete a feed
-    id = Feed
-    """
-    deleteFeed = Feed.objects.get(pk=id).delete()
+CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
+FLOW = flow_from_clientsecrets(
+    CLIENT_SECRETS,
+    scope='https://www.googleapis.com/auth/drive',
+    redirect_uri='http://localhost:8000/oauth2callback/')
 
-    return render(request, 'feed/delete.html')
+@login_required
+def google_export(request):
+    storage = Storage(GoogleCredentialsModel, 'id', request.user, 'credential')
+    credential = storage.get()
+    if credential is None or credential.invalid == True:
+        FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY, request.user)
+        authorize_url = FLOW.step1_get_authorize_url()
+        return HttpResponseRedirect(authorize_url)
+    else:
+        http = httplib2.Http()
+        http = credential.authorize(http)
+        service = build("drive", "v2", http=http)
+        param = {}
+        files = service.files().list(**param).execute()
+        for f in files:
+            return HttpResponse(json.dumps(files['items'][0]['title']))
+    return HttpResponse("OK")
 
+@login_required
+def oauth2callback(request):
+    if not xsrfutil.validate_token(settings.SECRET_KEY, request.REQUEST['state'], request.user):
+        return  HttpResponseBadRequest()
 
-def _get_google_token(request, redirect_to_url):
-    """
-    Get token for google user
-    """
-    token = None
-    if request.user.is_authenticated():
-        try:
-            ts = TokenStorageModel.objects.get(id=request.user)
-        except TokenStorageModel.DoesNotExist:
-            pass
-        else:
-            token = ts.token
-    elif request.session.get('access_token'):
-        token = request.session.get('access_token')
-    if token is None:
-        request.session["google_redirect_url"] = redirect_to_url
-        return HttpResponseRedirect(redirect_uri)
-    return token
-
-#@login_required
-def export_google(request, id):
-    """
-    Export a silo to google
-    id = Silo
-    """
-    context = RequestContext(request)
-    context.username = request.user
-
-    exports = ValueStore.objects.filter(field__silo__id=id)
-    context.exports = exports
-    google_export_xls(filename, exports.silo_name, token, exports)
-    return render_to_response('export_list.html', context_instance=context)
+    credential = FLOW.step2_exchange(request.REQUEST)
+    storage = Storage(GoogleCredentialsModel, 'id', request.user, 'credential')
+    storage.put(credential)
+    #print(credential.to_json())
+    return HttpResponseRedirect("/")
