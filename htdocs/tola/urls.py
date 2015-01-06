@@ -43,7 +43,7 @@ urlpatterns = patterns('',
                         url(r'^api/custom/(?P<id>[0-9]+)/$','feed.views.customFeed',name='customFeed'),
 
                         #ipt app specific urls
-                        url(r'^indicators/', include('indicators.urls')),
+                        #url(r'^indicators/', include('indicators.urls')),
 
                         #enable admin documentation:
                         url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
