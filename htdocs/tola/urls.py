@@ -120,13 +120,10 @@ urlpatterns = patterns('',
                         ###FEED
                         url(r'^feed', 'feed.views.listFeeds', name='listFeeds'),
                         url(r'^export/(?P<id>\w+)/$', 'feed.views.export_silo', name='export_silo'),
-                        url(r'^export_google/(?P<id>\w+)/$', 'feed.views.export_google', name='export_google'),
+                        #url(r'^export_google/(?P<id>\w+)/$', 'feed.views.export_google', name='export_google'),
 
                         #create a feed
                         url(r'^create_feed', 'feed.views.createFeed', name='createFeed'),
-
-                        #delete a feed
-                        url(r'^feed_delete','feed.views.deleteFeed', name='deleteFeed'),
 
                         #home
                         url(r'^contact', 'tola.views.contact', name='contact'),

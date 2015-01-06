@@ -1,11 +1,11 @@
 from silo.models import Silo, DataField, ValueStore
 from read.models import Read, ReadType
 from .serializers import SiloSerializer, DataFieldSerializer, ValueStoreSerializer, UserSerializer, ReadSerializer, ReadTypeSerializer
-from .models import Feed
+
 from django.contrib.auth.decorators import login_required
 import json as simplejson
 from tola.util import siloToDict
-from google import google_export_xls
+
 from django.template import RequestContext
 from django.contrib.auth.models import User
 
@@ -15,7 +15,7 @@ from rest_framework import renderers,viewsets
 import operator
 import csv
 
-from django.contrib.auth.models import User
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden,\
     HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest,\
@@ -204,6 +204,5 @@ def createDynamicModel(request):
     elif getFeedType.description == "JSON":
         jsonData = simplejson.dumps(formatted_data)
         return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
-
 
 
