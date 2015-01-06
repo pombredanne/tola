@@ -141,7 +141,7 @@ urlpatterns = patterns('',
 
                         #local login
                         (r'^accounts/login/',  login),
-                        (r'^accounts/logout/$', logout),
+                        url(r'^accounts/logout/$', 'tola.views.logout_view', name='logout'),
 
                         #accounts
                         url(r'^accounts/profile/$', 'tola.views.profile', name='profile'),
