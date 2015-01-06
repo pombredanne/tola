@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib import admin
 from django.conf import settings
 from datetime import datetime
+from read.models import Read
 
 #Programs
 class Program(models.Model):
@@ -14,7 +15,9 @@ class Program(models.Model):
         ordering = ('create_date',)
 
     #onsave add create date or update edit date
-    def save(self):
+    def save(self, *args, **kwargs):
+        if not 'force_insert' in kwargs:
+            kwargs['force_insert'] = False
         if self.create_date == None:
             self.create_date = datetime.now()
         self.edit_date = datetime.now()
@@ -41,7 +44,7 @@ class Country(models.Model):
         ordering = ('name',)
 
     #onsave add create date or update edit date
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.create_date == None:
             self.create_date = datetime.now()
         self.edit_date = datetime.now()
@@ -69,11 +72,11 @@ class Province(models.Model):
         ordering = ('name',)
 
     #onsave add create date or update edit date
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.create_date == None:
             self.create_date = datetime.now()
         self.edit_date = datetime.now()
-        super(Program, self).save()
+        super(Province, self).save()
 
     #displayed in admin templates
     def __unicode__(self):
@@ -97,7 +100,7 @@ class District(models.Model):
         ordering = ('name',)
 
     #onsave add create date or update edit date
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.create_date == None:
             self.create_date = datetime.now()
         self.edit_date = datetime.now()
@@ -124,7 +127,7 @@ class Cluster(models.Model):
         ordering = ('name',)
 
     #onsave add create date or update edit date
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.create_date == None:
             self.create_date = datetime.now()
         self.edit_date = datetime.now()
@@ -152,7 +155,7 @@ class Village(models.Model):
         ordering = ('name',)
 
     #onsave add create date or update edit date
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.create_date == None:
             self.create_date = datetime.now()
         self.edit_date = datetime.now()
@@ -171,7 +174,7 @@ class VillageAdmin(admin.ModelAdmin):
 
 # Project Proposal Form
 class ProjectProposal(models.Model):
-    program = models.ForeignKey(Program, blank=True)
+    program = models.ForeignKey(Program, null=True, blank=True)
     profile_code = models.CharField("Profile Code", max_length=255, blank=True)
     proposal_num = models.CharField("Proposal Number", max_length=255, blank=True)
     date_of_request = models.DateTimeField("Date of Request", null=True, blank=True)
@@ -186,9 +189,9 @@ class ProjectProposal(models.Model):
     community_rep_contact = models.CharField("Community Representative Contact", max_length=255, blank=True)
     community_mobilizer = models.CharField("Community Mobilizer", max_length=255, blank=True)
     prop_status = models.CharField("Proposal Status", max_length=255, blank=True)
-    rej_letter= models.CharField("Rejection Letter", max_length=255, blank=True)
+    rej_letter = models.TextField("Rejection Letter", blank=True)
     project_code = models.CharField("Project Code", max_length=255, blank=True)
-    project_description = models.CharField("Project Description", max_length=765, blank=True)
+    project_description = models.TextField("Project Description", blank=True)
     approval = models.BooleanField("Approval", default="0")
     approved_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name="approving")
     approval_submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name="requesting")
@@ -214,7 +217,7 @@ class ProjectProposal(models.Model):
         ordering = ('create_date',)
 
     #onsave add create date or update edit date
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.create_date == None:
             self.create_date = datetime.now()
         self.edit_date = datetime.now()
@@ -255,3 +258,18 @@ class ProgramDashboard(models.Model):
 class ProgramDashboardAdmin(admin.ModelAdmin):
     list_display = ('program', 'project_proposal', 'project_proposal_approved', 'create_date', 'edit_date')
     display = 'Program Dashboard'
+
+
+#Merge Map
+class MergeMap(models.Model):
+    read = models.ForeignKey(Read, null=False, blank=False)
+    project_proposal = models.ForeignKey(ProjectProposal, null=False, blank=False)
+    from_column = models.CharField(max_length=255, blank=True)
+    to_column = models.CharField(max_length=255, blank=True)
+
+
+class MergeMapAdmin(admin.ModelAdmin):
+    list_display = ('read', 'project_proposal', 'from_column', 'to_column')
+    display = 'project_proposal'
+
+
