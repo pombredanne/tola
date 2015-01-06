@@ -85,8 +85,9 @@ class ProjectProposalUpdate(UpdateView):
     def form_valid(self, form):
 
         form.save()
+        messages.success(self.request, 'Success, form updated!')
 
-        return HttpResponseRedirect('/programdb/success')
+        return self.render_to_response(self.get_context_data(form=form))
 
     form_class = ProjectProposalForm
 

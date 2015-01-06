@@ -45,7 +45,6 @@ class ProjectProposalForm(forms.ModelForm):
                     Fieldset(
                         'Community',
                         'community_rep','community_rep_contact','community_mobilizer'
-
                     ),
                 ),
                 Tab('Location',

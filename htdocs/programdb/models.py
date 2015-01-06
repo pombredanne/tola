@@ -212,6 +212,9 @@ class ProjectProposal(models.Model):
     odk_notes = models.CharField("ODK Notes", max_length=255, blank=True)
     create_date = models.DateTimeField("Date Created", null=True, blank=True)
     edit_date = models.DateTimeField("Last Edit Date", null=True, blank=True)
+    latitude = models.CharField("Latitude (Coordinates)", max_length=255, blank=True)
+    longitude = models.CharField("Longitude (Coordinates)", max_length=255, blank=True)
+
 
     class Meta:
         ordering = ('create_date',)
