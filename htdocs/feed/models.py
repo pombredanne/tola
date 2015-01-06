@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
 from silo.models import Silo
-
+from oauth2client.django_orm import CredentialsField
 
 class Feed(models.Model):
     owner = models.ForeignKey('auth.User')
@@ -27,3 +27,7 @@ class TokenStorageModel(models.Model):
 
     class Meta:
         app_label = 'main'
+
+class GoogleCredentialsModel(models.Model):
+    id = models.ForeignKey(User, primary_key=True, related_name='google_credentials')
+    credential = CredentialsField()
