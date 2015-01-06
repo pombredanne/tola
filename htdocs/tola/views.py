@@ -30,9 +30,9 @@ def contact(request):
 def faq(request):
     return render(request, 'faq.html')
 
+
 def documentation(request):
     return render(request, 'documentation.html')
-
 
 
 def register(request):
@@ -49,6 +49,7 @@ def register(request):
     return render(request, "registration/register.html", {
         'form': form,
     })
+
 
 def profile(request):
     """
@@ -81,10 +82,11 @@ def profile(request):
     else:
         return HttpResponseRedirect("/accounts/register")
 
-"""
-Logout a user
-"""
+
 def logout_view(request):
+    """
+    Logout a user
+    """
     logout(request)
     # Redirect to a success page.
     return HttpResponseRedirect("/")

@@ -25,34 +25,50 @@ class GoogleMapsWidget(forms.HiddenInput):
                     var base_long = %(base_longitude)s
 
                     // If the lat and long fields have values use those to center the map
-                    if($('#id_%(latitude)s').val()!=''){
-                        center = new google.maps.LatLng($('#id_%(latitude)s').val(), $('#id_%(longitude)s').val());
-                    }else{
-                        center = new google.maps.LatLng(%(base_latitude)s,%(base_longitude)s);
-                        $('#id_%(latitude)s').val(base_lat);
-                        $('#id_%(longitude)s').val(base_long);
+                    function initialize() {
+                        if($('#id_%(latitude)s').val()!=''){
+                            center = new google.maps.LatLng($('#id_%(latitude)s').val(), $('#id_%(longitude)s').val());
+                        }else{
+                            center = new google.maps.LatLng(%(base_latitude)s,%(base_longitude)s);
+                            $('#id_%(latitude)s').val(base_lat);
+                            $('#id_%(longitude)s').val(base_long);
+                        }
+                        var myOptions = {
+                            zoom: 15,
+                            center: center,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        };
+                        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+                        geocoder = new google.maps.Geocoder();
+                        my_point = new google.maps.Marker({
+                            position: center,
+                            map: map,
+                            draggable: true,
+                        })
+
+                         // If someone drags the map pointer reset the lat & long in the form
+                        google.maps.event.addListener(my_point, 'dragend', function(event){
+                            $('#id_%(latitude)s').val(event.latLng.lat());
+                            $('#id_%(longitude)s').val(event.latLng.lng());
+                        });
+                        $('#%(longitude)s').parent().parent().hide();
+
+                        google.maps.event.trigger(map, 'resize');
+
                     }
-                    var myOptions = {
-                        zoom: 15,
-                        center: center,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
-                    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-                    geocoder = new google.maps.Geocoder();
-                    my_point = new google.maps.Marker({
-                        position: center,
-                        map: map,
-                        draggable: true,
+
+                    google.maps.event.addDomListener(window, 'load', initialize);
+
+                    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                        console.log("map resize");
+                        initialize();
+
                     })
 
-                    // If someone drags the map pointer reset the lat & long in the form
-                    google.maps.event.addListener(my_point, 'dragend', function(event){
-                        $('#id_%(latitude)s').val(event.latLng.lat());
-                        $('#id_%(longitude)s').val(event.latLng.lng());
-                    });
-                    $('#%(longitude)s').parent().parent().hide();
 
                 });
+
 
                 // Called from form to geocode address to get lat long for an address (city, country)
                 function codeAddress(){

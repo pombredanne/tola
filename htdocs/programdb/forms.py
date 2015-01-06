@@ -39,7 +39,7 @@ class ProjectProposalForm(forms.ModelForm):
 
             HTML("""<br/>"""),
             TabHolder(
-                Tab('Program',
+                Tab('Details',
                     Fieldset('Program', 'program', 'profile_code', 'proposal_num', 'date_of_request', 'project_title', 'project_type',
                     ),
                     Fieldset(
