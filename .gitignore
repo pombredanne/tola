@@ -33,4 +33,4 @@ venv/
 media/
 local.py
 htdocs/tola/settings/local.py
-htdocs/tola/feed/client_secrets.js
+htdocs/tola/feed/client_secrets.json
