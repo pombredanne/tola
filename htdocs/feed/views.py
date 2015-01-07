@@ -141,9 +141,6 @@ def export_silo(request, id):
     getSiloRows = ValueStore.objects.all().filter(field__silo__id=id).values('row_number').distinct()
     getColumns = DataField.objects.all().filter(silo__id=id).values('name').distinct()
 
-    #return a dict with label value pair data
-    #formatted_data = siloToDict(getSilo)
-
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
     getSiloName = Silo.objects.get(pk=id)
@@ -179,7 +176,6 @@ def export_silo(request, id):
         #print the row
         writer.writerow(value_list)
         value_list = []
-
 
 
     return response
