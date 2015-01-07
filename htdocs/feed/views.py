@@ -232,10 +232,15 @@ def google_export(request):
         http = httplib2.Http()
         http = credential.authorize(http)
         service = build("drive", "v2", http=http)
-        param = {}
-        files = service.files().list(**param).execute()
-        for f in files:
-            return HttpResponse(json.dumps(files['items'][0]['title']))
+        body = {
+            'title': "GOOGLE SPREADSHEET-OK",
+            'description': "TEST FILE FROM API",
+            'mimeType': "application/vnd.google-apps.spreadsheet"
+        }
+        file = service.files().insert(body=body).execute()
+        return HttpResponse(json.dumps(file), content_type="application/json")
+        #https://developers.google.com/drive/v2/reference/files/get
+        #https://developers.google.com/google-apps/spreadsheets/#creating_a_spreadsheet
     return HttpResponse("OK")
 
 @login_required
