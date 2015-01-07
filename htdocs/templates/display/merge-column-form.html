@@ -18,7 +18,7 @@
                         <option value="{{ item2.name }}" {% if item2.name|lower == item.name|lower %} selected="selected" {% endif %}>
                             {{ item2.name }}</option>
                     {% endfor %}
-                    {% if item.name not in source_list %}
+                    {% if item.name not in getSourceTo %}
                         <option value="0" selected="selected">  New Column !!</option>
                         <option name="Ignore">Ignore</option>
                     {% endif %}
@@ -30,7 +30,6 @@
 
 	<br>
 	<input type="hidden" name="from_silo_id" value="{{ from_silo_id }}">
-	<input type="hidden" name="to_silo_id" value="{{ to_silo_id }}">
 	<input type="submit" value="Submit" />
 	</form>
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from silo.models import Silo,DataField,ValueStore
+from .models import Silo, DataField, ValueStore
 
 admin.site.register(Silo)
 admin.site.register(DataField)

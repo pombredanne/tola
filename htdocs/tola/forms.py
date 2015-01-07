@@ -14,6 +14,7 @@ class FeedbackForm(forms.ModelForm):
 
     class Meta:
         model = Feedback
+        fields = '__all__'
 
 
     severity = forms.ChoiceField(
@@ -47,6 +48,7 @@ class RegistrationForm(UserChangeForm):
 
     class Meta:
         model = User
+        fields = '__all__'
 
     email = forms.EmailField(widget=forms.TextInput, label="Email")
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")

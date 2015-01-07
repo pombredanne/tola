@@ -1,10 +1,11 @@
 from feed import views
-from feed.views import FeedViewSet,DataFieldViewSet,ValueStoreViewSet
+from feed.views import FeedViewSet,DataFieldViewSet,ValueStoreViewSet, UserViewSet, ReadViewSet, ReadTypeViewSet, SiloViewSet
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
+from django.contrib.auth.models import User
 from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework import renderers
+from rest_framework import routers, serializers, viewsets
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import login, logout
@@ -14,50 +15,35 @@ from django.contrib import admin
 admin.autodiscover()
 
 #REST FRAMEWORK
-feed = FeedViewSet.as_view({
-    'get': 'list',
-    'post': 'create'
-})
+router = routers.DefaultRouter()
+router.register(r'silo', SiloViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'feed', FeedViewSet)
+router.register(r'datafield', DataFieldViewSet)
+router.register(r'valuestore', ValueStoreViewSet)
+router.register(r'read', ReadViewSet)
+router.register(r'readtype', ReadTypeViewSet)
 
-feed_detail = FeedViewSet.as_view({
-'get': 'retrieve',
-})
 
-field_list = DataFieldViewSet.as_view({
-                                      'get': 'list'
-                                      }, renderer_classes=[renderers.StaticHTMLRenderer])
 
-field_detail = DataFieldViewSet.as_view({
-                                        'get': 'retrieve'
-                                        }, renderer_classes=[renderers.StaticHTMLRenderer])
-
-value_list = ValueStoreViewSet.as_view({
-                                       'get': 'list'
-                                       }, renderer_classes=[renderers.StaticHTMLRenderer])
-
-value_detail = ValueStoreViewSet.as_view({
-                                         'get': 'retrieve'
-                                         }, renderer_classes=[renderers.StaticHTMLRenderer])
 
 
 urlpatterns = patterns('',
+                        #rest framework
+                        url(r'^api/', include(router.urls)),
+                        url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
                         #index
                         url(r'^$', 'display.views.index', name='index'),
 
                         #base template for layout
                         url(r'^$', TemplateView.as_view(template_name='base.html')),
 
-                        #rest framework
-                        url(r'^api/$', feed, name='api_root'),
-                        url(r'^api/(?P<pk>[0-9]+)/$', feed_detail, name='feed-detail'),
-                        url(r'^api/(?P<pk>[0-9]+)/fields/$', field_list, name='field-list'),
-                        url(r'^api/(?P<pk>[0-9]+)/fields/(?P<fk>[0-9]+)/data$', value_list, name='value-list'),
-
                         #rest Custom Feed
                         url(r'^api/custom/(?P<id>[0-9]+)/$','feed.views.customFeed',name='customFeed'),
 
                         #ipt app specific urls
-                        url(r'^indicators/', include('indicators.urls')),
+                        #url(r'^indicators/', include('indicators.urls')),
 
                         #enable admin documentation:
                         url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -86,6 +72,9 @@ urlpatterns = patterns('',
 
                         #updateUID data
                         url(r'^update', 'read.views.updateUID', name='updateUID'),
+
+                        #login data
+                        url(r'^read/login', 'read.views.getLogin', name='getLogin'),
 
                         ###DISPLAY
                         #list all silos
@@ -131,13 +120,12 @@ urlpatterns = patterns('',
                         ###FEED
                         url(r'^feed', 'feed.views.listFeeds', name='listFeeds'),
                         url(r'^export/(?P<id>\w+)/$', 'feed.views.export_silo', name='export_silo'),
-                        url(r'^export_google/(?P<id>\w+)/$', 'feed.views.export_google', name='export_google'),
-
+                        #url(r'^export_google/(?P<id>\w+)/$', 'feed.views.export_google', name='export_google'),
+                        url(r'^google_export/$', 'feed.views.google_export', name='google_export'),
+                        url(r'^oauth2callback/$', 'feed.views.oauth2callback', name='oauth2callback'),
+                        
                         #create a feed
                         url(r'^create_feed', 'feed.views.createFeed', name='createFeed'),
-
-                        #delete a feed
-                        url(r'^feed_delete','feed.views.deleteFeed', name='deleteFeed'),
 
                         #home
                         url(r'^contact', 'tola.views.contact', name='contact'),
@@ -147,9 +135,12 @@ urlpatterns = patterns('',
                         #app include of readtoken urls
                         url(r'^readtoken/', include('readtoken.urls')),
 
+                        #app include of programdb urls
+                        url(r'^programdb/', include('programdb.urls')),
+
                         #local login
-                        (r'^accounts/login/$',  login),
-                        (r'^accounts/logout/$', logout),
+                        (r'^accounts/login/',  login),
+                        url(r'^accounts/logout/$', 'tola.views.logout_view', name='logout'),
 
                         #accounts
                         url(r'^accounts/profile/$', 'tola.views.profile', name='profile'),
@@ -163,4 +154,3 @@ urlpatterns = patterns('',
 
 )  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns = format_suffix_patterns(urlpatterns)
