@@ -1,24 +1,41 @@
 from silo.models import Silo, DataField, ValueStore
-from feed.serializers import SiloSerializer,DataFieldSerializer,ValueStoreSerializer
-from feed.models import Feed
+from read.models import Read, ReadType
+from .serializers import SiloSerializer, DataFieldSerializer, ValueStoreSerializer, UserSerializer, ReadSerializer, ReadTypeSerializer
+
 from django.contrib.auth.decorators import login_required
-from django.utils import simplejson
+import json as simplejson
 from tola.util import siloToDict
-from google import google_export_xls
+
 from django.template import RequestContext
+from django.contrib.auth.models import User
+
 
 from rest_framework import renderers,viewsets
 
 import operator
 import csv
 
-from django.contrib.auth.models import User
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden,\
     HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest,\
     HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect, render
 
+# API Classes
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class SiloViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    """
+    queryset = Silo.objects.all()
+    serializer_class = SiloSerializer
 
 class FeedViewSet(viewsets.ModelViewSet):
     """
@@ -28,6 +45,7 @@ class FeedViewSet(viewsets.ModelViewSet):
     queryset = Silo.objects.all()
     serializer_class = SiloSerializer
 
+
 class DataFieldViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list`, `create`, `retrieve`,
@@ -35,6 +53,7 @@ class DataFieldViewSet(viewsets.ModelViewSet):
     """
     queryset = DataField.objects.all()
     serializer_class = DataFieldSerializer
+
 
 class ValueStoreViewSet(viewsets.ModelViewSet):
     """
@@ -44,9 +63,29 @@ class ValueStoreViewSet(viewsets.ModelViewSet):
     queryset = ValueStore.objects.all()
     serializer_class = ValueStoreSerializer
 
+class ReadViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    """
+    queryset = Read.objects.all()
+    serializer_class = ReadSerializer
+
+class ReadTypeViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    """
+    queryset = ReadType.objects.all()
+    serializer_class = ReadTypeSerializer
+
+# End API Classes
+
+
 def customFeed(request,id):
     """
     All tags in use on this system
+    id = Silo
     """
     #get all of the data fields for the silo
     queryset = DataField.objects.filter(silo__id=id)
@@ -97,12 +136,10 @@ def createFeed(request):
 def export_silo(request, id):
     """
     Export a silo to a CSV file
+    id = Silo
     """
     getSiloRows = ValueStore.objects.all().filter(field__silo__id=id).values('row_number').distinct()
     getColumns = DataField.objects.all().filter(silo__id=id).values('name').distinct()
-
-    #return a dict with label value pair data
-    #formatted_data = siloToDict(getSilo)
 
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
@@ -141,7 +178,6 @@ def export_silo(request, id):
         value_list = []
 
 
-
     return response
 
 
@@ -165,44 +201,51 @@ def createDynamicModel(request):
         jsonData = simplejson.dumps(formatted_data)
         return render(request, 'feed/json.html', {"jsonData": jsonData}, content_type="application/json")
 
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.django_orm import Storage
+from oauth2client import xsrfutil
+from django.conf import settings
+from django.views.decorators.csrf import csrf_protect
+from .models import GoogleCredentialsModel
+from apiclient.discovery import build
+import os, logging, httplib2, json, datetime
 
-#DELETE-FEED
-def deleteFeed(request,id):
-    """
-    Delete a feed
-    """
-    deleteFeed = Feed.objects.get(pk=id).delete()
+CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
+FLOW = flow_from_clientsecrets(
+    CLIENT_SECRETS,
+    scope='https://www.googleapis.com/auth/drive',
+    redirect_uri='http://localhost:8000/oauth2callback/')
 
-    return render(request, 'feed/delete.html')
+@login_required
+def google_export(request):
+    storage = Storage(GoogleCredentialsModel, 'id', request.user, 'credential')
+    credential = storage.get()
+    if credential is None or credential.invalid == True:
+        FLOW.params['state'] = xsrfutil.generate_token(settings.SECRET_KEY, request.user)
+        authorize_url = FLOW.step1_get_authorize_url()
+        return HttpResponseRedirect(authorize_url)
+    else:
+        http = httplib2.Http()
+        http = credential.authorize(http)
+        service = build("drive", "v2", http=http)
+        body = {
+            'title': "GOOGLE SPREADSHEET-OK",
+            'description': "TEST FILE FROM API",
+            'mimeType': "application/vnd.google-apps.spreadsheet"
+        }
+        file = service.files().insert(body=body).execute()
+        return HttpResponse(json.dumps(file), content_type="application/json")
+        #https://developers.google.com/drive/v2/reference/files/get
+        #https://developers.google.com/google-apps/spreadsheets/#creating_a_spreadsheet
+    return HttpResponse("OK")
 
-"""
-Get token for google user
-"""
-def _get_google_token(request, redirect_to_url):
-    token = None
-    if request.user.is_authenticated():
-        try:
-            ts = TokenStorageModel.objects.get(id=request.user)
-        except TokenStorageModel.DoesNotExist:
-            pass
-        else:
-            token = ts.token
-    elif request.session.get('access_token'):
-        token = request.session.get('access_token')
-    if token is None:
-        request.session["google_redirect_url"] = redirect_to_url
-        return HttpResponseRedirect(redirect_uri)
-    return token
-"""
-Export a silo to google
-"""
-#@login_required
-def export_google(request, id):
+@login_required
+def oauth2callback(request):
+    if not xsrfutil.validate_token(settings.SECRET_KEY, request.REQUEST['state'], request.user):
+        return  HttpResponseBadRequest()
 
-    context = RequestContext(request)
-    context.username = request.user
-
-    exports = ValueStore.objects.filter(field__silo__id=id)
-    context.exports = exports
-    google_export_xls(filename, exports.silo_name, token, exports)
-    return render_to_response('export_list.html', context_instance=context)
+    credential = FLOW.step2_exchange(request.REQUEST)
+    storage = Storage(GoogleCredentialsModel, 'id', request.user, 'credential')
+    storage.put(credential)
+    #print(credential.to_json())
+    return HttpResponseRedirect("/")

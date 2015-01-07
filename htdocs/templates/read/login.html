@@ -3,7 +3,8 @@
 
 {% block content %}
 	<p>Login to your web service if not public and open</p>
-	<form action="/json/" method="post">
+	<form action="/json" method="post">
+    {% csrf_token %}
 	<div><b>Login Information</b></div>
 	<div>
 	user name: <input name="user_name" type="text" value=""> 
@@ -20,7 +21,7 @@
 	</select>
 	Or Enter a New Silo
 	<input type="text" name="new_silo" value="">
-	<input type="hidden" name="id" value="{{ read_obj.id }}">
+	<input type="hidden" name="id" value="{{ id }}">
 	<input type="submit" value="Submit" />
 	</form>
 {% endblock content %}

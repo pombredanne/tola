@@ -5,7 +5,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, Reset, HTML, Button, Row, Field
 from crispy_forms.bootstrap import  FormActions
 
-
 class SiloForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SiloForm, self).__init__(*args, **kwargs)

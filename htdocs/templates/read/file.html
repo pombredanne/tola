@@ -3,10 +3,9 @@
 
 {% block content %}
 	<p>Upload data file:</p>
-	{% csrf_token %}
     {% load crispy_forms_tags %}
     {% crispy form %}
-    <form action="" method="post">
+    <form action="" method="post">{% csrf_token %}
     <input type="hidden" name="read_id" value="{{ read_id }}">
     <BR/>
     Select a Silo to Store Data:

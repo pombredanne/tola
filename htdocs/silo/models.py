@@ -29,6 +29,7 @@ class DataField(models.Model):
     original_name = models.CharField(max_length=765, blank=True)
     name = models.CharField(max_length=765, blank=True)
     is_uid = models.NullBooleanField(null=True,blank=True)
+    published = models.BooleanField(default="0")
     create_date = models.DateTimeField(null=True, blank=True)
     edit_date = models.DateTimeField(null=True, blank=True)
 
