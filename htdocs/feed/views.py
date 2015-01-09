@@ -231,61 +231,105 @@ def google_export(request):
         authorize_url = FLOW.step1_get_authorize_url()
         return HttpResponseRedirect(authorize_url)
     else:
-        cred = json.loads(credential.to_json())
+        # 
+        credential_json = json.loads(credential.to_json())
+        
         silo_id = 1
         silo_name = Silo.objects.get(pk=silo_id).name
-        sprd_key="1yu8dhjEjkjBswcERUhi92SNeUkl4XPGc2vv_RzqSuNY"
         
         
         http = httplib2.Http()
+        
+        # Authorize the http object to be used with "Drive API" service object
         http = credential.authorize(http)
+        
+        # Build the Google Drive API service object
         service = build("drive", "v2", http=http)
+        
+        # The body of "insert" API call for creating a blank Google Spreadsheet
         body = {
-            'title': silo_name,
+            'title': "TEST2",
             'description': "TEST FILE FROM API",
             'mimeType': "application/vnd.google-apps.spreadsheet"
         }
+        
+        # Create a new blank Google Spreadsheet file in user's Google Drive
         #google_spreadsheet = service.files().insert(body=body).execute()
         
-        # Create OAuth2Token for authorizing the SpreadsheetService
+        # Get the spreadsheet_key of the newly created Spreadsheet
+        #spreadsheet_key = google_spreadsheet['id']
+        
+        
+        # Create OAuth2Token for authorizing the SpreadsheetClient
         token = gdata.gauth.OAuth2Token(
-            client_id=cred['client_id'], 
-            client_secret=cred['client_secret'], 
-            scope='https://spreadsheets.google.com/feeds',
-            user_agent="TOLA",
-            access_token = cred['access_token'],
-            refresh_token = cred['refresh_token'])
+            client_id = credential_json['client_id'], 
+            client_secret = credential_json['client_secret'], 
+            scope = 'https://spreadsheets.google.com/feeds',
+            user_agent = "TOLA",
+            access_token = credential_json['access_token'],
+            refresh_token = credential_json['refresh_token'])
+
+        # Instantiate the SpreadsheetClient object
         gd_client = gdata.spreadsheets.client.SpreadsheetsClient(source="TOLA")
+        
+        # authorize the SpreadsheetClient object
         gd_client = token.authorize(gd_client)
         
+        # Create a Spreadsheet Query object: Just for testing purposes 
+        # so that I can work with one spreadsheet instead of creating a new spreadsheet every time.
+        spreadsheets_query = gdata.spreadsheets.client.SpreadsheetQuery (title="TEST2", title_exact=True)
         
-        feed = gd_client.get_worksheets(sprd_key)
-        id_parts = feed.entry[0].id.text.split('/')
-        wrksht_key = id_parts[len(id_parts) - 1]
+        # Get a XML feed of all the spreadsheets that match the query
+        spreadsheets_feed = gd_client.get_spreadsheets(query = spreadsheets_query)
+        
+        # Get the spreadsheet_key of the first match
+        spreadsheet_key = spreadsheets_feed.entry[0].id.text.rsplit('/',1)[1]
+        
+        # Create a WorksheetQuery object to allow for filtering for worksheets by the title
+        worksheet_query = gdata.spreadsheets.client.WorksheetQuery(title="Sheet1", title_exact=True)
+        
+        # Get a feed of all worksheets in the specified spreadsheet that matches the worksheet_query
+        worksheets_feed = gd_client.get_worksheets(spreadsheet_key, query=worksheet_query)
+        
+        # Retrieve the worksheet_key from the first match in the worksheets_feed object
+        worksheet_key = worksheets_feed.entry[0].id.text.rsplit("/", 1)[1]
+        
+        # The three lines below is an alternate way of getting to the first worksheet.
+        #worksheets_feed = gd_client.get_worksheets(spreadsheet_key)
+        #id_parts = worksheets_feed.entry[0].id.text.split('/')
+        #wrksht_key = id_parts[len(id_parts) - 1]
 
-        for j, wsentry in enumerate(feed.entry):
-            print '%s %s - rows %s - cols %s\n' % (j, wsentry.title.text, wsentry.row_count.text, wsentry.col_count.text) 
-        sheet = feed.entry[0]
-        sheet.row_count.text = "1500"
-        sheet.col_count.text = "30"
-        #sheet.title.text = "Sheet"
-        #print(sheet)
-        gd_client.update(sheet, force=True)
+        # Loop through and print each worksheet's title, rows and columns
+        #for j, wsentry in enumerate(worksheets_feed.entry):
+        #    print '%s %s - rows %s - cols %s\n' % (j, wsentry.title.text, wsentry.row_count.text, wsentry.col_count.text) 
+
+        """
+        # Get the first 
+        worksheet = worksheets_feed.entry[0]
+        worksheet.row_count.text = "1500"
+        worksheet.col_count.text = "30"
+        #worksheet.title.text = "Sheet1"
+        gd_client.update(sheet, force=True) # Send the worksheet update call to Google Server
+        """
+        
+        
         return HttpResponse("OK")
         """
+        # Single Cell Update request
         cell_query = gdata.spreadsheets.client.CellQuery(
             min_row=1, max_row=1, min_col=1, max_col=1, return_empty=True)
-        cells = gd_client.GetCells(sprd_key, wrksht_key, q=cell_query)
+        cells = gd_client.GetCells(spreadsheet_key, wrksht_key, q=cell_query)
         cell_entry = cells.entry[0]
         cell_entry.cell.input_value = 'Address'
         gd_client.update(cell_entry)
         """
         
         """
+        # Batch update request
         range = "R6C1:R1113C4" #"A6:D1113"
         cellq = gdata.spreadsheets.client.CellQuery(range=range, return_empty='true')
-        cells = gd_client.GetCells(sprd_key, wrksht_key, q=cellq)
-        batch = gdata.spreadsheets.data.BuildBatchCellsUpdate(sprd_key, wrksht_key)
+        cells = gd_client.GetCells(spreadsheet_key, wrksht_key, q=cellq)
+        batch = gdata.spreadsheets.data.BuildBatchCellsUpdate(spreadsheet_key, wrksht_key)
         n = 1
         for cell in cells.entry:
             cell.cell.input_value = str(n)
