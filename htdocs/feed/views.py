@@ -214,10 +214,12 @@ from .models import GoogleCredentialsModel
 from apiclient.discovery import build
 import os, logging, httplib2, json, datetime
 
+import gdata.spreadsheets.client
+
 CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
 FLOW = flow_from_clientsecrets(
     CLIENT_SECRETS,
-    scope='https://www.googleapis.com/auth/drive',
+    scope='https://www.googleapis.com/auth/drive https://spreadsheets.google.com/feeds',
     redirect_uri='http://localhost:8000/oauth2callback/')
 
 @login_required
@@ -229,18 +231,76 @@ def google_export(request):
         authorize_url = FLOW.step1_get_authorize_url()
         return HttpResponseRedirect(authorize_url)
     else:
+        cred = json.loads(credential.to_json())
+        silo_id = 1
+        silo_name = Silo.objects.get(pk=silo_id).name
+        sprd_key="1yu8dhjEjkjBswcERUhi92SNeUkl4XPGc2vv_RzqSuNY"
+        
+        
         http = httplib2.Http()
         http = credential.authorize(http)
         service = build("drive", "v2", http=http)
         body = {
-            'title': "GOOGLE SPREADSHEET-OK",
+            'title': silo_name,
             'description': "TEST FILE FROM API",
             'mimeType': "application/vnd.google-apps.spreadsheet"
         }
-        file = service.files().insert(body=body).execute()
-        return HttpResponse(json.dumps(file), content_type="application/json")
-        #https://developers.google.com/drive/v2/reference/files/get
-        #https://developers.google.com/google-apps/spreadsheets/#creating_a_spreadsheet
+        #google_spreadsheet = service.files().insert(body=body).execute()
+        
+        # Create OAuth2Token for authorizing the SpreadsheetService
+        token = gdata.gauth.OAuth2Token(
+            client_id=cred['client_id'], 
+            client_secret=cred['client_secret'], 
+            scope='https://spreadsheets.google.com/feeds',
+            user_agent="TOLA",
+            access_token = cred['access_token'],
+            refresh_token = cred['refresh_token'])
+        gd_client = gdata.spreadsheets.client.SpreadsheetsClient(source="TOLA")
+        gd_client = token.authorize(gd_client)
+        
+        
+        feed = gd_client.get_worksheets(sprd_key)
+        id_parts = feed.entry[0].id.text.split('/')
+        wrksht_key = id_parts[len(id_parts) - 1]
+
+        for j, wsentry in enumerate(feed.entry):
+            print '%s %s - rows %s - cols %s\n' % (j, wsentry.title.text, wsentry.row_count.text, wsentry.col_count.text) 
+        sheet = feed.entry[0]
+        sheet.row_count.text = "1500"
+        sheet.col_count.text = "30"
+        #sheet.title.text = "Sheet"
+        #print(sheet)
+        gd_client.update(sheet, force=True)
+        return HttpResponse("OK")
+        """
+        cell_query = gdata.spreadsheets.client.CellQuery(
+            min_row=1, max_row=1, min_col=1, max_col=1, return_empty=True)
+        cells = gd_client.GetCells(sprd_key, wrksht_key, q=cell_query)
+        cell_entry = cells.entry[0]
+        cell_entry.cell.input_value = 'Address'
+        gd_client.update(cell_entry)
+        """
+        
+        """
+        range = "R6C1:R1113C4" #"A6:D1113"
+        cellq = gdata.spreadsheets.client.CellQuery(range=range, return_empty='true')
+        cells = gd_client.GetCells(sprd_key, wrksht_key, q=cellq)
+        batch = gdata.spreadsheets.data.BuildBatchCellsUpdate(sprd_key, wrksht_key)
+        n = 1
+        for cell in cells.entry:
+            cell.cell.input_value = str(n)
+            batch.add_batch_entry(cell, cell.id.text, batch_id_string=cell.title.text, operation_string='update')
+            n = n + 1
+        gd_client.batch(batch, force=True)
+        """
+        return HttpResponse("FINE")
+        
+        #silo_data = ValueStore.objects.all().filter(field__silo__id=silo_id)
+        #for row in silo_data:
+        #    print("%s : %s" % (a.field.name, a.char_store))
+        
+        #return HttpResponse(json.dumps(google_spreadsheet['id']), content_type="application/json")
+
     return HttpResponse("OK")
 
 @login_required
