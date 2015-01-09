@@ -27,6 +27,9 @@ frds-venv/
 #allvritualenv
 venv/
 
+#conf
+conf/awstats.conf
+
 #Misc.
 .idea/
 .DS_Store
