@@ -289,15 +289,6 @@ def google_export(request):
         # Retrieve the worksheet_key from the first match in the worksheets_feed object
         worksheet_key = worksheets_feed.entry[0].id.text.rsplit("/", 1)[1]
         
-        # The three lines below is an alternate way of getting to the first worksheet.
-        #worksheets_feed = sp_client.get_worksheets(spreadsheet_key)
-        #id_parts = worksheets_feed.entry[0].id.text.split('/')
-        #worksheet_key = id_parts[len(id_parts) - 1]
-
-        # Loop through and print each worksheet's title, rows and columns
-        #for j, wsentry in enumerate(worksheets_feed.entry):
-        #    print '%s %s - rows %s - cols %s\n' % (j, wsentry.title.text, wsentry.row_count.text, wsentry.col_count.text) 
-
         silo_data = ValueStore.objects.all().filter(field__silo__id=silo_id)
         num_cols = len(silo_data)
         
@@ -305,9 +296,7 @@ def google_export(request):
         # then add more columns to Google Spreadsheet otherwise there would be a 500 Error!
         if num_cols and num_cols > 26:
             worksheet = worksheets_feed.entry[0]
-            #worksheet.row_count.text = "1500"
             worksheet.col_count.text = str(num_cols)
-            #worksheet.title.text = "Sheet1"
             
             # Send the worksheet update call to Google Server
             sp_client.update(worksheet, force=True)
@@ -324,15 +313,10 @@ def google_export(request):
         # Create a CellBatchUpdate object so that all cells update is sent as one http request
         batch = gdata.spreadsheets.data.BuildBatchCellsUpdate(spreadsheet_key, worksheet_key)
         
-        #print(type(cells.entry))
-        print(cells_feed.entry[0].cell)
-        print(cells_feed.entry[1].cell)
-        print(cells_feed.entry[2].cell)
         
         # Populate the CellBatchUpdate object with data
         n = 0
         for row in silo_data:
-            #print("%s : %s" % (row.field.name, row.char_store))
             c = cells_feed.entry[n]
             c.cell.input_value = str(row.field.name)
             batch.add_batch_entry(c, c.id.text, batch_id_string=c.title.text, operation_string='update')
@@ -340,32 +324,6 @@ def google_export(request):
         
         # Finally send the CellBatchUpdate object to Google
         sp_client.batch(batch, force=True)
-        
-
-        """
-        # Single Cell Update request
-        cell_query = gdata.spreadsheets.client.CellQuery(
-            min_row=1, max_row=1, min_col=1, max_col=1, return_empty=True)
-        cells = sp_client.GetCells(spreadsheet_key, worksheet_key, q=cell_query)
-        cell_entry = cells.entry[0]
-        cell_entry.cell.input_value = 'Address'
-        sp_client.update(cell_entry)
-        """
-        
-        """
-        # Batch update request
-        range = "R6C1:R1113C4" #"A6:D1113"
-        cellq = gdata.spreadsheets.client.CellQuery(range=range, return_empty='true')
-        cells = sp_client.GetCells(spreadsheet_key, worksheet_key, q=cellq)
-        batch = gdata.spreadsheets.data.BuildBatchCellsUpdate(spreadsheet_key, worksheet_key)
-        n = 1
-        for cell in cells.entry:
-            cell.cell.input_value = str(n)
-            batch.add_batch_entry(cell, cell.id.text, batch_id_string=cell.title.text, operation_string='update')
-            n = n + 1
-        sp_client.batch(batch, force=True)
-        """
-        #return HttpResponse(json.dumps(google_spreadsheet['id']), content_type="application/json")
 
     return HttpResponse("OK")
 
