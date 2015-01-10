@@ -233,7 +233,6 @@ def google_export(request):
         silo_id = 1
         silo_name = Silo.objects.get(pk=silo_id).name
         
-        
         http = httplib2.Http()
         
         # Authorize the http object to be used with "Drive API" service object
@@ -266,17 +265,17 @@ def google_export(request):
             refresh_token = credential_json['refresh_token'])
 
         # Instantiate the SpreadsheetClient object
-        gd_client = gdata.spreadsheets.client.SpreadsheetsClient(source="TOLA")
+        sp_client = gdata.spreadsheets.client.SpreadsheetsClient(source="TOLA")
         
         # authorize the SpreadsheetClient object
-        gd_client = token.authorize(gd_client)
+        sp_client = token.authorize(sp_client)
         
         # Create a Spreadsheet Query object: Just for testing purposes 
         # so that I can work with one spreadsheet instead of creating a new spreadsheet every time.
         spreadsheets_query = gdata.spreadsheets.client.SpreadsheetQuery (title="TEST2", title_exact=True)
         
         # Get a XML feed of all the spreadsheets that match the query
-        spreadsheets_feed = gd_client.get_spreadsheets(query = spreadsheets_query)
+        spreadsheets_feed = sp_client.get_spreadsheets(query = spreadsheets_query)
         
         # Get the spreadsheet_key of the first match
         spreadsheet_key = spreadsheets_feed.entry[0].id.text.rsplit('/',1)[1]
@@ -285,60 +284,87 @@ def google_export(request):
         worksheet_query = gdata.spreadsheets.client.WorksheetQuery(title="Sheet1", title_exact=True)
         
         # Get a feed of all worksheets in the specified spreadsheet that matches the worksheet_query
-        worksheets_feed = gd_client.get_worksheets(spreadsheet_key, query=worksheet_query)
+        worksheets_feed = sp_client.get_worksheets(spreadsheet_key, query=worksheet_query)
         
         # Retrieve the worksheet_key from the first match in the worksheets_feed object
         worksheet_key = worksheets_feed.entry[0].id.text.rsplit("/", 1)[1]
         
         # The three lines below is an alternate way of getting to the first worksheet.
-        #worksheets_feed = gd_client.get_worksheets(spreadsheet_key)
+        #worksheets_feed = sp_client.get_worksheets(spreadsheet_key)
         #id_parts = worksheets_feed.entry[0].id.text.split('/')
-        #wrksht_key = id_parts[len(id_parts) - 1]
+        #worksheet_key = id_parts[len(id_parts) - 1]
 
         # Loop through and print each worksheet's title, rows and columns
         #for j, wsentry in enumerate(worksheets_feed.entry):
         #    print '%s %s - rows %s - cols %s\n' % (j, wsentry.title.text, wsentry.row_count.text, wsentry.col_count.text) 
 
-        """
-        # Get the first 
-        worksheet = worksheets_feed.entry[0]
-        worksheet.row_count.text = "1500"
-        worksheet.col_count.text = "30"
-        #worksheet.title.text = "Sheet1"
-        gd_client.update(sheet, force=True) # Send the worksheet update call to Google Server
-        """
+        silo_data = ValueStore.objects.all().filter(field__silo__id=silo_id)
+        num_cols = len(silo_data)
         
+        # By default a blank Google Spreadsheet has 26 columns but if our data has more column
+        # then add more columns to Google Spreadsheet otherwise there would be a 500 Error!
+        if num_cols and num_cols > 26:
+            worksheet = worksheets_feed.entry[0]
+            #worksheet.row_count.text = "1500"
+            worksheet.col_count.text = str(num_cols)
+            #worksheet.title.text = "Sheet1"
+            
+            # Send the worksheet update call to Google Server
+            sp_client.update(worksheet, force=True)
         
-        return HttpResponse("OK")
+        # Define a Google Spreadsheet range string, where data would be written
+        range = "R1C1:R1C" + str(num_cols)
+        
+        # Create a CellQuery object to query the worksheet for all the cells that are in the range
+        cell_query = gdata.spreadsheets.client.CellQuery(range=range, return_empty='true')
+        
+        # Retrieve all cells thar match the query as a CellFeed
+        cells_feed = sp_client.GetCells(spreadsheet_key, worksheet_key, q=cell_query)
+        
+        # Create a CellBatchUpdate object so that all cells update is sent as one http request
+        batch = gdata.spreadsheets.data.BuildBatchCellsUpdate(spreadsheet_key, worksheet_key)
+        
+        #print(type(cells.entry))
+        print(cells_feed.entry[0].cell)
+        print(cells_feed.entry[1].cell)
+        print(cells_feed.entry[2].cell)
+        
+        # Populate the CellBatchUpdate object with data
+        n = 0
+        for row in silo_data:
+            #print("%s : %s" % (row.field.name, row.char_store))
+            c = cells_feed.entry[n]
+            c.cell.input_value = str(row.field.name)
+            batch.add_batch_entry(c, c.id.text, batch_id_string=c.title.text, operation_string='update')
+            n = n + 1
+        
+        # Finally send the CellBatchUpdate object to Google
+        sp_client.batch(batch, force=True)
+        
+
         """
         # Single Cell Update request
         cell_query = gdata.spreadsheets.client.CellQuery(
             min_row=1, max_row=1, min_col=1, max_col=1, return_empty=True)
-        cells = gd_client.GetCells(spreadsheet_key, wrksht_key, q=cell_query)
+        cells = sp_client.GetCells(spreadsheet_key, worksheet_key, q=cell_query)
         cell_entry = cells.entry[0]
         cell_entry.cell.input_value = 'Address'
-        gd_client.update(cell_entry)
+        sp_client.update(cell_entry)
         """
         
         """
         # Batch update request
         range = "R6C1:R1113C4" #"A6:D1113"
         cellq = gdata.spreadsheets.client.CellQuery(range=range, return_empty='true')
-        cells = gd_client.GetCells(spreadsheet_key, wrksht_key, q=cellq)
-        batch = gdata.spreadsheets.data.BuildBatchCellsUpdate(spreadsheet_key, wrksht_key)
+        cells = sp_client.GetCells(spreadsheet_key, worksheet_key, q=cellq)
+        batch = gdata.spreadsheets.data.BuildBatchCellsUpdate(spreadsheet_key, worksheet_key)
         n = 1
         for cell in cells.entry:
             cell.cell.input_value = str(n)
             batch.add_batch_entry(cell, cell.id.text, batch_id_string=cell.title.text, operation_string='update')
             n = n + 1
-        gd_client.batch(batch, force=True)
+        sp_client.batch(batch, force=True)
         """
-        return HttpResponse("FINE")
-        
-        #silo_data = ValueStore.objects.all().filter(field__silo__id=silo_id)
-        #for row in silo_data:
-        #    print("%s : %s" % (a.field.name, a.char_store))
-        
         #return HttpResponse(json.dumps(google_spreadsheet['id']), content_type="application/json")
 
     return HttpResponse("OK")
