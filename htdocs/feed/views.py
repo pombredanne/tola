@@ -249,6 +249,7 @@ def google_export(request):
         }
         
         # Create a new blank Google Spreadsheet file in user's Google Drive
+        # Uncomment the line below if you want to create a new Google Spreadsheet
         #google_spreadsheet = service.files().insert(body=body).execute()
         
         # Get the spreadsheet_key of the newly created Spreadsheet
