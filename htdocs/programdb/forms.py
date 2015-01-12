@@ -59,7 +59,6 @@ class ProjectProposalForm(forms.ModelForm):
                     Fieldset(
                         'Proposal',
                         Field('project_description', rows="3", css_class='input-xlarge'),
-                        Field('steps_taken', rows="3", css_class='input-xlarge'),
                         Field('rej_letter', rows="3", css_class='input-xlarge'),
                         'project_code', 'prop_status',
                     ),
