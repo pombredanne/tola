@@ -36,12 +36,14 @@ class ProgramAdmin(admin.ModelAdmin):
 
 #Countires
 class Country(models.Model):
-    name = models.CharField("Country Name", max_length=255, blank=True)
+    country = models.CharField("Country Name", max_length=255, blank=True)
+    code = models.CharField("2 Letter Country Code", max_length=4, blank=True)
+    description = models.CharField("Description/Notes", max_length=255, blank=True)
     create_date = models.DateTimeField(null=True, blank=True)
     edit_date = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('country',)
 
     #onsave add create date or update edit date
     def save(self, *args, **kwargs):
@@ -52,7 +54,7 @@ class Country(models.Model):
 
     #displayed in admin templates
     def __unicode__(self):
-        return self.name
+        return self.country
 
 
 #Country Admin Interface
