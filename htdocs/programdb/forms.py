@@ -6,7 +6,13 @@ from functools import partial
 from widgets import GoogleMapsWidget
 import floppyforms as forms
 
-from .models import ProjectProposal
+from .models import ProjectProposal, ProgramDashboard
+
+class ProgramDashboardForm(forms.ModelForm):
+
+    class Meta:
+        model = ProgramDashboard
+        fields = '__all__'
 
 
 class DatePicker(forms.DateInput):

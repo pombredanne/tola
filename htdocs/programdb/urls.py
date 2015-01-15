@@ -1,5 +1,5 @@
 
-from .views import ProjectProposalImport, ProjectProposalList, ProjectProposalCreate, ProjectProposalUpdate, ProjectProposalDelete, ProgramDashboard
+from .views import ProjectProposalImport, ProjectProposalList, ProjectProposalCreate, ProjectProposalUpdate, ProjectProposalDelete, ProgramDash
 
 
 try:
@@ -12,7 +12,7 @@ except ImportError:  # django < 1.4
 urlpatterns = patterns('',
 
                        ###PROGRAMDB
-                       url(r'^dashboard', ProgramDashboard.as_view(), name='dashboard'),
+                       url(r'^dashboard', ProgramDash.as_view(), name='dashboard'),
 
                        #project proposal
                        url(r'^projectproposal_list', ProjectProposalList.as_view(), name='projectproposal_list'),

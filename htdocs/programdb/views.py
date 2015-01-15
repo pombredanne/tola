@@ -5,7 +5,7 @@ from silo.models import Silo, ValueStore, DataField
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.utils import timezone
-from .forms import ProjectProposalForm
+from .forms import ProjectProposalForm, ProgramDashboardForm
 import logging
 from django.shortcuts import render
 from django.contrib import messages
@@ -16,14 +16,25 @@ from django.contrib.auth.models import User
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
-class ProgramDashboard(ListView):
+class ProgramDash(ListView):
 
-    model = ProgramDashboard
+    template_name = 'programdb/programdashboard_list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(ProgramDashboard, self).get_context_data(**kwargs)
-        context['now'] = timezone.now()
-        return context
+    def get(self, request, *args, **kwargs):
+        form = ProgramDashboardForm
+        getDashboard = ProgramDashboard.objects.all()
+        getPrograms = Program.objects.all()
+
+        return render(request, self.template_name, {'form': form,'getDashboard':getDashboard,'getPrograms':getPrograms})
+
+    def post(self, request, *args, **kwargs):
+        form = self.ProgramDashboard(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            getDashboard = ProgramDashboard.objects.all().filter(program=request.FORM("program_id"))
+
+
+        return render(request, self.template_name, {'form': form,'getDashboard':getDashboard,'getPrograms':getPrograms})
 
 class ProjectProposalList(ListView):
 
